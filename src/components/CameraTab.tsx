@@ -184,7 +184,7 @@ export const CameraTab = ({
                 ease: 'linear'
               }}>
                       <Scan className="w-8 h-8 text-white" />
-                    </motion.div> : <Camera className="h-8 text-white w-[34px]" />}
+                    </motion.div> : <Camera className="h-8 text-white w-[26px]" />}
                 </Button>
               </motion.div>
             </> : !analysisResult ? <>
