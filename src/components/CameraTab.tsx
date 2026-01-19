@@ -187,7 +187,7 @@ export const CameraTab = ({
                   disabled={isCapturing} 
                   size="lg" 
                   variant="outline" 
-                  className="h-16 w-16 rounded-full bg-white dark:bg-zinc-800 border-2 border-purple-500 shadow-lg hover:bg-white dark:hover:bg-zinc-700"
+                  className="h-16 w-16 rounded-full bg-[#ffffff] dark:bg-[#27272a] border-2 border-purple-500 shadow-lg hover:bg-[#ffffff] dark:hover:bg-[#3f3f46]"
                 >
                   <ImageIcon className="w-7 h-7 text-black dark:text-white" />
                 </Button>
@@ -199,7 +199,7 @@ export const CameraTab = ({
                   onClick={takePhoto} 
                   disabled={isCapturing} 
                   size="lg" 
-                  className="h-24 w-24 rounded-full bg-white dark:bg-zinc-800 shadow-xl disabled:opacity-50 border-0 hover:bg-gray-50 dark:hover:bg-zinc-700"
+                  className="h-24 w-24 rounded-full bg-[#ffffff] dark:bg-[#27272a] shadow-xl disabled:opacity-50 border-2 border-purple-500 hover:bg-[#ffffff] dark:hover:bg-[#3f3f46]"
                 >
                   {isCapturing ? (
                     <motion.div animate={{ rotate: 360 }} transition={{ duration: 1, repeat: Infinity, ease: 'linear' }}>
