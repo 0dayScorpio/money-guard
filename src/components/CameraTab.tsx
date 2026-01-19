@@ -1,33 +1,33 @@
-import { useState, useCallback } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { Camera, Scan, AlertCircle, CheckCircle2, AlertTriangle, XCircle, RefreshCw, Image as ImageIcon, Sparkles, Shield, CheckCircle, XOctagon, ChevronDown, ChevronUp } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { ScanHistory } from '@/types';
-import { useCamera } from '@/hooks/useCamera';
-import { useBanknoteAnalysis, AnalysisResult, DetectedFeature } from '@/hooks/useBanknoteAnalysis';
+import { useState, useCallback } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import {
+  Camera,
+  Scan,
+  AlertCircle,
+  CheckCircle2,
+  AlertTriangle,
+  XCircle,
+  RefreshCw,
+  Image as ImageIcon,
+  Sparkles,
+  Shield,
+  CheckCircle,
+  XOctagon,
+  ChevronDown,
+  ChevronUp,
+} from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { ScanHistory } from "@/types";
+import { useCamera } from "@/hooks/useCamera";
+import { useBanknoteAnalysis, AnalysisResult, DetectedFeature } from "@/hooks/useBanknoteAnalysis";
 
 interface CameraTabProps {
   onScanComplete: (scan: ScanHistory) => void;
 }
 
-export const CameraTab = ({
-  onScanComplete
-}: CameraTabProps) => {
-  const {
-    imageBase64,
-    isCapturing,
-    error: cameraError,
-    takePhoto,
-    selectFromGallery,
-    clearPhoto
-  } = useCamera();
-  const {
-    analysisResult,
-    isAnalyzing,
-    error: analysisError,
-    analyzeImage,
-    clearAnalysis
-  } = useBanknoteAnalysis();
+export const CameraTab = ({ onScanComplete }: CameraTabProps) => {
+  const { imageBase64, isCapturing, error: cameraError, takePhoto, selectFromGallery, clearPhoto } = useCamera();
+  const { analysisResult, isAnalyzing, error: analysisError, analyzeImage, clearAnalysis } = useBanknoteAnalysis();
   const [showDetails, setShowDetails] = useState(false);
 
   const handleAnalyze = useCallback(async () => {
@@ -39,8 +39,8 @@ export const CameraTab = ({
         timestamp: new Date(),
         result: result.result,
         currency: result.currency,
-        denomination: result.denomination?.toString() || 'Неизвестен',
-        confidence: result.confidence
+        denomination: result.denomination?.toString() || "Неизвестен",
+        confidence: result.confidence,
       };
       onScanComplete(scan);
     }
@@ -52,37 +52,37 @@ export const CameraTab = ({
     setShowDetails(false);
   }, [clearPhoto, clearAnalysis]);
 
-  const getResultConfig = (result: AnalysisResult['result']) => {
+  const getResultConfig = (result: AnalysisResult["result"]) => {
     switch (result) {
-      case 'authentic':
+      case "authentic":
         return {
           icon: CheckCircle2,
-          title: 'Вероятно истинска',
-          description: 'Банкнотата показва очаквани защитни характеристики.',
-          bgClass: 'bg-success/10 dark:bg-success/20',
-          textClass: 'text-success',
-          borderClass: 'border-success/30',
-          gradientClass: 'gradient-success'
+          title: "Вероятно истинска",
+          description: "Банкнотата показва очаквани защитни характеристики.",
+          bgClass: "bg-success/10 dark:bg-success/20",
+          textClass: "text-success",
+          borderClass: "border-success/30",
+          gradientClass: "gradient-success",
         };
-      case 'suspicious':
+      case "suspicious":
         return {
           icon: AlertTriangle,
-          title: 'Съмнителна',
-          description: 'Открити са някои несъответствия. Проверете отново ръчно.',
-          bgClass: 'bg-warning/10 dark:bg-warning/20',
-          textClass: 'text-warning',
-          borderClass: 'border-warning/30',
-          gradientClass: 'gradient-warning'
+          title: "Съмнителна",
+          description: "Открити са някои несъответствия. Проверете отново ръчно.",
+          bgClass: "bg-warning/10 dark:bg-warning/20",
+          textClass: "text-warning",
+          borderClass: "border-warning/30",
+          gradientClass: "gradient-warning",
         };
-      case 'fake':
+      case "fake":
         return {
           icon: XCircle,
-          title: 'Възможно фалшива',
-          description: 'Открити са сериозни несъответствия с оригинала.',
-          bgClass: 'bg-destructive/10 dark:bg-destructive/20',
-          textClass: 'text-destructive',
-          borderClass: 'border-destructive/30',
-          gradientClass: 'gradient-danger'
+          title: "Възможно фалшива",
+          description: "Открити са сериозни несъответствия с оригинала.",
+          bgClass: "bg-destructive/10 dark:bg-destructive/20",
+          textClass: "text-destructive",
+          borderClass: "border-destructive/30",
+          gradientClass: "gradient-danger",
         };
     }
   };
@@ -91,15 +91,22 @@ export const CameraTab = ({
 
   // SVG gradient for camera icon
   const CameraGradientIcon = () => (
-    <svg className="w-10 h-10" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <svg className="w-20 h-20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
       <defs>
         <linearGradient id="cameraGradient" x1="0%" y1="0%" x2="100%" y2="100%">
           <stop offset="0%" stopColor="hsl(217, 91%, 55%)" />
           <stop offset="100%" stopColor="hsl(270, 80%, 60%)" />
         </linearGradient>
       </defs>
-      <path d="M14.5 4h-5L7.5 6.5H4c-.83 0-1.5.67-1.5 1.5v10c0 .83.67 1.5 1.5 1.5h16c.83 0 1.5-.67 1.5-1.5V8c0-.83-.67-1.5-1.5-1.5h-3.5L14.5 4z" stroke="url(#cameraGradient)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" fill="none"/>
-      <circle cx="12" cy="13" r="4" stroke="url(#cameraGradient)" strokeWidth="2" fill="none"/>
+      <path
+        d="M14.5 4h-5L7.5 6.5H4c-.83 0-1.5.67-1.5 1.5v10c0 .83.67 1.5 1.5 1.5h16c.83 0 1.5-.67 1.5-1.5V8c0-.83-.67-1.5-1.5-1.5h-3.5L14.5 4z"
+        stroke="url(#cameraGradient)"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        fill="none"
+      />
+      <circle cx="12" cy="13" r="4" stroke="url(#cameraGradient)" strokeWidth="2" fill="none" />
     </svg>
   );
 
@@ -110,13 +117,21 @@ export const CameraTab = ({
         {imageBase64 ? (
           // Show captured image
           <div className="absolute inset-0 flex items-center justify-center p-4">
-            <img src={imageBase64} alt="Заснета банкнота" className="max-w-full max-h-full object-contain rounded-2xl shadow-2xl" />
-            
+            <img
+              src={imageBase64}
+              alt="Заснета банкнота"
+              className="max-w-full max-h-full object-contain rounded-2xl shadow-2xl"
+            />
+
             {/* Analysis overlay */}
             {isAnalyzing && (
               <div className="absolute inset-0 bg-black/60 flex items-center justify-center">
                 <div className="text-center">
-                  <motion.div animate={{ rotate: 360 }} transition={{ duration: 2, repeat: Infinity, ease: 'linear' }} className="w-16 h-16 mx-auto mb-4">
+                  <motion.div
+                    animate={{ rotate: 360 }}
+                    transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
+                    className="w-16 h-16 mx-auto mb-4"
+                  >
                     <Sparkles className="w-full h-full text-primary" />
                   </motion.div>
                   <p className="text-white text-lg font-medium">AI Анализ...</p>
@@ -130,9 +145,9 @@ export const CameraTab = ({
           <div className="absolute inset-0 flex items-center justify-center">
             <div className="relative w-full max-w-sm aspect-[16/10] mx-4">
               {/* Camera frame */}
-              <motion.div 
-                animate={isCapturing ? { opacity: [0.5, 1, 0.5] } : { opacity: 1 }} 
-                transition={{ duration: 1.5, repeat: isCapturing ? Infinity : 0 }} 
+              <motion.div
+                animate={isCapturing ? { opacity: [0.5, 1, 0.5] } : { opacity: 1 }}
+                transition={{ duration: 1.5, repeat: isCapturing ? Infinity : 0 }}
                 className="absolute inset-0 border-2 border-white/50 rounded-2xl"
               >
                 {/* Corner accents */}
@@ -145,12 +160,12 @@ export const CameraTab = ({
               {/* Scanning line */}
               <AnimatePresence>
                 {isCapturing && (
-                  <motion.div 
-                    initial={{ top: 0, opacity: 0 }} 
-                    animate={{ top: '100%', opacity: [0, 1, 1, 0] }} 
-                    exit={{ opacity: 0 }} 
-                    transition={{ duration: 2, repeat: Infinity, ease: 'linear' }} 
-                    className="absolute left-2 right-2 h-1 bg-gradient-to-r from-transparent via-primary to-transparent rounded-full shadow-lg shadow-primary/50" 
+                  <motion.div
+                    initial={{ top: 0, opacity: 0 }}
+                    animate={{ top: "100%", opacity: [0, 1, 1, 0] }}
+                    exit={{ opacity: 0 }}
+                    transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
+                    className="absolute left-2 right-2 h-1 bg-gradient-to-r from-transparent via-primary to-transparent rounded-full shadow-lg shadow-primary/50"
                   />
                 )}
               </AnimatePresence>
@@ -158,9 +173,7 @@ export const CameraTab = ({
               {/* Placeholder content */}
               <div className="absolute inset-0 flex flex-col items-center justify-center text-white/60 rounded-none shadow-sm">
                 <Camera className="w-16 h-16 mb-4" />
-                <p className="text-sm text-center px-4">
-                  Заснемете или изберете снимка на банкнота
-                </p>
+                <p className="text-sm text-center px-4">Заснемете или изберете снимка на банкнота</p>
               </div>
             </div>
           </div>
@@ -182,11 +195,11 @@ export const CameraTab = ({
             <>
               {/* Gallery button */}
               <motion.div whileTap={{ scale: 0.95 }}>
-                <Button 
-                  onClick={selectFromGallery} 
-                  disabled={isCapturing} 
-                  size="lg" 
-                  variant="outline" 
+                <Button
+                  onClick={selectFromGallery}
+                  disabled={isCapturing}
+                  size="lg"
+                  variant="outline"
                   className="h-16 w-16 rounded-full bg-[#ffffff] dark:bg-[#27272a] border-2 border-purple-500 shadow-lg hover:bg-[#ffffff] dark:hover:bg-[#3f3f46]"
                 >
                   <ImageIcon className="w-7 h-7 text-black dark:text-white" />
@@ -195,14 +208,17 @@ export const CameraTab = ({
 
               {/* Camera button */}
               <motion.div whileTap={{ scale: 0.95 }}>
-                <Button 
-                  onClick={takePhoto} 
-                  disabled={isCapturing} 
-                  size="lg" 
+                <Button
+                  onClick={takePhoto}
+                  disabled={isCapturing}
+                  size="lg"
                   className="h-24 w-24 rounded-full bg-[#ffffff] dark:bg-[#27272a] shadow-xl disabled:opacity-50 border-2 border-purple-500 hover:bg-[#ffffff] dark:hover:bg-[#3f3f46]"
                 >
                   {isCapturing ? (
-                    <motion.div animate={{ rotate: 360 }} transition={{ duration: 1, repeat: Infinity, ease: 'linear' }}>
+                    <motion.div
+                      animate={{ rotate: 360 }}
+                      transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
+                    >
                       <Scan className="w-10 h-10 text-primary" />
                     </motion.div>
                   ) : (
@@ -214,13 +230,24 @@ export const CameraTab = ({
           ) : !analysisResult ? (
             <>
               <motion.div whileTap={{ scale: 0.95 }}>
-                <Button onClick={resetScan} disabled={isAnalyzing} size="lg" variant="outline" className="h-16 w-16 rounded-full bg-white/10 border-white/30 backdrop-blur-sm">
+                <Button
+                  onClick={resetScan}
+                  disabled={isAnalyzing}
+                  size="lg"
+                  variant="outline"
+                  className="h-16 w-16 rounded-full bg-white/10 border-white/30 backdrop-blur-sm"
+                >
                   <RefreshCw className="w-7 h-7 text-white" />
                 </Button>
               </motion.div>
 
               <motion.div whileTap={{ scale: 0.95 }}>
-                <Button onClick={handleAnalyze} disabled={isAnalyzing} size="lg" className="h-20 px-8 rounded-full gradient-primary shadow-xl disabled:opacity-50">
+                <Button
+                  onClick={handleAnalyze}
+                  disabled={isAnalyzing}
+                  size="lg"
+                  className="h-20 px-8 rounded-full gradient-primary shadow-xl disabled:opacity-50"
+                >
                   <Sparkles className="w-6 h-6 text-white mr-2" />
                   <span className="text-white font-semibold">Анализирай</span>
                 </Button>
@@ -233,11 +260,11 @@ export const CameraTab = ({
       {/* Results panel */}
       <AnimatePresence>
         {analysisResult && (
-          <motion.div 
-            initial={{ y: 300, opacity: 0 }} 
-            animate={{ y: 0, opacity: 1 }} 
-            exit={{ y: 300, opacity: 0 }} 
-            transition={{ type: 'spring', damping: 25, stiffness: 300 }} 
+          <motion.div
+            initial={{ y: 300, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            exit={{ y: 300, opacity: 0 }}
+            transition={{ type: "spring", damping: 25, stiffness: 300 }}
             className="bg-card border-t border-border max-h-[60vh] overflow-y-auto"
           >
             {(() => {
@@ -246,19 +273,19 @@ export const CameraTab = ({
               return (
                 <div className="p-6 space-y-4">
                   {/* Result header */}
-                  <div className={`flex items-center gap-4 p-4 rounded-2xl ${config.bgClass} border ${config.borderClass}`}>
+                  <div
+                    className={`flex items-center gap-4 p-4 rounded-2xl ${config.bgClass} border ${config.borderClass}`}
+                  >
                     <div className={`p-3 rounded-xl ${config.gradientClass}`}>
                       <Icon className="w-8 h-8 text-white" />
                     </div>
                     <div className="flex-1">
-                      <h3 className={`font-bold text-xl ${config.textClass}`}>
-                        {config.title}
-                      </h3>
+                      <h3 className={`font-bold text-xl ${config.textClass}`}>{config.title}</h3>
                       <div className="flex items-center gap-2 mt-1">
                         <span className="text-sm text-muted-foreground">
                           Увереност: {analysisResult.confidence.toFixed(0)}%
                         </span>
-                        {analysisResult.currency !== 'UNKNOWN' && (
+                        {analysisResult.currency !== "UNKNOWN" && (
                           <>
                             <span className="text-muted-foreground">•</span>
                             <span className="text-sm font-medium">
@@ -271,35 +298,41 @@ export const CameraTab = ({
                   </div>
 
                   {/* Analysis text */}
-                  <p className="text-foreground leading-relaxed">
-                    {analysisResult.analysis}
-                  </p>
+                  <p className="text-foreground leading-relaxed">{analysisResult.analysis}</p>
 
                   {/* Detected features */}
                   {analysisResult.detectedFeatures.length > 0 && (
                     <div>
-                      <button onClick={() => setShowDetails(!showDetails)} className="flex items-center gap-2 text-sm font-medium text-primary hover:underline">
+                      <button
+                        onClick={() => setShowDetails(!showDetails)}
+                        className="flex items-center gap-2 text-sm font-medium text-primary hover:underline"
+                      >
                         <Shield className="w-4 h-4" />
                         Открити защитни елементи ({analysisResult.detectedFeatures.length})
                         {showDetails ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
                       </button>
-                      
+
                       <AnimatePresence>
                         {showDetails && (
-                          <motion.div 
-                            initial={{ height: 0, opacity: 0 }} 
-                            animate={{ height: 'auto', opacity: 1 }} 
-                            exit={{ height: 0, opacity: 0 }} 
+                          <motion.div
+                            initial={{ height: 0, opacity: 0 }}
+                            animate={{ height: "auto", opacity: 1 }}
+                            exit={{ height: 0, opacity: 0 }}
                             className="mt-3 space-y-2 overflow-hidden"
                           >
                             {analysisResult.detectedFeatures.map((feature, idx) => (
-                              <div key={idx} className={`flex items-start gap-3 p-3 rounded-xl ${feature.detected ? 'bg-success/10 border border-success/20' : 'bg-destructive/10 border border-destructive/20'}`}>
-                                {feature.detected ? <CheckCircle className="w-5 h-5 text-success flex-shrink-0 mt-0.5" /> : <XOctagon className="w-5 h-5 text-destructive flex-shrink-0 mt-0.5" />}
+                              <div
+                                key={idx}
+                                className={`flex items-start gap-3 p-3 rounded-xl ${feature.detected ? "bg-success/10 border border-success/20" : "bg-destructive/10 border border-destructive/20"}`}
+                              >
+                                {feature.detected ? (
+                                  <CheckCircle className="w-5 h-5 text-success flex-shrink-0 mt-0.5" />
+                                ) : (
+                                  <XOctagon className="w-5 h-5 text-destructive flex-shrink-0 mt-0.5" />
+                                )}
                                 <div>
                                   <p className="font-medium text-sm">{feature.name}</p>
-                                  <p className="text-xs text-muted-foreground mt-0.5">
-                                    {feature.description}
-                                  </p>
+                                  <p className="text-xs text-muted-foreground mt-0.5">{feature.description}</p>
                                 </div>
                               </div>
                             ))}
@@ -328,8 +361,8 @@ export const CameraTab = ({
                   <div className="flex items-start gap-3 p-3 bg-muted rounded-xl">
                     <AlertCircle className="w-5 h-5 text-muted-foreground flex-shrink-0 mt-0.5" />
                     <p className="text-xs text-muted-foreground">
-                      Резултатът е ориентировъчен и не представлява официална експертиза. 
-                      При съмнения се обърнете към банка или експерт.
+                      Резултатът е ориентировъчен и не представлява официална експертиза. При съмнения се обърнете към
+                      банка или експерт.
                     </p>
                   </div>
 
