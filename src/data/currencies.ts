@@ -1,408 +1,318 @@
-import { CurrencyInfo } from '@/types';
+import { CurrencyInfo } from "@/types";
 
 export const currencies: CurrencyInfo[] = [
   {
-    code: 'EUR',
-    name: 'Евро',
-    symbol: '€',
-    flag: '🇪🇺',
+    code: "EUR",
+    name: "Евро",
+    symbol: "€",
+    flag: "🇪🇺",
     denominations: [
       {
         value: 5,
-        color: 'Сива',
+        color: "Сива",
         features: [
           {
-            id: 'eur-5-hologram',
-            name: 'Холограмна лента',
-            description: 'Сребриста лента с преливащи се цветове отляво на банкнотата.',
-            imageUrl: 'https://images.unsplash.com/photo-1580519542036-c47de6196ba5?w=400&h=300&fit=crop',
-            howToCheck: 'Наклонете банкнотата под светлина - лентата трябва да сменя цветовете от зелено към синьо.'
+            id: "eur-5-watermark",
+            name: "Воден знак",
+            description: "Воден знак с архитектурен образ, видим при държане срещу светлина.",
+            imageUrl: "",
+            howToCheck: "Дръж банкнотата срещу светлина и виж водния знак.",
           },
           {
-            id: 'eur-5-watermark',
-            name: 'Воден знак',
-            description: 'Портрет на Европа и стойността на банкнотата, видими при преглед срещу светлина.',
-            imageUrl: 'https://images.unsplash.com/photo-1554672723-d42a16e533db?w=400&h=300&fit=crop',
-            howToCheck: 'Задръжте банкнотата срещу източник на светлина и потърсете ясен образ на лице.'
+            id: "eur-5-hologram",
+            name: "Холограмна лента",
+            description: "Холографски образ върху вертикална лента, променящ се при накланяне.",
+            imageUrl: "",
+            howToCheck: "Наклони банкнотата – холограмата променя изображението.",
           },
           {
-            id: 'eur-5-thread',
-            name: 'Защитна нишка',
-            description: 'Вградена тъмна линия през средата на банкнотата с надпис "5 EURO".',
-            imageUrl: 'https://images.unsplash.com/photo-1621761191319-c6fb62004040?w=400&h=300&fit=crop',
-            howToCheck: 'При светлина нишката става видима като непрекъсната тъмна линия.'
-          }
-        ]
+            id: "eur-5-security-thread",
+            name: "Защитна нишка",
+            description: "Вградена нишка, видима като тъмна линия при осветление.",
+            imageUrl: "",
+            howToCheck: "Дръж срещу светлина – нишката става видима.",
+          },
+        ],
       },
       {
         value: 10,
-        color: 'Червена',
+        color: "Червена",
         features: [
           {
-            id: 'eur-10-hologram',
-            name: 'Холограмна лента',
-            description: 'Сребриста лента с преливащи се изображения на стойността и символа €.',
-            imageUrl: 'https://images.unsplash.com/photo-1580519542036-c47de6196ba5?w=400&h=300&fit=crop',
-            howToCheck: 'При накланяне се виждат различни изображения в лентата.'
+            id: "eur-10-watermark",
+            name: "Воден знак",
+            description: "Портретен воден знак видим при държане срещу светлина.",
+            imageUrl: "",
+            howToCheck: "Проверете водния знак под силна светлина.",
           },
           {
-            id: 'eur-10-emerald',
-            name: 'Изумруден номер',
-            description: 'Числото в долния ляв ъгъл променя цвета си от изумрудено зелено към тъмносиньо.',
-            imageUrl: 'https://images.unsplash.com/photo-1554672723-d42a16e533db?w=400&h=300&fit=crop',
-            howToCheck: 'Наклонете банкнотата и наблюдавайте промяната на цвета на числото.'
-          }
-        ]
+            id: "eur-10-emerald-number",
+            name: "Изумрудено число",
+            description: "Числото променя цвета си при накланяне.",
+            imageUrl: "",
+            howToCheck: "Накланяне показва преход от зелено към тъмносиньо.",
+          },
+          {
+            id: "eur-10-security-thread",
+            name: "Защитна нишка",
+            description: "Вградена нишка с микронадпис, видима при светлина.",
+            imageUrl: "",
+            howToCheck: "Дръж банкнотата срещу светлина – нишката се появява.",
+          },
+        ],
       },
       {
         value: 20,
-        color: 'Синя',
+        color: "Синя",
         features: [
           {
-            id: 'eur-20-window',
-            name: 'Прозрачен прозорец',
-            description: 'Прозорец с холограма на портрет на Европа в горната част.',
-            imageUrl: 'https://images.unsplash.com/photo-1580519542036-c47de6196ba5?w=400&h=300&fit=crop',
-            howToCheck: 'Погледнете прозореца срещу светлина - портретът трябва да е видим от двете страни.'
+            id: "eur-20-portrait-window",
+            name: "Портретен прозорец",
+            description: "Прозорец с портрет, видим от двете страни при накланяне.",
+            imageUrl: "",
+            howToCheck: "Наклони банкнотата – портретът е в прозореца.",
           },
           {
-            id: 'eur-20-feel',
-            name: 'Релефен печат',
-            description: 'Основното изображение и надписите имат осезаем релеф.',
-            imageUrl: 'https://images.unsplash.com/photo-1554672723-d42a16e533db?w=400&h=300&fit=crop',
-            howToCheck: 'Прекарайте пръст по банкнотата - трябва да усетите релефа на изображенията.'
-          }
-        ]
+            id: "eur-20-hologram",
+            name: "Холограмна лента",
+            description: "Холографски ефекти върху вертикална лента.",
+            imageUrl: "",
+            howToCheck: "При накланяне виж различни изображения.",
+          },
+          {
+            id: "eur-20-security-thread",
+            name: "Защитна нишка",
+            description: "Вградена нишка, видима като линия при светлина.",
+            imageUrl: "",
+            howToCheck: "Дръж срещу светлина – нишката се появява.",
+          },
+        ],
       },
       {
         value: 50,
-        color: 'Оранжева',
+        color: "Оранжева",
         features: [
           {
-            id: 'eur-50-portrait',
-            name: 'Портретен прозорец',
-            description: 'Холографски портрет на Европа в прозрачен прозорец.',
-            imageUrl: 'https://images.unsplash.com/photo-1580519542036-c47de6196ba5?w=400&h=300&fit=crop',
-            howToCheck: 'При накланяне лицето на Европа се появява и се движи дъгов светлинен ефект.'
+            id: "eur-50-watermark",
+            name: "Воден знак",
+            description: "Воден знак на архитектурен елемент, видим при светлина.",
+            imageUrl: "",
+            howToCheck: "Погледни срещу светлина за водния знак.",
           },
           {
-            id: 'eur-50-satellite',
-            name: 'Сателитни холограми',
-            description: 'Малки символи € около портрета, видими само под определен ъгъл.',
-            imageUrl: 'https://images.unsplash.com/photo-1554672723-d42a16e533db?w=400&h=300&fit=crop',
-            howToCheck: 'Наклонете банкнотата силно - малките символи ще станат видими около портрета.'
-          }
-        ]
+            id: "eur-50-color-changing-ink",
+            name: "Цветопроменящо мастило",
+            description: "Числото променя цвета си при различен ъгъл.",
+            imageUrl: "",
+            howToCheck: "Наклонете банкнотата – цветът се променя.",
+          },
+          {
+            id: "eur-50-security-thread",
+            name: "Защитна нишка",
+            description: "Вградена нишка, видима при осветление.",
+            imageUrl: "",
+            howToCheck: "Дръж срещу светлина – виж нишката.",
+          },
+        ],
       },
       {
         value: 100,
-        color: 'Зелена',
+        color: "Зелена",
         features: [
           {
-            id: 'eur-100-hologram',
-            name: 'Холограмен прозорец',
-            description: 'Голям прозрачен прозорец с множество холографски елементи.',
-            imageUrl: 'https://images.unsplash.com/photo-1580519542036-c47de6196ba5?w=400&h=300&fit=crop',
-            howToCheck: 'Наблюдавайте преливането на цветовете при различни ъгли.'
+            id: "eur-100-portrait-watermark",
+            name: "Портретен воден знак",
+            description: "Портретен воден знак, видим при осветление.",
+            imageUrl: "",
+            howToCheck: "Дръж банкнотата срещу светлина – виж портрета.",
           },
           {
-            id: 'eur-100-uv',
-            name: 'UV флуоресценция',
-            description: 'Специални влакна и елементи, видими под UV светлина.',
-            imageUrl: 'https://images.unsplash.com/photo-1554672723-d42a16e533db?w=400&h=300&fit=crop',
-            howToCheck: 'Под UV лампа се появяват цветни влакна и специални знаци.'
-          }
-        ]
+            id: "eur-100-hologram",
+            name: "Холограмен елемент",
+            description: "Холограма със сложни изображения при накланяне.",
+            imageUrl: "",
+            howToCheck: "Накланяй банкнотата – виж различни ефекти.",
+          },
+          {
+            id: "eur-100-security-thread",
+            name: "Защитна нишка",
+            description: "Вградена нишка с микронадпис.",
+            imageUrl: "",
+            howToCheck: "Дръж срещу светлина – нишката е видима.",
+          },
+        ],
       },
       {
         value: 200,
-        color: 'Жълта',
+        color: "Жълта",
         features: [
           {
-            id: 'eur-200-emerald',
-            name: 'Изумруден номер',
-            description: 'Голям номер, който променя цвета от златисто към зелено.',
-            imageUrl: 'https://images.unsplash.com/photo-1580519542036-c47de6196ba5?w=400&h=300&fit=crop',
-            howToCheck: 'Наклонете банкнотата - числото трябва да променя цвета си.'
-          }
-        ]
-      }
-    ]
+            id: "eur-200-watermark",
+            name: "Воден знак",
+            description: "Воден знак с архитектурен елемент, видим при силна светлина.",
+            imageUrl: "",
+            howToCheck: "Дръж срещу светлина – виж водния знак.",
+          },
+          {
+            id: "eur-200-hologram",
+            name: "Холограмен елемент",
+            description: "Холографски изображения при накланяне.",
+            imageUrl: "",
+            howToCheck: "Накланяй банкнотата – виж променящи се изображения.",
+          },
+          {
+            id: "eur-200-security-thread",
+            name: "Защитна нишка",
+            description: "Вградена нишка, видима при държане срещу светлина.",
+            imageUrl: "",
+            howToCheck: "Постави срещу светлина – виж нишката.",
+          },
+        ],
+      },
+    ],
   },
+
   {
-    code: 'USD',
-    name: 'Щатски долар',
-    symbol: '$',
-    flag: '🇺🇸',
-    denominations: [
-      {
-        value: 1,
-        color: 'Зелена',
-        features: [
-          {
-            id: 'usd-1-paper',
-            name: 'Специална хартия',
-            description: 'Банкнотата е направена от памук и лен, не от обикновена хартия.',
-            imageUrl: 'https://images.unsplash.com/photo-1611324795629-cc3c90fdf97f?w=400&h=300&fit=crop',
-            howToCheck: 'Хартията трябва да се чувства различна на допир - по-здрава и влакнеста.'
-          }
-        ]
-      },
-      {
-        value: 20,
-        color: 'Зелена с цветни елементи',
-        features: [
-          {
-            id: 'usd-20-color',
-            name: 'Променящ се цвят',
-            description: 'Числото 20 в долния десен ъгъл променя цвета от медено към зелено.',
-            imageUrl: 'https://images.unsplash.com/photo-1611324795629-cc3c90fdf97f?w=400&h=300&fit=crop',
-            howToCheck: 'Наклонете банкнотата и наблюдавайте промяната на цвета.'
-          },
-          {
-            id: 'usd-20-thread',
-            name: 'Защитна нишка',
-            description: 'Вертикална пластмасова лента вляво от портрета.',
-            imageUrl: 'https://images.unsplash.com/photo-1580519542036-c47de6196ba5?w=400&h=300&fit=crop',
-            howToCheck: 'При светлина нишката свети розово под UV и показва "USA TWENTY".'
-          },
-          {
-            id: 'usd-20-watermark',
-            name: 'Воден знак',
-            description: 'Портрет на Джаксън, видим при преглед срещу светлина.',
-            imageUrl: 'https://images.unsplash.com/photo-1554672723-d42a16e533db?w=400&h=300&fit=crop',
-            howToCheck: 'Задръжте срещу светлина - портретът трябва да съвпада с отпечатания.'
-          }
-        ]
-      },
-      {
-        value: 50,
-        color: 'Зелена с розови акценти',
-        features: [
-          {
-            id: 'usd-50-color',
-            name: 'Цветопроменящо мастило',
-            description: 'Числото 50 променя цвета от медено към зелено.',
-            imageUrl: 'https://images.unsplash.com/photo-1611324795629-cc3c90fdf97f?w=400&h=300&fit=crop',
-            howToCheck: 'Наклонете банкнотата под различен ъгъл.'
-          },
-          {
-            id: 'usd-50-3d',
-            name: '3D защитна лента',
-            description: 'Синя лента с движещи се изображения.',
-            imageUrl: 'https://images.unsplash.com/photo-1580519542036-c47de6196ba5?w=400&h=300&fit=crop',
-            howToCheck: 'Наклонете банкнотата - числото 50 и камбаните се движат.'
-          }
-        ]
-      },
-      {
-        value: 100,
-        color: 'Зелена със синя лента',
-        features: [
-          {
-            id: 'usd-100-ribbon',
-            name: '3D защитна лента',
-            description: 'Синя лента с камбани и числа 100, които се движат при накланяне.',
-            imageUrl: 'https://images.unsplash.com/photo-1611324795629-cc3c90fdf97f?w=400&h=300&fit=crop',
-            howToCheck: 'Наклонете банкнотата - ще видите как камбаните и числата се движат нагоре-надолу.'
-          },
-          {
-            id: 'usd-100-bell',
-            name: 'Камбана в мастилницата',
-            description: 'Медна камбана, която се появява в мастилницата.',
-            imageUrl: 'https://images.unsplash.com/photo-1580519542036-c47de6196ba5?w=400&h=300&fit=crop',
-            howToCheck: 'Наклонете банкнотата - камбаната променя цвета от меден към зелен.'
-          },
-          {
-            id: 'usd-100-portrait',
-            name: 'Воден знак',
-            description: 'Голям портрет на Франклин вдясно.',
-            imageUrl: 'https://images.unsplash.com/photo-1554672723-d42a16e533db?w=400&h=300&fit=crop',
-            howToCheck: 'Задръжте срещу светлина и потърсете втори портрет вдясно.'
-          }
-        ]
-      }
-    ]
-  },
-  {
-    code: 'GBP',
-    name: 'Британска лира',
-    symbol: '£',
-    flag: '🇬🇧',
+    code: "BGN",
+    name: "Български лев",
+    symbol: "лв.",
+    flag: "🇧🇬",
     denominations: [
       {
         value: 5,
-        color: 'Синьо-зелена',
+        color: "Червена",
         features: [
           {
-            id: 'gbp-5-window',
-            name: 'Прозрачен прозорец',
-            description: 'Елизабет II с променящ се цвят в прозорец.',
-            imageUrl: 'https://images.unsplash.com/photo-1580519542036-c47de6196ba5?w=400&h=300&fit=crop',
-            howToCheck: 'Наклонете за промяна на цвета от лилаво към зелено.'
+            id: "bgn-5-hologram",
+            name: "Холограмна лента с динамични изображения",
+            description: "Холограма с изображения и преливащи цветове.",
+            imageUrl: "",
+            howToCheck: "Накланяй банкнотата – виж изображението и 3D номер 5.",
           },
           {
-            id: 'gbp-5-hologram',
-            name: 'Холограмен кръг',
-            description: 'Кръг с 3D изображения на корона и числа.',
-            imageUrl: 'https://images.unsplash.com/photo-1554672723-d42a16e533db?w=400&h=300&fit=crop',
-            howToCheck: 'Завъртете банкнотата, за да видите различни изображения.'
-          }
-        ]
+            id: "bgn-5-fibres",
+            name: "Влакна и нишки",
+            description: "Вградени разноцветни влакна в хартията, видими под UV светлина.",
+            imageUrl: "",
+            howToCheck: "Под UV светлина – виж цветни влакна.",
+          },
+          {
+            id: "bgn-5-watermark",
+            name: "Воден знак",
+            description: "Високочестотен воден знак с детайлно изображение.",
+            imageUrl: "",
+            howToCheck: "Дръж срещу светлина – виж водния знак.",
+          },
+        ],
       },
       {
         value: 10,
-        color: 'Оранжева',
+        color: "Зелена",
         features: [
           {
-            id: 'gbp-10-austen',
-            name: 'Портрет на Джейн Остин',
-            description: 'Воден знак на Кралицата и холограма на Джейн Остин.',
-            imageUrl: 'https://images.unsplash.com/photo-1580519542036-c47de6196ba5?w=400&h=300&fit=crop',
-            howToCheck: 'При светлина се вижда воден знак, при накланяне - холограмата се движи.'
-          }
-        ]
+            id: "bgn-10-hologram",
+            name: "Холограмна лента с оптични ефекти",
+            description: "Холограма с променящи се изображения на глобус и планети.",
+            imageUrl: "",
+            howToCheck: "Накланяй банкнотата – виж ефекти.",
+          },
+          {
+            id: "bgn-10-security-thread",
+            name: "Защитна нишка",
+            description: "Вградена нишка с повторяем текст „БНБ 10“.",
+            imageUrl: "",
+            howToCheck: "Дръж срещу светлина – виж нишката.",
+          },
+          {
+            id: "bgn-10-watermark",
+            name: "Воден знак",
+            description: "Полутонов воден знак на портрета.",
+            imageUrl: "",
+            howToCheck: "Постави срещу светлина – виж водният знак.",
+          },
+        ],
       },
       {
         value: 20,
-        color: 'Лилава',
+        color: "Синя",
         features: [
           {
-            id: 'gbp-20-turner',
-            name: 'Портрет на Търнър',
-            description: 'Художникът J.M.W. Turner с холографски елементи.',
-            imageUrl: 'https://images.unsplash.com/photo-1580519542036-c47de6196ba5?w=400&h=300&fit=crop',
-            howToCheck: 'Прозорецът сменя цвета си при накланяне.'
+            id: "bgn-20-angled-lines",
+            name: "Маркировки за незрящи",
+            description: "Три дебели и седем тънки линии под ъгъл.",
+            imageUrl: "",
+            howToCheck: "Допирни – линиите се усещат релефно.",
           },
           {
-            id: 'gbp-20-foil',
-            name: 'Сребърно фолио',
-            description: 'Сребърен елемент с множество детайли.',
-            imageUrl: 'https://images.unsplash.com/photo-1554672723-d42a16e533db?w=400&h=300&fit=crop',
-            howToCheck: 'При различни ъгли се виждат 3D изображения.'
-          }
-        ]
+            id: "bgn-20-security-thread",
+            name: "Защитна нишка",
+            description: "Вградена нишка с текст „БНБ 20“ и динамичен ефект.",
+            imageUrl: "",
+            howToCheck: "Дръж срещу светлина – виж нишката.",
+          },
+          {
+            id: "bgn-20-watermark",
+            name: "Воден знак",
+            description: "Воден знак, видим при държане срещу светлина.",
+            imageUrl: "",
+            howToCheck: "Погледни срещу светлина – виж водния знак.",
+          },
+        ],
       },
       {
         value: 50,
-        color: 'Червена',
+        color: "Кафява",
         features: [
           {
-            id: 'gbp-50-turing',
-            name: 'Портрет на Тюринг',
-            description: 'Алън Тюринг с математически и компютърни символи.',
-            imageUrl: 'https://images.unsplash.com/photo-1580519542036-c47de6196ba5?w=400&h=300&fit=crop',
-            howToCheck: 'Холографски елементи, които се движат при накланяне.'
-          }
-        ]
-      }
-    ]
-  },
-  {
-    code: 'BGN',
-    name: 'Български лев',
-    symbol: 'лв.',
-    flag: '🇧🇬',
-    denominations: [
-      {
-        value: 2,
-        color: 'Лилава',
-        features: [
-          {
-            id: 'bgn-2-watermark',
-            name: 'Воден знак',
-            description: 'Портрет на Паисий Хилендарски в специална зона.',
-            imageUrl: 'https://images.unsplash.com/photo-1580519542036-c47de6196ba5?w=400&h=300&fit=crop',
-            howToCheck: 'Задръжте срещу светлина, за да видите портрета.'
+            id: "bgn-50-hologram",
+            name: "Цветна холограма с динамичен ефект",
+            description: "Холограма с птица и фигури, променящи цвят при накланяне.",
+            imageUrl: "",
+            howToCheck: "Накланяй банкнотата – виж цветови промени.",
           },
           {
-            id: 'bgn-2-thread',
-            name: 'Защитна нишка',
-            description: 'Метализирана нишка с текст "БНБ 2 ЛЕВА".',
-            imageUrl: 'https://images.unsplash.com/photo-1554672723-d42a16e533db?w=400&h=300&fit=crop',
-            howToCheck: 'При светлина нишката става непрекъсната тъмна линия.'
-          }
-        ]
-      },
-      {
-        value: 5,
-        color: 'Червена',
-        features: [
-          {
-            id: 'bgn-5-hologram',
-            name: 'Кинеграма',
-            description: 'Холографски елемент с герба на България.',
-            imageUrl: 'https://images.unsplash.com/photo-1580519542036-c47de6196ba5?w=400&h=300&fit=crop',
-            howToCheck: 'При накланяне се виждат различни цветове и изображения.'
-          }
-        ]
-      },
-      {
-        value: 10,
-        color: 'Зелена',
-        features: [
-          {
-            id: 'bgn-10-portrait',
-            name: 'Портрет на д-р Петър Берон',
-            description: 'Воден знак с портрет и стойност.',
-            imageUrl: 'https://images.unsplash.com/photo-1580519542036-c47de6196ba5?w=400&h=300&fit=crop',
-            howToCheck: 'Ясно видим при преглед срещу светлина.'
+            id: "bgn-50-watermark",
+            name: "Воден знак",
+            description: "Високочестотен воден знак видим при светлина.",
+            imageUrl: "",
+            howToCheck: "Дръж срещу светлина – виж водния знак.",
           },
           {
-            id: 'bgn-10-latent',
-            name: 'Скрито изображение',
-            description: 'Числото 10 се вижда при определен ъгъл.',
-            imageUrl: 'https://images.unsplash.com/photo-1554672723-d42a16e533db?w=400&h=300&fit=crop',
-            howToCheck: 'Наклонете банкнотата на ниво на очите.'
-          }
-        ]
-      },
-      {
-        value: 20,
-        color: 'Синя',
-        features: [
-          {
-            id: 'bgn-20-stripe',
-            name: 'Цветопроменяща се лента',
-            description: 'Лента, която сменя цвета при накланяне.',
-            imageUrl: 'https://images.unsplash.com/photo-1580519542036-c47de6196ba5?w=400&h=300&fit=crop',
-            howToCheck: 'От златисто към зелено при различен ъгъл.'
-          }
-        ]
-      },
-      {
-        value: 50,
-        color: 'Кафява',
-        features: [
-          {
-            id: 'bgn-50-iridescent',
-            name: 'Преливащ елемент',
-            description: 'Специален печат с преливащи се цветове.',
-            imageUrl: 'https://images.unsplash.com/photo-1580519542036-c47de6196ba5?w=400&h=300&fit=crop',
-            howToCheck: 'При накланяне цветовете се сменят.'
+            id: "bgn-50-lines",
+            name: "Маркировки за незрящи",
+            description: "Диагонални линии като тактилна опция.",
+            imageUrl: "",
+            howToCheck: "Прекарай пръст по линиите.",
           },
-          {
-            id: 'bgn-50-uv',
-            name: 'UV защита',
-            description: 'Елементи, видими само под UV светлина.',
-            imageUrl: 'https://images.unsplash.com/photo-1554672723-d42a16e533db?w=400&h=300&fit=crop',
-            howToCheck: 'Под UV лампа се появяват скрити символи.'
-          }
-        ]
+        ],
       },
       {
         value: 100,
-        color: 'Зелена',
+        color: "Зелена",
         features: [
           {
-            id: 'bgn-100-hologram',
-            name: 'Холограма',
-            description: 'Комплексен холографски елемент с множество изображения.',
-            imageUrl: 'https://images.unsplash.com/photo-1580519542036-c47de6196ba5?w=400&h=300&fit=crop',
-            howToCheck: 'Завъртете банкнотата, за да видите различни изображения в холограмата.'
-          }
-        ]
-      }
-    ]
-  }
+            id: "bgn-100-rollingstar",
+            name: "RollingStar® лента",
+            description: "Динамична ефектна лента, променяща цвета си при накланяне.",
+            imageUrl: "",
+            howToCheck: "Накланяй банкнотата – виж цветови ефекти.",
+          },
+          {
+            id: "bgn-100-security-fibres",
+            name: "UV влакна и микротекст",
+            description: "Трицветни влакна и микронадписи, видими под UV.",
+            imageUrl: "",
+            howToCheck: "Под UV светлина – виж влакна и микронадписи.",
+          },
+          {
+            id: "bgn-100-watermark",
+            name: "Воден знак и портрет",
+            description: "3D воден знак с портрет и инициали „БНБ“.",
+            imageUrl: "",
+            howToCheck: "Дръж срещу светлина – виж портрета и инициали.",
+          },
+        ],
+      },
+    ],
+  },
 ];
