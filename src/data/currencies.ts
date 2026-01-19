@@ -72,7 +72,8 @@ export const currencies: CurrencyInfo[] = [
             id: "eur-10-security-thread",
             name: "Защитна нишка",
             description: "Вградена нишка с микронадпис, видима при светлина.",
-            imageUrl: "https://currencyguide.eu/eur-en/security-thread_10_euro_new.jpg",
+            imageUrl:
+              "https://raw.githubusercontent.com/0dayScorpio/images-notaguard/refs/heads/Main/10-security-thread.jpg",
             howToCheck: "Дръж банкнотата срещу светлина – нишката се появява.",
           },
         ],
