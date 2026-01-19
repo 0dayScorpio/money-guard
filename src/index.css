@@ -10,6 +10,12 @@
 
 @import url("https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;700&display=swap");
 
+@import url("https://fonts.googleapis.com/css2?family=Lato&display=swap");
+
+@import url("https://fonts.googleapis.com/css2?family=EB+Garamond&display=swap");
+
+@import url("https://fonts.googleapis.com/css2?family=Fira+Code&display=swap");
+
 @layer base {
   :root {
     --background: 0 0% 96%;
@@ -42,7 +48,7 @@
     --warning: 38 92% 50%;
     --warning-foreground: 0 0% 100%;
 
-    --border: 0 0% 83%;
+    --border: 263 69.9605% 50.3922%;
     --input: 0 0% 83%;
     --ring: 243 75% 58%;
 

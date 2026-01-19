@@ -18,14 +18,11 @@ export default {
   				'Lato',
   				'ui-sans-serif',
   				'system-ui',
-  				'-apple-system',
-  				'BlinkMacSystemFont',
-  				'Segoe UI',
-  				'Roboto',
-  				'Helvetica Neue',
-  				'Arial',
-  				'Noto Sans',
-  				'sans-serif'
+  				'sans-serif',
+  				'Apple Color Emoji',
+  				'Segoe UI Emoji',
+  				'Segoe UI Symbol',
+  				'Noto Color Emoji'
   			],
   			serif: [
   				'EB Garamond',
@@ -155,7 +152,7 @@ export default {
   					transform: 'scale(1)'
   				}
   			},
-  			'shimmer': {
+  			shimmer: {
   				from: {
   					backgroundPosition: '200% 0'
   				},
@@ -170,7 +167,7 @@ export default {
   			'fade-in': 'fade-in 0.3s ease-out',
   			'slide-up': 'slide-up 0.4s ease-out',
   			'scale-in': 'scale-in 0.2s ease-out',
-  			'shimmer': 'shimmer 2s infinite linear'
+  			shimmer: 'shimmer 2s infinite linear'
   		},
   		boxShadow: {
   			glass: '0 8px 32px 0 rgba(31, 38, 135, 0.15)',
