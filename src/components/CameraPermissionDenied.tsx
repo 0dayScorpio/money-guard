@@ -74,17 +74,17 @@ export const CameraPermissionDenied = ({ onRetry, onOpenSettings, errorMessage }
           className="
     w-full h-12 rounded-xl
     bg-white
-    hover:bg-gray-100
-    active:bg-gray-200
+    hover:bg-gray-300
+    active:bg-gray-400
     transition-colors
-    dark:bg-card
-    dark:border-border
-    dark:hover:bg-muted
     border-purple-500/30
+    dark:bg-card
+    dark:hover:bg-gray-700
+    dark:active:bg-gray-800
   "
         >
-          <span className="flex items-center bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent dark:text-white dark:bg-none">
-            <RefreshCw className="w-5 h-5 mr-2 text-purple-600 dark:text-white" />
+          <span className="flex items-center bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+            <RefreshCw className="w-5 h-5 mr-2" />
             Опитай отново
           </span>
         </Button>
