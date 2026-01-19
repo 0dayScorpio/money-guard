@@ -15,11 +15,32 @@ const tabs = [
 ];
 
 export const TabBar = ({ activeTab, onTabChange, isDark, onThemeToggle }: TabBarProps) => {
+  const activeIndex = tabs.findIndex(tab => tab.id === activeTab);
+  
   return (
-    <div className="bg-card border-t border-border safe-area-bottom">
+    <div className="backdrop-blur-xl bg-card/70 border-t border-white/10 safe-area-bottom">
       <div className="flex items-center justify-between px-2">
-        {/* Tabs */}
-        <div className="flex flex-1 justify-around">
+        {/* Tabs container */}
+        <div className="relative flex flex-1">
+          {/* Floating frosted-glass pill indicator */}
+          <motion.div
+            className="absolute top-1/2 -translate-y-1/2 h-12 rounded-2xl backdrop-blur-md bg-primary/15 border border-white/20 shadow-lg"
+            style={{
+              width: `calc(100% / 3 - 8px)`,
+            }}
+            initial={false}
+            animate={{
+              x: `calc(${activeIndex} * (100% + 8px) + 4px)`,
+            }}
+            transition={{
+              type: 'spring',
+              stiffness: 400,
+              damping: 30,
+              mass: 0.8,
+            }}
+          />
+          
+          {/* Tab buttons */}
           {tabs.map((tab) => {
             const isActive = activeTab === tab.id;
             const Icon = tab.icon;
@@ -28,28 +49,20 @@ export const TabBar = ({ activeTab, onTabChange, isDark, onThemeToggle }: TabBar
               <button
                 key={tab.id}
                 onClick={() => onTabChange(tab.id)}
-                className="relative flex flex-col items-center py-3 px-6 min-w-[80px]"
+                className="relative z-10 flex flex-1 flex-col items-center justify-center py-3 min-h-[60px]"
               >
-                <div className="relative">
-                  {isActive && (
-                    <motion.div
-                      layoutId="tab-indicator"
-                      className="absolute inset-0 -m-2 rounded-xl gradient-primary opacity-10"
-                      transition={{ type: 'spring', stiffness: 300, damping: 30 }}
-                    />
-                  )}
-                  <Icon className={`w-6 h-6 ${isActive ? 'text-primary' : 'text-muted-foreground'}`} />
-                </div>
-                <span className={`text-xs mt-1 ${isActive ? 'text-primary font-semibold' : 'text-muted-foreground'}`}>
+                <Icon 
+                  className={`w-6 h-6 transition-colors duration-200 ${
+                    isActive ? 'text-primary' : 'text-muted-foreground'
+                  }`} 
+                />
+                <span 
+                  className={`text-xs mt-1 transition-colors duration-200 ${
+                    isActive ? 'text-primary font-semibold' : 'text-muted-foreground'
+                  }`}
+                >
                   {tab.label}
                 </span>
-                {isActive && (
-                  <motion.div
-                    layoutId="tab-dot"
-                    className="absolute top-1 w-1 h-1 rounded-full bg-primary"
-                    transition={{ type: 'spring', stiffness: 300, damping: 30 }}
-                  />
-                )}
               </button>
             );
           })}
