@@ -99,6 +99,15 @@ export const currencies: CurrencyInfo[] = [
             imageUrl: "",
             howToCheck: "Погледни срещу светлина за водния знак.",
           },
+
+          {
+            id: "eur-50-embosed-print",
+            name: "Релефни линии",
+            description: "Релефни линии от лявата страна на банкнотат, които се усещат изпъкнали при допир. ",
+            imageUrl: "",
+            howToCheck: "Пипнете и усетете дали ресните за изпъкнали.",
+          },
+
           {
             id: "eur-50-color-changing-ink",
             name: "Цветопроменящо мастило",
