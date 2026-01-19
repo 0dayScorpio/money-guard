@@ -84,17 +84,38 @@ export const CameraTab = ({
   const error = cameraError || analysisError;
 
   // SVG gradient for camera icon
-  const CameraGradientIcon = () => <svg className="w-20 h-20 rounded-none" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <defs>
-        <linearGradient id="cameraGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-          <stop offset="0%" stopColor="hsl(217, 91%, 55%)" />
-          <stop offset="100%" stopColor="hsl(270, 80%, 60%)" />
-        </linearGradient>
-      </defs>
-      <path d="M14.5 4h-5L7.5 6.5H4c-.83 0-1.5.67-1.5 1.5v10c0 .83.67 1.5 1.5 1.5h16c.83 0 1.5-.67 1.5-1.5V8c0-.83-.67-1.5-1.5-1.5h-3.5L14.5 4z" stroke="url(#cameraGradient)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" fill="none" />
-      <circle cx="12" cy="13" r="4" stroke="url(#cameraGradient)" strokeWidth="2" fill="none" />
-    </svg>;
-  return <div className="flex flex-col h-full">
+const CameraGradientIcon = () => (
+  <svg
+    className="w-full h-full"
+    viewBox="0 0 24 24"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <defs>
+      <linearGradient id="cameraGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" stopColor="hsl(217, 91%, 55%)" />
+        <stop offset="100%" stopColor="hsl(270, 80%, 60%)" />
+      </linearGradient>
+    </defs>
+    <path
+      d="M14.5 4h-5L7.5 6.5H4c-.83 0-1.5.67-1.5 1.5v10c0 .83.67 1.5 1.5 1.5h16c.83 0 1.5-.67 1.5-1.5V8c0-.83-.67-1.5-1.5-1.5h-3.5L14.5 4z"
+      stroke="url(#cameraGradient)"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      fill="none"
+    />
+    <circle
+      cx="12"
+      cy="13"
+      r="4"
+      stroke="url(#cameraGradient)"
+      strokeWidth="2"
+      fill="none"
+    />
+  </svg>
+);
+">
       {/* Camera viewport */}
       <div className="relative flex-1 bg-black/90 dark:bg-black overflow-hidden">
         {imageBase64 ?
