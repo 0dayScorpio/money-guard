@@ -3,7 +3,7 @@ import { CurrencyInfo } from "@/types";
 export const currencies: CurrencyInfo[] = [
   {
     code: "EUR",
-    name: "Евро - НОВО",
+    name: "Евро",
     symbol: "€",
     flag: "🇪🇺",
     denominations: [
@@ -256,6 +256,263 @@ export const currencies: CurrencyInfo[] = [
       },
     ],
   },
+
+  {
+    code: "EUR_ОLD",
+    name: "Евро - СТАРО",
+    symbol: "€",
+    flag: "🇪🇺",
+    denominations: [
+      {
+        value: 5,
+        color: "Сива",
+        features: [
+          {
+            id: "eur-5-watermark",
+            name: "Воден знак",
+            description: "Воден знак с архитектурен образ, видим при държане срещу светлина.",
+            imageUrl: "https://raw.githubusercontent.com/0dayScorpio/images-notaguard/refs/heads/Main/5-watermark.jpg",
+            howToCheck: "Дръж банкнотата срещу светлина и виж водния знак.",
+          },
+          {
+            id: "eur-5-embosed-print",
+            name: "Релефни линии",
+            description: "Релефни линии от лявата страна на банкнотат, които се усещат изпъкнали при допир.",
+            imageUrl:
+              "https://raw.githubusercontent.com/0dayScorpio/images-notaguard/refs/heads/Main/5-embosed-print.png",
+            howToCheck: "Пипнете и усетете дали ресните са изпъкнали.",
+          },
+          {
+            id: "eur-5-hologram",
+            name: "Холограмна лента",
+            description: "Холографски образ върху вертикална лента, променящ се при накланяне.",
+            imageUrl: "https://raw.githubusercontent.com/0dayScorpio/images-notaguard/refs/heads/Main/5-hologram.png",
+            howToCheck: "Наклони банкнотата – холограмата променя изображението.",
+          },
+          {
+            id: "eur-5-security-thread",
+            name: "Защитна нишка",
+            description: "Вградена нишка, видима като тъмна линия при осветление.",
+            imageUrl:
+              "https://raw.githubusercontent.com/0dayScorpio/images-notaguard/refs/heads/Main/5-security-thread.png",
+            howToCheck: "Дръж срещу светлина – нишката става видима.",
+          },
+        ],
+      },
+      {
+        value: 10,
+        color: "Червена",
+        features: [
+          {
+            id: "eur-10-watermark",
+            name: "Воден знак",
+            description: "Портретен воден знак видим при държане срещу светлина.",
+            imageUrl: "",
+            howToCheck: "Проверете водния знак под силна светлина.",
+          },
+          {
+            id: "eur-10-embosed-print",
+            name: "Релефни линии",
+            description: "Релефни линии от лявата страна на банкнотат, които се усещат изпъкнали при допир.",
+            imageUrl: "",
+            howToCheck: "Пипнете и усетете дали ресните са изпъкнали.",
+          },
+          {
+            id: "eur-10-emerald-number",
+            name: "Изумрудено число",
+            description: "Числото променя цвета си при накланяне.",
+            imageUrl: "",
+            howToCheck: "Накланяне показва преход от зелено към тъмносиньо.",
+          },
+          {
+            id: "eur-10-security-thread",
+            name: "Защитна нишка",
+            description: "Вградена нишка с микронадпис, видима при светлина.",
+            imageUrl: "",
+            howToCheck: "Дръж банкнотата срещу светлина – нишката се появява.",
+          },
+        ],
+      },
+      {
+        value: 20,
+        color: "Синя",
+        features: [
+          {
+            id: "eur-20-portrait-window",
+            name: "Портретен прозорец",
+            description: "Прозорец с портрет, видим от двете страни при накланяне.",
+            imageUrl: "",
+            howToCheck: "Наклони банкнотата – портретът е в прозореца.",
+          },
+          {
+            id: "eur-20-embosed-print",
+            name: "Релефни линии",
+            description: "Релефни линии от лявата страна на банкнотат, които се усещат изпъкнали при допир.",
+            imageUrl: "",
+            howToCheck: "Пипнете и усетете дали ресните са изпъкнали.",
+          },
+          {
+            id: "eur-20-hologram",
+            name: "Холограмна лента",
+            description: "Холографски ефекти върху вертикална лента.",
+            imageUrl: "",
+            howToCheck: "При накланяне виж различни изображения.",
+          },
+          {
+            id: "eur-20-security-thread",
+            name: "Защитна нишка",
+            description: "Вградена нишка, видима като линия при светлина.",
+            imageUrl: "",
+            howToCheck: "Дръж срещу светлина – нишката се появява.",
+          },
+        ],
+      },
+      {
+        value: 50,
+        color: "Оранжева",
+        features: [
+          {
+            id: "eur-50-watermark",
+            name: "Воден знак",
+            description: "Воден знак на архитектурен елемент, видим при светлина.",
+            imageUrl: "",
+            howToCheck: "Погледни срещу светлина за водния знак.",
+          },
+          {
+            id: "eur-50-embosed-print",
+            name: "Релефни линии",
+            description: "Релефни линии от лявата страна на банкнотат, които се усещат изпъкнали при допир.",
+            imageUrl: "",
+            howToCheck: "Пипнете и усетете дали ресните са изпъкнали.",
+          },
+          {
+            id: "eur-50-color-changing-ink",
+            name: "Цветопроменящо мастило",
+            description: "Числото променя цвета си при различен ъгъл.",
+            imageUrl: "",
+            howToCheck: "Наклонете банкнотата – цветът се променя.",
+          },
+          {
+            id: "eur-50-security-thread",
+            name: "Защитна нишка",
+            description: "Вградена нишка, видима при осветление.",
+            imageUrl: "",
+            howToCheck: "Дръж срещу светлина – виж нишката.",
+          },
+        ],
+      },
+      {
+        value: 100,
+        color: "Зелена",
+        features: [
+          {
+            id: "eur-100-portrait-watermark",
+            name: "Портретен воден знак",
+            description: "Портретен воден знак, видим при осветление.",
+            imageUrl: "",
+            howToCheck: "Дръж банкнотата срещу светлина – виж портрета.",
+          },
+          {
+            id: "eur-100-embosed-print",
+            name: "Релефни линии",
+            description: "Релефни линии от лявата страна на банкнотат, които се усещат изпъкнали при допир.",
+            imageUrl: "",
+            howToCheck: "Пипнете и усетете дали ресните са изпъкнали.",
+          },
+          {
+            id: "eur-100-hologram",
+            name: "Холограмен елемент",
+            description: "Холограма със сложни изображения при накланяне.",
+            imageUrl: "",
+            howToCheck: "Накланяй банкнотата – виж различни ефекти.",
+          },
+          {
+            id: "eur-100-security-thread",
+            name: "Защитна нишка",
+            description: "Вградена нишка с микронадпис.",
+            imageUrl: "",
+            howToCheck: "Дръж срещу светлина – нишката е видима.",
+          },
+        ],
+      },
+      {
+        value: 200,
+        color: "Жълта",
+        features: [
+          {
+            id: "eur-200-watermark",
+            name: "Воден знак",
+            description: "Воден знак с архитектурен елемент, видим при силна светлина.",
+            imageUrl: "",
+            howToCheck: "Дръж срещу светлина – виж водния знак.",
+          },
+          {
+            id: "eur-200-embosed-print",
+            name: "Релефни линии",
+            description: "Релефни линии от лявата страна на банкнотат, които се усещат изпъкнали при допир.",
+            imageUrl: "",
+            howToCheck: "Пипнете и усетете дали ресните са изпъкнали.",
+          },
+          {
+            id: "eur-200-hologram",
+            name: "Холограмен елемент",
+            description: "Холографски изображения при накланяне.",
+            imageUrl: "",
+            howToCheck: "Накланяй банкнотата – виж променящи се изображения.",
+          },
+          {
+            id: "eur-200-security-thread",
+            name: "Защитна нишка",
+            description: "Вградена нишка, видима при държане срещу светлина.",
+            imageUrl: "",
+            howToCheck: "Постави срещу светлина – виж нишката.",
+          },
+        ],
+      },
+      {
+        value: 500,
+        color: "Лилава",
+        features: [
+          {
+            id: "eur-500-watermark",
+            name: "Воден знак",
+            description: "Воден знак – Първа серия евро (няма серия Европа).",
+            imageUrl: "",
+            howToCheck: "Дръж банкнотата срещу светлина – виж водния знак.",
+          },
+          {
+            id: "eur-500-embosed-print",
+            name: "Релефни линии",
+            description: "Релефен печат и линии – Първа серия евро.",
+            imageUrl: "",
+            howToCheck: "Пипни релефа.",
+          },
+          {
+            id: "eur-500-hologram",
+            name: "Холограмна лента",
+            description: "Холограмен елемент – Първа серия евро.",
+            imageUrl: "",
+            howToCheck: "Накланяй – виж ефекта.",
+          },
+          {
+            id: "eur-500-security-thread",
+            name: "Защитна нишка",
+            description: "Защитна нишка – Първа серия евро.",
+            imageUrl: "",
+            howToCheck: "Дръж срещу светлина – виж нишката.",
+          },
+          {
+            id: "eur-500-uv-fibres",
+            name: "UV влакна",
+            description: "UV защитни влакна – Първа серия евро.",
+            imageUrl: "",
+            howToCheck: "Под UV светлина – виж влакната.",
+          },
+        ],
+      },
+    ],
+  },
+
   {
     code: "BGN",
     name: "Български лев",
