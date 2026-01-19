@@ -82,129 +82,169 @@ export const CameraTab = ({
     }
   };
   const error = cameraError || analysisError;
+  
   return <div className="flex flex-col h-full">
-      {/* Camera viewport */}
-      <div className="relative flex-1 bg-black/90 dark:bg-black overflow-hidden">
-        {imageBase64 ?
-      // Show captured image
-      <div className="absolute inset-0 flex items-center justify-center p-4">
+      {/* Full-screen camera viewport */}
+      <div className="relative flex-1 overflow-hidden">
+        {/* Background - simulated live camera preview gradient */}
+        <div className="absolute inset-0 bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900">
+          {/* Animated subtle movement to simulate live feed */}
+          <motion.div
+            className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-slate-700/20 via-transparent to-transparent"
+            animate={{
+              scale: [1, 1.05, 1],
+              opacity: [0.3, 0.5, 0.3],
+            }}
+            transition={{
+              duration: 4,
+              repeat: Infinity,
+              ease: 'easeInOut',
+            }}
+          />
+        </div>
+        
+        {/* Semi-transparent dark overlay */}
+        <div className="absolute inset-0 bg-black/50" />
+        
+        {imageBase64 ? (
+          // Show captured image
+          <div className="absolute inset-0 flex items-center justify-center p-4">
             <img src={imageBase64} alt="Заснета банкнота" className="max-w-full max-h-full object-contain rounded-2xl shadow-2xl" />
             
             {/* Analysis overlay */}
-            {isAnalyzing && <div className="absolute inset-0 bg-black/60 flex items-center justify-center">
+            {isAnalyzing && (
+              <div className="absolute inset-0 bg-black/60 flex items-center justify-center">
                 <div className="text-center">
-                  <motion.div animate={{
-              rotate: 360
-            }} transition={{
-              duration: 2,
-              repeat: Infinity,
-              ease: 'linear'
-            }} className="w-16 h-16 mx-auto mb-4">
+                  <motion.div
+                    animate={{ rotate: 360 }}
+                    transition={{ duration: 2, repeat: Infinity, ease: 'linear' }}
+                    className="w-16 h-16 mx-auto mb-4"
+                  >
                     <Sparkles className="w-full h-full text-primary" />
                   </motion.div>
                   <p className="text-white text-lg font-medium">AI Анализ...</p>
                   <p className="text-white/60 text-sm mt-1">Проверка на защитни елементи</p>
                 </div>
-              </div>}
-          </div> :
-      // Camera placeholder
-      <div className="absolute inset-0 flex items-center justify-center">
-            <div className="relative w-full max-w-sm aspect-[16/10] mx-4">
-              {/* Camera frame */}
-              <motion.div animate={isCapturing ? {
-            opacity: [0.5, 1, 0.5]
-          } : {
-            opacity: 1
-          }} transition={{
-            duration: 1.5,
-            repeat: isCapturing ? Infinity : 0
-          }} className="absolute inset-0 border-2 border-white/50 rounded-2xl">
-                {/* Corner accents */}
-                <div className="absolute -top-1 -left-1 w-8 h-8 border-t-4 border-l-4 border-primary rounded-tl-xl" />
-                <div className="absolute -top-1 -right-1 w-8 h-8 border-t-4 border-r-4 border-primary rounded-tr-xl" />
-                <div className="absolute -bottom-1 -left-1 w-8 h-8 border-b-4 border-l-4 border-primary rounded-bl-xl" />
-                <div className="absolute -bottom-1 -right-1 w-8 h-8 border-b-4 border-r-4 border-primary rounded-br-xl" />
-              </motion.div>
-
-              {/* Scanning line */}
-              <AnimatePresence>
-                {isCapturing && <motion.div initial={{
-              top: 0,
-              opacity: 0
-            }} animate={{
-              top: '100%',
-              opacity: [0, 1, 1, 0]
-            }} exit={{
-              opacity: 0
-            }} transition={{
-              duration: 2,
-              repeat: Infinity,
-              ease: 'linear'
-            }} className="absolute left-2 right-2 h-1 bg-gradient-to-r from-transparent via-primary to-transparent rounded-full shadow-lg shadow-primary/50" />}
-              </AnimatePresence>
-
-              {/* Placeholder content */}
-              <div className="absolute inset-0 flex flex-col items-center justify-center text-white/60 rounded-none shadow-sm">
-                <Camera className="w-16 h-16 mb-4" />
-                <p className="text-sm text-center px-4">
+              </div>
+            )}
+          </div>
+        ) : (
+          // Camera frame overlay
+          <div className="absolute inset-0 flex items-center justify-center">
+            <div className="relative w-[85%] max-w-sm aspect-[3/2]">
+              {/* Main frame border */}
+              <div className="absolute inset-0 border-2 border-white/30 rounded-2xl" />
+              
+              {/* Blue corner accents */}
+              <div className="absolute -top-0.5 -left-0.5 w-12 h-12 border-t-[3px] border-l-[3px] border-primary rounded-tl-2xl" />
+              <div className="absolute -top-0.5 -right-0.5 w-12 h-12 border-t-[3px] border-r-[3px] border-primary rounded-tr-2xl" />
+              <div className="absolute -bottom-0.5 -left-0.5 w-12 h-12 border-b-[3px] border-l-[3px] border-primary rounded-bl-2xl" />
+              <div className="absolute -bottom-0.5 -right-0.5 w-12 h-12 border-b-[3px] border-r-[3px] border-primary rounded-br-2xl" />
+              
+              {/* Subtle glow on corners */}
+              <div className="absolute -top-1 -left-1 w-14 h-14 bg-primary/20 rounded-tl-2xl blur-sm" />
+              <div className="absolute -top-1 -right-1 w-14 h-14 bg-primary/20 rounded-tr-2xl blur-sm" />
+              <div className="absolute -bottom-1 -left-1 w-14 h-14 bg-primary/20 rounded-bl-2xl blur-sm" />
+              <div className="absolute -bottom-1 -right-1 w-14 h-14 bg-primary/20 rounded-br-2xl blur-sm" />
+              
+              {/* Text label inside frame */}
+              <div className="absolute inset-0 flex items-center justify-center px-6">
+                <p className="text-white/80 text-center text-sm font-medium leading-relaxed">
                   Заснемете или изберете снимка на банкнота
                 </p>
               </div>
+              
+              {/* Scanning animation when capturing */}
+              <AnimatePresence>
+                {isCapturing && (
+                  <motion.div
+                    initial={{ top: 0, opacity: 0 }}
+                    animate={{ top: '100%', opacity: [0, 1, 1, 0] }}
+                    exit={{ opacity: 0 }}
+                    transition={{ duration: 2, repeat: Infinity, ease: 'linear' }}
+                    className="absolute left-2 right-2 h-0.5 bg-gradient-to-r from-transparent via-primary to-transparent rounded-full shadow-lg shadow-primary/50"
+                  />
+                )}
+              </AnimatePresence>
             </div>
-          </div>}
+          </div>
+        )}
 
         {/* Error display */}
-        {error && <div className="absolute top-4 left-4 right-4">
+        {error && (
+          <div className="absolute top-4 left-4 right-4 z-20">
             <div className="bg-destructive/90 text-destructive-foreground p-3 rounded-xl flex items-center gap-2">
               <AlertCircle className="w-5 h-5 flex-shrink-0" />
               <p className="text-sm">{error}</p>
             </div>
-          </div>}
+          </div>
+        )}
 
-        {/* Action buttons */}
-        <div className="absolute bottom-8 left-0 right-0 flex justify-center gap-4">
-          {!imageBase64 ? <>
-              <motion.div whileTap={{
-            scale: 0.95
-          }}>
-                <Button onClick={selectFromGallery} disabled={isCapturing} size="lg" variant="outline" className="h-16 w-16 rounded-full bg-white/10 border-white/30 backdrop-blur-sm">
-                  <ImageIcon className="w-7 h-7 text-white" />
+        {/* Action buttons - positioned below the frame */}
+        <div className="absolute bottom-12 left-0 right-0 flex justify-center gap-6 z-10">
+          {!imageBase64 ? (
+            <>
+              {/* Gallery button */}
+              <motion.div whileTap={{ scale: 0.95 }}>
+                <Button
+                  onClick={selectFromGallery}
+                  disabled={isCapturing}
+                  size="lg"
+                  variant="outline"
+                  className="h-14 w-14 rounded-full bg-white/10 border-white/30 backdrop-blur-md hover:bg-white/20"
+                >
+                  <ImageIcon className="w-6 h-6 text-white" />
                 </Button>
               </motion.div>
 
-              <motion.div whileTap={{
-            scale: 0.95
-          }}>
-                <Button onClick={takePhoto} disabled={isCapturing} size="lg" className="h-20 w-20 rounded-full gradient-primary shadow-xl disabled:opacity-50">
-                  {isCapturing ? <motion.div animate={{
-                rotate: 360
-              }} transition={{
-                duration: 1,
-                repeat: Infinity,
-                ease: 'linear'
-              }}>
-                      <Scan className="w-8 h-8 text-white" />
-                    </motion.div> : <Camera className="h-8 text-white w-[26px]" />}
+              {/* Camera button - highlighted */}
+              <motion.div whileTap={{ scale: 0.95 }}>
+                <Button
+                  onClick={takePhoto}
+                  disabled={isCapturing}
+                  size="lg"
+                  className="h-16 w-16 rounded-full gradient-primary shadow-xl shadow-primary/40 disabled:opacity-50 border-2 border-white/20"
+                >
+                  {isCapturing ? (
+                    <motion.div
+                      animate={{ rotate: 360 }}
+                      transition={{ duration: 1, repeat: Infinity, ease: 'linear' }}
+                    >
+                      <Scan className="w-7 h-7 text-white" />
+                    </motion.div>
+                  ) : (
+                    <Camera className="w-7 h-7 text-white" />
+                  )}
                 </Button>
               </motion.div>
-            </> : !analysisResult ? <>
-              <motion.div whileTap={{
-            scale: 0.95
-          }}>
-                <Button onClick={resetScan} disabled={isAnalyzing} size="lg" variant="outline" className="h-16 w-16 rounded-full bg-white/10 border-white/30 backdrop-blur-sm">
-                  <RefreshCw className="w-7 h-7 text-white" />
+            </>
+          ) : !analysisResult ? (
+            <>
+              <motion.div whileTap={{ scale: 0.95 }}>
+                <Button
+                  onClick={resetScan}
+                  disabled={isAnalyzing}
+                  size="lg"
+                  variant="outline"
+                  className="h-14 w-14 rounded-full bg-white/10 border-white/30 backdrop-blur-md hover:bg-white/20"
+                >
+                  <RefreshCw className="w-6 h-6 text-white" />
                 </Button>
               </motion.div>
 
-              <motion.div whileTap={{
-            scale: 0.95
-          }}>
-                <Button onClick={handleAnalyze} disabled={isAnalyzing} size="lg" className="h-20 px-8 rounded-full gradient-primary shadow-xl disabled:opacity-50">
+              <motion.div whileTap={{ scale: 0.95 }}>
+                <Button
+                  onClick={handleAnalyze}
+                  disabled={isAnalyzing}
+                  size="lg"
+                  className="h-16 px-8 rounded-full gradient-primary shadow-xl shadow-primary/40 disabled:opacity-50 border-2 border-white/20"
+                >
                   <Sparkles className="w-6 h-6 text-white mr-2" />
                   <span className="text-white font-semibold">Анализирай</span>
                 </Button>
               </motion.div>
-            </> : null}
+            </>
+          ) : null}
         </div>
       </div>
 
