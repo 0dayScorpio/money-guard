@@ -254,7 +254,6 @@ export const currencies: CurrencyInfo[] = [
       howToCheck: "Под UV светлина – виж влакната.",
     },
   ],
-},
 
     ],
   },
