@@ -16,25 +16,36 @@ const tabs = [
 
 export const TabBar = ({ activeTab, onTabChange, isDark, onThemeToggle }: TabBarProps) => {
   const activeIndex = tabs.findIndex(tab => tab.id === activeTab);
-  const tabWidth = 100 / 3; // percentage width of each tab
+  const tabCount = tabs.length;
+  
+  // Pill width is 80% of one tab's width
+  const pillWidthPercent = 80 / tabCount;
+  // Margin on each side inside the tab = (100/tabCount - pillWidth) / 2
+  const marginPercent = (100 / tabCount - pillWidthPercent) / 2;
+  // translateX position = activeIndex * tabWidth + margin
+  const translateX = activeIndex * (100 / tabCount) + marginPercent;
   
   return (
     <div className="backdrop-blur-xl bg-card/70 border-t border-white/10 safe-area-bottom">
       <div className="flex items-center justify-between px-2">
-        {/* Tabs container */}
-        <div className="relative flex flex-1">
-          {/* Floating frosted-glass circle indicator */}
+        {/* Tabs container - relative anchor for the pill */}
+        <nav className="relative flex flex-1 py-1">
+          {/* Frosted-glass pill indicator - absolute within nav */}
           <motion.div
-            className="absolute top-1/2 left-0 w-14 h-14 -translate-y-1/2 rounded-full backdrop-blur-md bg-primary/15 border border-white/20 shadow-lg"
+            className="absolute top-1/2 h-[42px] rounded-2xl backdrop-blur-md bg-primary/12 border border-white/15 shadow-md pointer-events-none"
+            style={{
+              width: `${pillWidthPercent}%`,
+              transform: 'translateY(-50%)',
+            }}
             initial={false}
             animate={{
-              x: `calc(${activeIndex * tabWidth}% + ${tabWidth / 2}% - 28px)`,
+              left: `${translateX}%`,
             }}
             transition={{
               type: 'spring',
-              stiffness: 400,
-              damping: 30,
-              mass: 0.8,
+              stiffness: 380,
+              damping: 32,
+              mass: 0.9,
             }}
           />
           
@@ -47,7 +58,7 @@ export const TabBar = ({ activeTab, onTabChange, isDark, onThemeToggle }: TabBar
               <button
                 key={tab.id}
                 onClick={() => onTabChange(tab.id)}
-                className="relative z-10 flex flex-1 flex-col items-center justify-center py-2 min-h-[60px]"
+                className="relative z-10 flex flex-1 flex-col items-center justify-center py-2 min-h-[52px]"
               >
                 <Icon 
                   className={`w-5 h-5 transition-colors duration-200 ${
@@ -64,7 +75,7 @@ export const TabBar = ({ activeTab, onTabChange, isDark, onThemeToggle }: TabBar
               </button>
             );
           })}
-        </div>
+        </nav>
 
         {/* Theme toggle */}
         <button
