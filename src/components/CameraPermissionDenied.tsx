@@ -72,10 +72,18 @@ export const CameraPermissionDenied = ({ onRetry, onOpenSettings, errorMessage }
           onClick={onRetry}
           className="w-full h-12 rounded-xl bg-white dark:bg-card border border-purple-500/30 hover:bg-gray-100 active:bg-gray-200 dark:hover:bg-gray-700 dark:active:bg-gray-800 transition-colors flex items-center justify-center"
         >
-          <RefreshCw className="w-5 h-5 mr-2 text-purple-600 dark:text-white" />
-          <span className="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent dark:bg-none dark:text-white">
+          <span className="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent flex items-center">
+            <RefreshCw className="w-5 h-5 mr-2 stroke-[url(#icon-gradient)]" style={{ stroke: 'url(#icon-gradient)' }} />
             Опитай отново
           </span>
+          <svg width="0" height="0" className="absolute">
+            <defs>
+              <linearGradient id="icon-gradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                <stop offset="0%" stopColor="#2563eb" />
+                <stop offset="100%" stopColor="#9333ea" />
+              </linearGradient>
+            </defs>
+          </svg>
         </Button>
       </motion.div>
 
