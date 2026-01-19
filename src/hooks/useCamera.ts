@@ -9,6 +9,7 @@ interface UseCameraResult {
   takePhoto: () => Promise<void>;
   selectFromGallery: () => Promise<void>;
   clearPhoto: () => void;
+  setImageFromBase64: (base64: string) => void;
 }
 
 export const useCamera = (): UseCameraResult => {
@@ -67,6 +68,12 @@ export const useCamera = (): UseCameraResult => {
     setError(null);
   }, []);
 
+  const setImageFromBase64 = useCallback((base64: string) => {
+    setImageBase64(base64);
+    setPhoto(null);
+    setError(null);
+  }, []);
+
   return {
     photo,
     imageBase64,
@@ -75,5 +82,6 @@ export const useCamera = (): UseCameraResult => {
     takePhoto,
     selectFromGallery,
     clearPhoto,
+    setImageFromBase64,
   };
 };

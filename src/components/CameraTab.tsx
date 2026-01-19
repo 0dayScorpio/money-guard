@@ -1,4 +1,4 @@
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   Camera,
@@ -19,16 +19,48 @@ import {
 import { Button } from "@/components/ui/button";
 import { ScanHistory } from "@/types";
 import { useCamera } from "@/hooks/useCamera";
-import { useBanknoteAnalysis, AnalysisResult, DetectedFeature } from "@/hooks/useBanknoteAnalysis";
+import { useBanknoteAnalysis, AnalysisResult } from "@/hooks/useBanknoteAnalysis";
+import { useCameraStream } from "@/hooks/useCameraStream";
+import { CameraBackground } from "./CameraBackground";
+import { PrivacyConsentScreen } from "./PrivacyConsentScreen";
+import { useLocalStorage } from "@/hooks/useLocalStorage";
 
 interface CameraTabProps {
   onScanComplete: (scan: ScanHistory) => void;
 }
 
 export const CameraTab = ({ onScanComplete }: CameraTabProps) => {
-  const { imageBase64, isCapturing, error: cameraError, takePhoto, selectFromGallery, clearPhoto } = useCamera();
+  const { imageBase64, isCapturing, error: cameraError, takePhoto, selectFromGallery, clearPhoto, setImageFromBase64 } = useCamera();
   const { analysisResult, isAnalyzing, error: analysisError, analyzeImage, clearAnalysis } = useBanknoteAnalysis();
+  const { captureFrame, stream, requestPermission } = useCameraStream();
   const [showDetails, setShowDetails] = useState(false);
+  const [hasAcceptedPrivacy, setHasAcceptedPrivacy] = useLocalStorage('camera-privacy-accepted', false);
+  const [showPrivacyScreen, setShowPrivacyScreen] = useState(false);
+  const [isCameraActive, setIsCameraActive] = useState(false);
+
+  // Check if we need to show privacy screen on mount
+  useEffect(() => {
+    if (!hasAcceptedPrivacy) {
+      setShowPrivacyScreen(true);
+    } else {
+      setIsCameraActive(true);
+    }
+  }, [hasAcceptedPrivacy]);
+
+  const handlePrivacyAccept = useCallback(async () => {
+    setHasAcceptedPrivacy(true);
+    setShowPrivacyScreen(false);
+    // Request permission after consent
+    const granted = await requestPermission();
+    if (granted) {
+      setIsCameraActive(true);
+    }
+  }, [setHasAcceptedPrivacy, requestPermission]);
+
+  const handlePrivacyDecline = useCallback(() => {
+    setShowPrivacyScreen(false);
+    // Still allow them to use gallery even if they decline camera
+  }, []);
 
   const handleAnalyze = useCallback(async () => {
     if (!imageBase64) return;
@@ -51,6 +83,19 @@ export const CameraTab = ({ onScanComplete }: CameraTabProps) => {
     clearAnalysis();
     setShowDetails(false);
   }, [clearPhoto, clearAnalysis]);
+
+  // Capture from live stream
+  const handleCaptureFromStream = useCallback(() => {
+    if (stream) {
+      const frame = captureFrame();
+      if (frame && setImageFromBase64) {
+        setImageFromBase64(frame);
+      }
+    } else {
+      // Fallback to native camera
+      takePhoto();
+    }
+  }, [stream, captureFrame, setImageFromBase64, takePhoto]);
 
   const getResultConfig = (result: AnalysisResult["result"]) => {
     switch (result) {
@@ -110,152 +155,188 @@ export const CameraTab = ({ onScanComplete }: CameraTabProps) => {
     </svg>
   );
 
+  // Show privacy consent screen
+  if (showPrivacyScreen) {
+    return (
+      <PrivacyConsentScreen
+        onAccept={handlePrivacyAccept}
+        onDecline={handlePrivacyDecline}
+      />
+    );
+  }
+
   return (
     <div className="flex flex-col h-full">
-      {/* Camera viewport */}
-      <div className="relative flex-1 bg-black/90 dark:bg-black overflow-hidden">
-        {imageBase64 ? (
-          // Show captured image
-          <div className="absolute inset-0 flex items-center justify-center p-4">
-            <img
-              src={imageBase64}
-              alt="Заснета банкнота"
-              className="max-w-full max-h-full object-contain rounded-2xl shadow-2xl"
-            />
+      {/* Camera viewport with live background */}
+      <CameraBackground
+        isActive={isCameraActive && !imageBase64}
+        overlayOpacity={0.45}
+        onPermissionGranted={() => setIsCameraActive(true)}
+      >
+        <div className="relative flex-1 h-full overflow-hidden">
+          {imageBase64 ? (
+            // Show captured image
+            <div className="absolute inset-0 flex items-center justify-center p-4 bg-black/80">
+              <img
+                src={imageBase64}
+                alt="Заснета банкнота"
+                className="max-w-full max-h-full object-contain rounded-2xl shadow-2xl"
+              />
 
-            {/* Analysis overlay */}
-            {isAnalyzing && (
-              <div className="absolute inset-0 bg-black/60 flex items-center justify-center">
-                <div className="text-center">
-                  <motion.div
-                    animate={{ rotate: 360 }}
-                    transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
-                    className="w-16 h-16 mx-auto mb-4"
-                  >
-                    <Sparkles className="w-full h-full text-primary" />
-                  </motion.div>
-                  <p className="text-white text-lg font-medium">AI Анализ...</p>
-                  <p className="text-white/60 text-sm mt-1">Проверка на защитни елементи</p>
-                </div>
-              </div>
-            )}
-          </div>
-        ) : (
-          // Camera placeholder
-          <div className="absolute inset-0 flex items-center justify-center">
-            <div className="relative w-full max-w-sm aspect-[16/10] mx-4">
-              {/* Camera frame */}
-              <motion.div
-                animate={isCapturing ? { opacity: [0.5, 1, 0.5] } : { opacity: 1 }}
-                transition={{ duration: 1.5, repeat: isCapturing ? Infinity : 0 }}
-                className="absolute inset-0 border-2 border-white/50 rounded-2xl"
-              >
-                {/* Corner accents */}
-                <div className="absolute -top-1 -left-1 w-8 h-8 border-t-4 border-l-4 border-primary rounded-tl-xl" />
-                <div className="absolute -top-1 -right-1 w-8 h-8 border-t-4 border-r-4 border-primary rounded-tr-xl" />
-                <div className="absolute -bottom-1 -left-1 w-8 h-8 border-b-4 border-l-4 border-primary rounded-bl-xl" />
-                <div className="absolute -bottom-1 -right-1 w-8 h-8 border-b-4 border-r-4 border-primary rounded-br-xl" />
-              </motion.div>
-
-              {/* Scanning line */}
-              <AnimatePresence>
-                {isCapturing && (
-                  <motion.div
-                    initial={{ top: 0, opacity: 0 }}
-                    animate={{ top: "100%", opacity: [0, 1, 1, 0] }}
-                    exit={{ opacity: 0 }}
-                    transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
-                    className="absolute left-2 right-2 h-1 bg-gradient-to-r from-transparent via-primary to-transparent rounded-full shadow-lg shadow-primary/50"
-                  />
-                )}
-              </AnimatePresence>
-
-              {/* Placeholder content */}
-              <div className="absolute inset-0 flex flex-col items-center justify-center text-white/60 rounded-none shadow-sm">
-                <Camera className="w-16 h-16 mb-4" />
-                <p className="text-sm text-center px-4">Заснемете или изберете снимка на банкнота</p>
-              </div>
-            </div>
-          </div>
-        )}
-
-        {/* Error display */}
-        {error && (
-          <div className="absolute top-4 left-4 right-4">
-            <div className="bg-destructive/90 text-destructive-foreground p-3 rounded-xl flex items-center gap-2">
-              <AlertCircle className="w-5 h-5 flex-shrink-0" />
-              <p className="text-sm">{error}</p>
-            </div>
-          </div>
-        )}
-
-        {/* Action buttons */}
-        <div className="absolute bottom-8 left-0 right-0 flex justify-center gap-4">
-          {!imageBase64 ? (
-            <>
-              {/* Gallery button */}
-              <motion.div whileTap={{ scale: 0.95 }}>
-                <Button
-                  onClick={selectFromGallery}
-                  disabled={isCapturing}
-                  size="lg"
-                  variant="outline"
-                  className="h-16 w-16 rounded-full bg-[#ffffff] dark:bg-[#27272a] border-2 border-purple-500 shadow-lg hover:bg-[#ffffff] dark:hover:bg-[#3f3f46]"
-                >
-                  <ImageIcon className="w-7 h-7 text-black dark:text-white" />
-                </Button>
-              </motion.div>
-
-              {/* Camera button */}
-              <motion.div whileTap={{ scale: 0.95 }}>
-                <Button
-                  onClick={takePhoto}
-                  disabled={isCapturing}
-                  size="lg"
-                  className="h-24 w-24 rounded-full bg-[#ffffff] dark:bg-[#27272a] shadow-xl disabled:opacity-50 border-2 border-purple-500 hover:bg-[#ffffff] dark:hover:bg-[#3f3f46]"
-                >
-                  {isCapturing ? (
+              {/* Analysis overlay */}
+              {isAnalyzing && (
+                <div className="absolute inset-0 bg-black/60 flex items-center justify-center">
+                  <div className="text-center">
                     <motion.div
                       animate={{ rotate: 360 }}
-                      transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
+                      transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
+                      className="w-16 h-16 mx-auto mb-4"
                     >
-                      <Scan className="w-10 h-10 text-primary" />
+                      <Sparkles className="w-full h-full text-primary" />
                     </motion.div>
-                  ) : (
-                    <CameraGradientIcon />
-                  )}
-                </Button>
-              </motion.div>
-            </>
-          ) : !analysisResult ? (
-            <>
-              <motion.div whileTap={{ scale: 0.95 }}>
-                <Button
-                  onClick={resetScan}
-                  disabled={isAnalyzing}
-                  size="lg"
-                  variant="outline"
-                  className="h-16 w-16 rounded-full bg-white/10 border-white/30 backdrop-blur-sm"
+                    <p className="text-white text-lg font-medium">AI Анализ...</p>
+                    <p className="text-white/60 text-sm mt-1">Проверка на защитни елементи</p>
+                  </div>
+                </div>
+              )}
+            </div>
+          ) : (
+            // Camera viewfinder overlay
+            <div className="absolute inset-0 flex items-center justify-center">
+              <div className="relative w-full max-w-sm aspect-[16/10] mx-4">
+                {/* Camera frame */}
+                <motion.div
+                  animate={isCapturing ? { opacity: [0.5, 1, 0.5] } : { opacity: 1 }}
+                  transition={{ duration: 1.5, repeat: isCapturing ? Infinity : 0 }}
+                  className="absolute inset-0 border-2 border-white/50 rounded-2xl"
                 >
-                  <RefreshCw className="w-7 h-7 text-white" />
-                </Button>
-              </motion.div>
+                  {/* Corner accents */}
+                  <div className="absolute -top-1 -left-1 w-8 h-8 border-t-4 border-l-4 border-primary rounded-tl-xl" />
+                  <div className="absolute -top-1 -right-1 w-8 h-8 border-t-4 border-r-4 border-primary rounded-tr-xl" />
+                  <div className="absolute -bottom-1 -left-1 w-8 h-8 border-b-4 border-l-4 border-primary rounded-bl-xl" />
+                  <div className="absolute -bottom-1 -right-1 w-8 h-8 border-b-4 border-r-4 border-primary rounded-br-xl" />
+                </motion.div>
 
-              <motion.div whileTap={{ scale: 0.95 }}>
-                <Button
-                  onClick={handleAnalyze}
-                  disabled={isAnalyzing}
-                  size="lg"
-                  className="h-20 px-8 rounded-full gradient-primary shadow-xl disabled:opacity-50"
-                >
-                  <Sparkles className="w-6 h-6 text-white mr-2" />
-                  <span className="text-white font-semibold">Анализирай</span>
-                </Button>
-              </motion.div>
-            </>
-          ) : null}
+                {/* Scanning line */}
+                <AnimatePresence>
+                  {isCapturing && (
+                    <motion.div
+                      initial={{ top: 0, opacity: 0 }}
+                      animate={{ top: "100%", opacity: [0, 1, 1, 0] }}
+                      exit={{ opacity: 0 }}
+                      transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
+                      className="absolute left-2 right-2 h-1 bg-gradient-to-r from-transparent via-primary to-transparent rounded-full shadow-lg shadow-primary/50"
+                    />
+                  )}
+                </AnimatePresence>
+
+                {/* Instruction text */}
+                <div className="absolute inset-0 flex flex-col items-center justify-center">
+                  <AnimatePresence>
+                    {!stream && (
+                      <motion.div
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        className="text-white/60 text-center px-4"
+                      >
+                        <Camera className="w-16 h-16 mb-4 mx-auto" />
+                        <p className="text-sm">Позиционирайте банкнотата в рамката</p>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+                  {stream && (
+                    <motion.p
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      className="text-white/80 text-sm text-center bg-black/40 px-4 py-2 rounded-full"
+                    >
+                      Позиционирайте банкнотата в рамката
+                    </motion.p>
+                  )}
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* Error display */}
+          {error && (
+            <div className="absolute top-4 left-4 right-4 z-20">
+              <div className="bg-destructive/90 text-destructive-foreground p-3 rounded-xl flex items-center gap-2">
+                <AlertCircle className="w-5 h-5 flex-shrink-0" />
+                <p className="text-sm">{error}</p>
+              </div>
+            </div>
+          )}
+
+          {/* Action buttons */}
+          <div className="absolute bottom-8 left-0 right-0 flex justify-center gap-4 z-20">
+            {!imageBase64 ? (
+              <>
+                {/* Gallery button */}
+                <motion.div whileTap={{ scale: 0.95 }}>
+                  <Button
+                    onClick={selectFromGallery}
+                    disabled={isCapturing}
+                    size="lg"
+                    variant="outline"
+                    className="h-16 w-16 rounded-full bg-[#ffffff] dark:bg-[#27272a] border-2 border-purple-500 shadow-lg hover:bg-[#ffffff] dark:hover:bg-[#3f3f46]"
+                  >
+                    <ImageIcon className="w-7 h-7 text-black dark:text-white" />
+                  </Button>
+                </motion.div>
+
+                {/* Camera button */}
+                <motion.div whileTap={{ scale: 0.95 }}>
+                  <Button
+                    onClick={handleCaptureFromStream}
+                    disabled={isCapturing}
+                    size="lg"
+                    className="h-24 w-24 rounded-full bg-[#ffffff] dark:bg-[#27272a] shadow-xl disabled:opacity-50 border-2 border-purple-500 hover:bg-[#ffffff] dark:hover:bg-[#3f3f46]"
+                  >
+                    {isCapturing ? (
+                      <motion.div
+                        animate={{ rotate: 360 }}
+                        transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
+                      >
+                        <Scan className="w-10 h-10 text-primary" />
+                      </motion.div>
+                    ) : (
+                      <CameraGradientIcon />
+                    )}
+                  </Button>
+                </motion.div>
+              </>
+            ) : !analysisResult ? (
+              <>
+                <motion.div whileTap={{ scale: 0.95 }}>
+                  <Button
+                    onClick={resetScan}
+                    disabled={isAnalyzing}
+                    size="lg"
+                    variant="outline"
+                    className="h-16 w-16 rounded-full bg-white/10 border-white/30 backdrop-blur-sm"
+                  >
+                    <RefreshCw className="w-7 h-7 text-white" />
+                  </Button>
+                </motion.div>
+
+                <motion.div whileTap={{ scale: 0.95 }}>
+                  <Button
+                    onClick={handleAnalyze}
+                    disabled={isAnalyzing}
+                    size="lg"
+                    className="h-20 px-8 rounded-full gradient-primary shadow-xl disabled:opacity-50"
+                  >
+                    <Sparkles className="w-6 h-6 text-white mr-2" />
+                    <span className="text-white font-semibold">Анализирай</span>
+                  </Button>
+                </motion.div>
+              </>
+            ) : null}
+          </div>
         </div>
-      </div>
+      </CameraBackground>
 
       {/* Results panel */}
       <AnimatePresence>
