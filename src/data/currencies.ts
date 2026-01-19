@@ -15,7 +15,7 @@ export const currencies: CurrencyInfo[] = [
             id: "eur-5-watermark",
             name: "Воден знак",
             description: "Воден знак с архитектурен образ, видим при държане срещу светлина.",
-            imageUrl: "images/5-watermark.jpg",
+            imageUrl: "images/5-watermark",
             howToCheck: "Дръж банкнотата срещу светлина и виж водния знак.",
           },
           {
