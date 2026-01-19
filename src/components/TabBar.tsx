@@ -16,21 +16,19 @@ const tabs = [
 
 export const TabBar = ({ activeTab, onTabChange, isDark, onThemeToggle }: TabBarProps) => {
   const activeIndex = tabs.findIndex(tab => tab.id === activeTab);
+  const tabWidth = 100 / 3; // percentage width of each tab
   
   return (
     <div className="backdrop-blur-xl bg-card/70 border-t border-white/10 safe-area-bottom">
       <div className="flex items-center justify-between px-2">
         {/* Tabs container */}
         <div className="relative flex flex-1">
-          {/* Floating frosted-glass pill indicator */}
+          {/* Floating frosted-glass circle indicator */}
           <motion.div
-            className="absolute top-1/2 -translate-y-1/2 h-12 rounded-2xl backdrop-blur-md bg-primary/15 border border-white/20 shadow-lg"
-            style={{
-              width: `calc(100% / 3 - 8px)`,
-            }}
+            className="absolute top-1/2 left-0 w-14 h-14 -translate-y-1/2 rounded-full backdrop-blur-md bg-primary/15 border border-white/20 shadow-lg"
             initial={false}
             animate={{
-              x: `calc(${activeIndex} * (100% + 8px) + 4px)`,
+              x: `calc(${activeIndex * tabWidth}% + ${tabWidth / 2}% - 28px)`,
             }}
             transition={{
               type: 'spring',
@@ -49,15 +47,15 @@ export const TabBar = ({ activeTab, onTabChange, isDark, onThemeToggle }: TabBar
               <button
                 key={tab.id}
                 onClick={() => onTabChange(tab.id)}
-                className="relative z-10 flex flex-1 flex-col items-center justify-center py-3 min-h-[60px]"
+                className="relative z-10 flex flex-1 flex-col items-center justify-center py-2 min-h-[60px]"
               >
                 <Icon 
-                  className={`w-6 h-6 transition-colors duration-200 ${
+                  className={`w-5 h-5 transition-colors duration-200 ${
                     isActive ? 'text-primary' : 'text-muted-foreground'
                   }`} 
                 />
                 <span 
-                  className={`text-xs mt-1 transition-colors duration-200 ${
+                  className={`text-[10px] mt-0.5 transition-colors duration-200 ${
                     isActive ? 'text-primary font-semibold' : 'text-muted-foreground'
                   }`}
                 >
