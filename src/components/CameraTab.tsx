@@ -17,6 +17,7 @@ import {
   ChevronUp,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { BanknotePreviewImage } from "@/components/ui/responsive-image";
 import { ScanHistory } from "@/types";
 import { useCamera } from "@/hooks/useCamera";
 import { useBanknoteAnalysis, AnalysisResult } from "@/hooks/useBanknoteAnalysis";
@@ -188,11 +189,10 @@ export const CameraTab = ({ onScanComplete }: CameraTabProps) => {
         <div className="relative flex-1 h-full overflow-hidden">
           {imageBase64 ? (
             // Show captured image
-            <div className="absolute inset-0 flex items-center justify-center p-4 bg-black/80">
-              <img
+            <div className="absolute inset-0 bg-black/80">
+              <BanknotePreviewImage
                 src={imageBase64}
                 alt="Заснета банкнота"
-                className="max-w-full max-h-full object-contain rounded-2xl shadow-2xl"
               />
 
               {/* Analysis overlay */}

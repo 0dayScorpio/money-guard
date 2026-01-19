@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { ChevronRight, Eye, Hand, Sun, ChevronDown } from 'lucide-react';
 import { currencies } from '@/data/currencies';
 import { Button } from '@/components/ui/button';
+import { ResponsiveImage } from '@/components/ui/responsive-image';
 import {
   Select,
   SelectContent,
@@ -161,13 +162,11 @@ export const SecurityTab = () => {
                       <AccordionContent className="px-4 pb-4">
                         <div className="space-y-4">
                           {/* Image */}
-                          <div className="aspect-video rounded-xl overflow-hidden bg-muted">
-                            <img
-                              src={feature.imageUrl}
-                              alt={feature.name}
-                              className="w-full h-full object-cover"
-                            />
-                          </div>
+                          <ResponsiveImage
+                            src={feature.imageUrl}
+                            alt={feature.name}
+                            variant="cover"
+                          />
 
                           {/* Description */}
                           <p className="text-muted-foreground">
