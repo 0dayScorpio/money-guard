@@ -70,11 +70,10 @@ export const CameraPermissionDenied = ({ onRetry, onOpenSettings, errorMessage }
 
         <Button
           onClick={onRetry}
-          className="w-full h-12 rounded-xl bg-white dark:bg-card border-purple-500/30 hover:bg-gray-300 active:bg-gray-400 dark:hover:bg-gray-700 dark:active:bg-gray-800 transition-colors flex items-center justify-center"
+          className="w-full h-12 rounded-xl bg-white dark:bg-card border border-purple-500/30 hover:bg-gray-100 active:bg-gray-200 dark:hover:bg-gray-700 dark:active:bg-gray-800 transition-colors flex items-center justify-center"
         >
-          <span className="flex items-center bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
-            {/* иконката наследява stroke от currentColor за gradient */}
-            <RefreshCw className="w-5 h-5 mr-2" stroke="currentColor" />
+          <RefreshCw className="w-5 h-5 mr-2 text-purple-600 dark:text-white" />
+          <span className="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent dark:bg-none dark:text-white">
             Опитай отново
           </span>
         </Button>
