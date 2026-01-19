@@ -115,7 +115,9 @@ const CameraGradientIcon = () => (
     />
   </svg>
 );
-">
+
+  return (
+    <div className="flex flex-col h-full">
       {/* Camera viewport */}
       <div className="relative flex-1 bg-black/90 dark:bg-black overflow-hidden">
         {imageBase64 ?
@@ -344,5 +346,6 @@ const CameraGradientIcon = () => (
         })()}
           </motion.div>}
       </AnimatePresence>
-    </div>;
+    </div>
+  );
 };
