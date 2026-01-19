@@ -1,6 +1,6 @@
-import { motion } from 'framer-motion';
-import { CameraOff, Settings, RefreshCw, AlertTriangle } from 'lucide-react';
-import { Button } from '@/components/ui/button';
+import { motion } from "framer-motion";
+import { CameraOff, Settings, RefreshCw, AlertTriangle } from "lucide-react";
+import { Button } from "@/components/ui/button";
 
 interface CameraPermissionDeniedProps {
   onRetry: () => void;
@@ -8,11 +8,7 @@ interface CameraPermissionDeniedProps {
   errorMessage?: string;
 }
 
-export const CameraPermissionDenied = ({ 
-  onRetry, 
-  onOpenSettings,
-  errorMessage 
-}: CameraPermissionDeniedProps) => {
+export const CameraPermissionDenied = ({ onRetry, onOpenSettings, errorMessage }: CameraPermissionDeniedProps) => {
   return (
     <motion.div
       initial={{ opacity: 0 }}
@@ -75,7 +71,17 @@ export const CameraPermissionDenied = ({
         <Button
           onClick={onRetry}
           variant="outline"
-          className="w-full h-12 rounded-xl bg-white dark:bg-card border-purple-500/30 dark:border-border hover:bg-gray-50 dark:hover:bg-muted"
+          className="
+    w-full h-12 rounded-xl
+    bg-white
+    hover:bg-gray-100
+    active:bg-gray-200
+    transition-colors
+    dark:bg-card
+    dark:border-border
+    dark:hover:bg-muted
+    border-purple-500/30
+  "
         >
           <span className="flex items-center bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent dark:text-white dark:bg-none">
             <RefreshCw className="w-5 h-5 mr-2 text-purple-600 dark:text-white" />
