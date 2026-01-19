@@ -213,47 +213,6 @@ export const currencies: CurrencyInfo[] = [
           },
         ],
       },
-      {
-        value: 500,
-        color: "Лилава",
-        features: [
-          {
-            id: "eur-500-watermark",
-            name: "Воден знак",
-            description: "Воден знак – Първа серия евро (няма серия Европа).",
-            imageUrl: "",
-            howToCheck: "Дръж банкнотата срещу светлина – виж водния знак.",
-          },
-          {
-            id: "eur-500-embosed-print",
-            name: "Релефни линии",
-            description: "Релефен печат и линии – Първа серия евро.",
-            imageUrl: "",
-            howToCheck: "Пипни релефа.",
-          },
-          {
-            id: "eur-500-hologram",
-            name: "Холограмна лента",
-            description: "Холограмен елемент – Първа серия евро.",
-            imageUrl: "",
-            howToCheck: "Накланяй – виж ефекта.",
-          },
-          {
-            id: "eur-500-security-thread",
-            name: "Защитна нишка",
-            description: "Защитна нишка – Първа серия евро.",
-            imageUrl: "",
-            howToCheck: "Дръж срещу светлина – виж нишката.",
-          },
-          {
-            id: "eur-500-uv-fibres",
-            name: "UV влакна",
-            description: "UV защитни влакна – Първа серия евро.",
-            imageUrl: "",
-            howToCheck: "Под UV светлина – виж влакната.",
-          },
-        ],
-      },
     ],
   },
 
