@@ -1,4 +1,4 @@
-import { useEffect, useCallback } from 'react';
+import { useEffect, useCallback, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useCameraStream } from '@/hooks/useCameraStream';
 import { CameraPermissionDenied } from './CameraPermissionDenied';
@@ -8,6 +8,8 @@ interface CameraBackgroundProps {
   isActive: boolean;
   onPermissionGranted?: () => void;
   onPermissionDenied?: () => void;
+  onCaptureFrameReady?: (captureFrame: () => string | null) => void;
+  onStreamChange?: (hasStream: boolean) => void;
   children: React.ReactNode;
   overlayOpacity?: number;
 }
@@ -16,6 +18,8 @@ export const CameraBackground = ({
   isActive,
   onPermissionGranted,
   onPermissionDenied,
+  onCaptureFrameReady,
+  onStreamChange,
   children,
   overlayOpacity = 0.5,
 }: CameraBackgroundProps) => {
@@ -27,14 +31,24 @@ export const CameraBackground = ({
     error,
     requestPermission,
     stopStream,
+    captureFrame,
   } = useCameraStream();
 
-  // Start camera when active
+  const hasNotifiedStreamRef = useRef(false);
+
+  // Start camera when active and permission granted
   useEffect(() => {
     if (isActive && permissionStatus === 'granted' && !stream) {
       requestPermission();
     }
   }, [isActive, permissionStatus, stream, requestPermission]);
+
+  // Auto-request permission when becoming active
+  useEffect(() => {
+    if (isActive && permissionStatus === 'prompt') {
+      requestPermission();
+    }
+  }, [isActive, permissionStatus, requestPermission]);
 
   // Stop camera when inactive
   useEffect(() => {
@@ -52,14 +66,27 @@ export const CameraBackground = ({
     }
   }, [permissionStatus, onPermissionGranted, onPermissionDenied]);
 
+  // Provide capture function to parent
+  useEffect(() => {
+    if (stream && captureFrame) {
+      onCaptureFrameReady?.(captureFrame);
+    }
+  }, [stream, captureFrame, onCaptureFrameReady]);
+
+  // Notify parent of stream changes
+  useEffect(() => {
+    const hasStream = !!stream;
+    if (hasNotifiedStreamRef.current !== hasStream) {
+      hasNotifiedStreamRef.current = hasStream;
+      onStreamChange?.(hasStream);
+    }
+  }, [stream, onStreamChange]);
+
   const handleRetry = useCallback(async () => {
     await requestPermission();
   }, [requestPermission]);
 
   const handleOpenSettings = useCallback(() => {
-    // This will prompt the user to manually go to settings
-    // On most mobile browsers, we can't programmatically open settings
-    // But we can provide instructions
     if (navigator.userAgent.includes('Android')) {
       alert('Отворете Настройки → Приложения → Браузър → Разрешения → Камера');
     } else if (navigator.userAgent.includes('iPhone') || navigator.userAgent.includes('iPad')) {
@@ -91,7 +118,6 @@ export const CameraBackground = ({
         playsInline
         muted
         className="absolute inset-0 w-full h-full object-cover"
-        style={{ transform: 'scaleX(-1)' }}
       />
 
       {/* Dark overlay for readability */}
