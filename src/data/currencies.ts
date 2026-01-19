@@ -258,7 +258,8 @@ export const currencies: CurrencyInfo[] = [
 
     ],
   },
-        ],
+],
+  
 
   {
     code: "BGN",
