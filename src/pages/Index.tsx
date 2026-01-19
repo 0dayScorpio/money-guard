@@ -7,24 +7,27 @@ import { HistoryTab } from '@/components/HistoryTab';
 import { TabBar } from '@/components/TabBar';
 import { useLocalStorage } from '@/hooks/useLocalStorage';
 import { useTheme } from '@/hooks/useTheme';
+import { useScanHistory } from '@/hooks/useScanHistory';
 import { ScanHistory } from '@/types';
+
 type TabType = 'camera' | 'security' | 'history';
+
 const Index = () => {
   const [hasSeenOnboarding, setHasSeenOnboarding] = useLocalStorage('banknote-onboarding', false);
   const [activeTab, setActiveTab] = useState<TabType>('camera');
-  const [scanHistory, setScanHistory] = useLocalStorage<ScanHistory[]>('banknote-history', []);
-  const {
-    theme,
-    toggleTheme
-  } = useTheme();
+  const { history: scanHistory, addScan, clearHistory } = useScanHistory();
+  const { theme, toggleTheme } = useTheme();
+
   const handleOnboardingComplete = () => {
     setHasSeenOnboarding(true);
   };
+
   const handleScanComplete = (scan: ScanHistory) => {
-    setScanHistory(prev => [scan, ...prev.slice(0, 49)]); // Keep last 50 scans
+    addScan(scan);
   };
+
   const handleClearHistory = () => {
-    setScanHistory([]);
+    clearHistory();
   };
   if (!hasSeenOnboarding) {
     return <Onboarding onComplete={handleOnboardingComplete} />;
