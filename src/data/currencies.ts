@@ -74,6 +74,9 @@ export const currencies: CurrencyInfo[] = [
             description: "Вградена нишка с микронадпис, видима при светлина.",
             imageUrl:
               "https://raw.githubusercontent.com/0dayScorpio/images-notaguard/refs/heads/Main/10-security-thread.jpg",
+            description: "Вградена нишка с микронадпис, видима при светлина.",
+            imageUrl:
+              "https://raw.githubusercontent.com/0dayScorpio/images-notaguard/refs/heads/Main/10-security-thread.jpg",
             howToCheck: "Дръж банкнотата срещу светлина – нишката се появява.",
           },
         ],
