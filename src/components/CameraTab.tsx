@@ -1,4 +1,4 @@
-import { useState, useCallback, useEffect } from "react";
+import { useState, useCallback, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   Camera,
@@ -20,7 +20,6 @@ import { Button } from "@/components/ui/button";
 import { ScanHistory } from "@/types";
 import { useCamera } from "@/hooks/useCamera";
 import { useBanknoteAnalysis, AnalysisResult } from "@/hooks/useBanknoteAnalysis";
-import { useCameraStream } from "@/hooks/useCameraStream";
 import { CameraBackground } from "./CameraBackground";
 import { PrivacyConsentScreen } from "./PrivacyConsentScreen";
 import { useLocalStorage } from "@/hooks/useLocalStorage";
@@ -32,11 +31,14 @@ interface CameraTabProps {
 export const CameraTab = ({ onScanComplete }: CameraTabProps) => {
   const { imageBase64, isCapturing, error: cameraError, takePhoto, selectFromGallery, clearPhoto, setImageFromBase64 } = useCamera();
   const { analysisResult, isAnalyzing, error: analysisError, analyzeImage, clearAnalysis } = useBanknoteAnalysis();
-  const { captureFrame, stream, requestPermission } = useCameraStream();
   const [showDetails, setShowDetails] = useState(false);
   const [hasAcceptedPrivacy, setHasAcceptedPrivacy] = useLocalStorage('camera-privacy-accepted', false);
   const [showPrivacyScreen, setShowPrivacyScreen] = useState(false);
   const [isCameraActive, setIsCameraActive] = useState(false);
+  
+  // Ref to capture function from CameraBackground
+  const captureFrameRef = useRef<(() => string | null) | null>(null);
+  const hasStreamRef = useRef(false);
 
   // Check if we need to show privacy screen on mount
   useEffect(() => {
@@ -47,15 +49,11 @@ export const CameraTab = ({ onScanComplete }: CameraTabProps) => {
     }
   }, [hasAcceptedPrivacy]);
 
-  const handlePrivacyAccept = useCallback(async () => {
+  const handlePrivacyAccept = useCallback(() => {
     setHasAcceptedPrivacy(true);
     setShowPrivacyScreen(false);
-    // Request permission after consent
-    const granted = await requestPermission();
-    if (granted) {
-      setIsCameraActive(true);
-    }
-  }, [setHasAcceptedPrivacy, requestPermission]);
+    setIsCameraActive(true);
+  }, [setHasAcceptedPrivacy]);
 
   const handlePrivacyDecline = useCallback(() => {
     setShowPrivacyScreen(false);
@@ -84,18 +82,27 @@ export const CameraTab = ({ onScanComplete }: CameraTabProps) => {
     setShowDetails(false);
   }, [clearPhoto, clearAnalysis]);
 
-  // Capture from live stream
+  // Capture from live stream or fallback to native camera
   const handleCaptureFromStream = useCallback(() => {
-    if (stream) {
-      const frame = captureFrame();
-      if (frame && setImageFromBase64) {
+    if (hasStreamRef.current && captureFrameRef.current) {
+      const frame = captureFrameRef.current();
+      if (frame) {
         setImageFromBase64(frame);
+        return;
       }
-    } else {
-      // Fallback to native camera
-      takePhoto();
     }
-  }, [stream, captureFrame, setImageFromBase64, takePhoto]);
+    // Fallback to native camera
+    takePhoto();
+  }, [setImageFromBase64, takePhoto]);
+
+  // Callbacks for CameraBackground
+  const handleCaptureFrameReady = useCallback((captureFrame: () => string | null) => {
+    captureFrameRef.current = captureFrame;
+  }, []);
+
+  const handleStreamChange = useCallback((hasStream: boolean) => {
+    hasStreamRef.current = hasStream;
+  }, []);
 
   const getResultConfig = (result: AnalysisResult["result"]) => {
     switch (result) {
@@ -172,6 +179,8 @@ export const CameraTab = ({ onScanComplete }: CameraTabProps) => {
         isActive={isCameraActive && !imageBase64}
         overlayOpacity={0.45}
         onPermissionGranted={() => setIsCameraActive(true)}
+        onCaptureFrameReady={handleCaptureFrameReady}
+        onStreamChange={handleStreamChange}
       >
         <div className="relative flex-1 h-full overflow-hidden">
           {imageBase64 ? (
@@ -232,28 +241,13 @@ export const CameraTab = ({ onScanComplete }: CameraTabProps) => {
 
                 {/* Instruction text */}
                 <div className="absolute inset-0 flex flex-col items-center justify-center">
-                  <AnimatePresence>
-                    {!stream && (
-                      <motion.div
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        exit={{ opacity: 0 }}
-                        className="text-white/60 text-center px-4"
-                      >
-                        <Camera className="w-16 h-16 mb-4 mx-auto" />
-                        <p className="text-sm">Позиционирайте банкнотата в рамката</p>
-                      </motion.div>
-                    )}
-                  </AnimatePresence>
-                  {stream && (
-                    <motion.p
-                      initial={{ opacity: 0 }}
-                      animate={{ opacity: 1 }}
-                      className="text-white/80 text-sm text-center bg-black/40 px-4 py-2 rounded-full"
-                    >
-                      Позиционирайте банкнотата в рамката
-                    </motion.p>
-                  )}
+                  <motion.p
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    className="text-white/80 text-sm text-center bg-black/40 px-4 py-2 rounded-full"
+                  >
+                    Позиционирайте банкнотата в рамката
+                  </motion.p>
                 </div>
               </div>
             </div>
