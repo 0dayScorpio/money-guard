@@ -145,6 +145,16 @@ export const CameraTab = ({ onScanComplete }: CameraTabProps) => {
           borderClass: "border-destructive/30",
           gradientClass: "gradient-danger",
         };
+      default:
+        return {
+          icon: AlertCircle,
+          title: "Неизвестен резултат",
+          description: "Не може да се определи резултата от анализа.",
+          bgClass: "bg-muted/10 dark:bg-muted/20",
+          textClass: "text-muted-foreground",
+          borderClass: "border-muted/30",
+          gradientClass: "gradient-primary",
+        };
     }
   };
 
