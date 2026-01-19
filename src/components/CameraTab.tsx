@@ -29,13 +29,21 @@ interface CameraTabProps {
 }
 
 export const CameraTab = ({ onScanComplete }: CameraTabProps) => {
-  const { imageBase64, isCapturing, error: cameraError, takePhoto, selectFromGallery, clearPhoto, setImageFromBase64 } = useCamera();
+  const {
+    imageBase64,
+    isCapturing,
+    error: cameraError,
+    takePhoto,
+    selectFromGallery,
+    clearPhoto,
+    setImageFromBase64,
+  } = useCamera();
   const { analysisResult, isAnalyzing, error: analysisError, analyzeImage, clearAnalysis } = useBanknoteAnalysis();
   const [showDetails, setShowDetails] = useState(false);
-  const [hasAcceptedPrivacy, setHasAcceptedPrivacy] = useLocalStorage('camera-privacy-accepted', false);
+  const [hasAcceptedPrivacy, setHasAcceptedPrivacy] = useLocalStorage("camera-privacy-accepted", false);
   const [showPrivacyScreen, setShowPrivacyScreen] = useState(false);
   const [isCameraActive, setIsCameraActive] = useState(false);
-  
+
   // Ref to capture function from CameraBackground
   const captureFrameRef = useRef<(() => string | null) | null>(null);
   const hasStreamRef = useRef(false);
@@ -164,12 +172,7 @@ export const CameraTab = ({ onScanComplete }: CameraTabProps) => {
 
   // Show privacy consent screen
   if (showPrivacyScreen) {
-    return (
-      <PrivacyConsentScreen
-        onAccept={handlePrivacyAccept}
-        onDecline={handlePrivacyDecline}
-      />
-    );
+    return <PrivacyConsentScreen onAccept={handlePrivacyAccept} onDecline={handlePrivacyDecline} />;
   }
 
   return (
@@ -246,7 +249,7 @@ export const CameraTab = ({ onScanComplete }: CameraTabProps) => {
                     animate={{ opacity: 1 }}
                     className="text-white/80 text-sm text-center bg-black/40 px-4 py-2 rounded-full"
                   >
-                    Позиционирайте банкнотата в рамката
+                    Изберете от галерията или направете снимка на банкнотата.
                   </motion.p>
                 </div>
               </div>
