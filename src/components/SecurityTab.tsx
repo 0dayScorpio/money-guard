@@ -19,7 +19,7 @@ import {
 } from '@/components/ui/accordion';
 
 export const SecurityTab = () => {
-  const [selectedCurrency, setSelectedCurrency] = useState('EUR');
+  const [selectedCurrency, setSelectedCurrency] = useState('EUR_NEW');
   const [selectedDenomination, setSelectedDenomination] = useState<number | null>(null);
 
   const currency = currencies.find(c => c.code === selectedCurrency);
