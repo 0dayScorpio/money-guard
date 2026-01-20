@@ -45,15 +45,13 @@ export const ResponsiveImage = ({
           "w-auto h-auto",
           // Keep rounded corners
           "rounded-xl",
-          // Smooth loading transition
-          "transition-opacity duration-300",
           className
         )}
         style={{
           maxWidth: `${mobileScalePercent}%`,
           height: 'auto',
         }}
-        loading="lazy"
+        loading="eager"
       />
       <style>{`
         @media (min-width: 640px) {
