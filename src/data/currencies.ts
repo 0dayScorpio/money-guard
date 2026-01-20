@@ -231,7 +231,7 @@ export const currencies: CurrencyInfo[] = [
           {
             id: "eur-5-watermark",
             name: "Воден знак",
-            description: "Воден знак с архитектурен образ, видим при държане срещу светлина.",
+            description: "Воден знак с архитектурен елемент, видим при поставяне срещу светлина.",
             imageUrl: "https://raw.githubusercontent.com/0dayScorpio/images-notaguard/refs/heads/Main/5-watermark.jpg",
             howToCheck: "Дръжте банкнотата срещу светлина и вижте водния знак.",
           },
@@ -267,7 +267,7 @@ export const currencies: CurrencyInfo[] = [
           {
             id: "eur-10-watermark",
             name: "Воден знак",
-            description: "Портретен воден знак видим при държане срещу светлина.",
+            description: "Воден знак с архитектурен елемент, видим при поставяне срещу светлина.",
             imageUrl: "",
             howToCheck: "Проверете водния знак под силна светлина.",
           },
@@ -299,11 +299,11 @@ export const currencies: CurrencyInfo[] = [
         color: "Синя",
         features: [
           {
-            id: "eur-20-portrait-window",
-            name: "Портретен прозорец",
-            description: "Прозорец с портрет, видим от двете страни при накланяне.",
+            id: "eur-20-watermark",
+            name: "Воден знак",
+            description: "Воден знак с архитектурен елемент, видим при поставяне срещу светлина.",
             imageUrl: "",
-            howToCheck: "Наклонете банкнотата – портретът е в прозореца.",
+            howToCheck: "Погледнете срещу светлина за водния знак.",
           },
           {
             id: "eur-20-embosed-print",
@@ -335,7 +335,7 @@ export const currencies: CurrencyInfo[] = [
           {
             id: "eur-50-watermark",
             name: "Воден знак",
-            description: "Воден знак на архитектурен елемент, видим при светлина.",
+            description: "Воден знак с архитектурен елемент, видим при поставяне срещу светлина.",
             imageUrl: "",
             howToCheck: "Погледнете срещу светлина за водния знак.",
           },
@@ -369,7 +369,7 @@ export const currencies: CurrencyInfo[] = [
           {
             id: "eur-100-portrait-watermark",
             name: "Портретен воден знак",
-            description: "Портретен воден знак, видим при осветление.",
+            description: "Воден знак с архитектурен елемент, видим при поставяне срещу светлина.",
             imageUrl: "",
             howToCheck: "Дръжте банкнотата срещу светлина – вижте портрета.",
           },
@@ -403,7 +403,7 @@ export const currencies: CurrencyInfo[] = [
           {
             id: "eur-200-watermark",
             name: "Воден знак",
-            description: "Воден знак с архитектурен елемент, видим при силна светлина.",
+            description: "Воден знак с архитектурен елемент, видим при поставяне срещу светлина.",
             imageUrl: "",
             howToCheck: "Дръжте срещу светлина – вижте водния знак.",
           },
@@ -437,30 +437,30 @@ export const currencies: CurrencyInfo[] = [
           {
             id: "eur-500-watermark",
             name: "Воден знак",
-            description: "Воден знак – Първа серия евро (няма серия Европа).",
+            description: "Воден знак с архитектурен елемент, видим при поставяне срещу светлина.",
             imageUrl: "",
             howToCheck: "Дръжте банкнотата срещу светлина – вижте водния знак.",
           },
           {
             id: "eur-500-embosed-print",
             name: "Релефни линии",
-            description: "Релефен печат и линии – Първа серия евро.",
+            description: "Релефни линии от дясната страна на банкнотата.",
             imageUrl: "",
-            howToCheck: "Пипнете релефа.",
+            howToCheck: "Пипнете и усетете дали ресните са изпъкнали.",
           },
           {
             id: "eur-500-hologram",
             name: "Холограмна лента",
-            description: "Холограмен елемент – Първа серия евро.",
+            description: "Холографски изображения при накланяне.",
             imageUrl: "",
             howToCheck: "Наклонете банкнотата – вижте изображението и 3D номер 500.",
           },
           {
             id: "eur-500-security-thread",
             name: "Защитна нишка",
-            description: "Защитна нишка – Първа серия евро.",
+            description: "Вградена нишка, видима при държане срещу светлина.",
             imageUrl: "",
-            howToCheck: "Дръжте срещу светлина – вижте нишката.",
+            howToCheck: "Поставете срещу светлина – вижте нишката.",
           },
           {
             id: "eur-500-uv-fibres",
