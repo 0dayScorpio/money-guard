@@ -780,13 +780,6 @@ export const currencies: CurrencyInfo[] = [
             howToCheck: "Дръж срещу светлина – виж водния знак.",
           },
           {
-            id: "bgn-old-50-stripes",
-            name: "Цветни ивици",
-            description: "Разноцветни ивици в хартията, видими при светлина.",
-            imageUrl: "",
-            howToCheck: "Погледни банкнотата срещу светлина – виж ивиците.",
-          },
-          {
             id: "bgn-old-50-security-thread",
             name: "Защитна нишка",
             description: "В средата на банкнотата на светлина се вижда тъмна лента.",
