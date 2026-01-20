@@ -167,6 +167,7 @@ export const SecurityTab = () => {
                             alt={feature.name}
                             variant="cover"
                             scale={feature.id.includes('watermark') ? 0.2 : 0.5}
+                            mobileScale={feature.id.includes('watermark') ? 0.4 : 1.0}
                           />
 
                           {/* Description */}
