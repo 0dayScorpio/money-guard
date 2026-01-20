@@ -151,6 +151,13 @@ export const currencies: CurrencyInfo[] = [
             imageUrl: "/images/50eur-security-thread.jpeg",
             howToCheck: "Дръжте срещу светлина – вижте нишката.",
           },
+          {
+            id: "eur-50-transparent",
+            name: "Прозрачен холограмен портрет",
+            description: "Прозрачен портрет в холограмния елемент, през който преминава светлина.",
+            imageUrl: "/images/50eur-transparent.jpeg",
+            howToCheck: "Изложете на светлина - портрета става прозрачен.",
+          },
         ],
       },
 
@@ -186,6 +193,13 @@ export const currencies: CurrencyInfo[] = [
             imageUrl: "/images/100eur-security-thread.jpeg",
             howToCheck: "Дръжте срещу светлина – нишката е видима.",
           },
+          {
+            id: "eur-100-transparent",
+            name: "Прозрачен холограмен портрет",
+            description: "Прозрачен портрет в холограмния елемент, през който преминава светлина.",
+            imageUrl: "/images/100eur-transparent.jpeg",
+            howToCheck: "Изложете на светлина - портрета става прозрачен.",
+          },
         ],
       },
       {
@@ -219,6 +233,13 @@ export const currencies: CurrencyInfo[] = [
             description: "Вградена нишка, видима при държане срещу светлина.",
             imageUrl: "",
             howToCheck: "Поставете срещу светлина – вижте нишката.",
+          },
+          {
+            id: "eur-200-transparent",
+            name: "Прозрачен холограмен портрет",
+            description: "Прозрачен портрет в холограмния елемент, през който преминава светлина.",
+            imageUrl: "/images/200eur-transparent.jpeg",
+            howToCheck: "Изложете на светлина - портрета става прозрачен.",
           },
         ],
       },
