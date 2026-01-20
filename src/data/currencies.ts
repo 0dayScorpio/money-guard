@@ -1,11 +1,13 @@
 import { CurrencyInfo } from "@/types";
 
+const img = (file: string) => `/images/${file}`;
+
 export const currencies: CurrencyInfo[] = [
   {
     code: "EUR_NEW",
     name: "Евро - НОВО",
     symbol: "€",
-    flag: "🇪🇺",
+    flag: "EU",
     denominations: [
       {
         value: 5,
@@ -15,34 +17,41 @@ export const currencies: CurrencyInfo[] = [
             id: "eur-5-watermark",
             name: "Воден знак",
             description: "Воден знак с архитектурен образ, видим при държане срещу светлина.",
-            imageUrl: "https://raw.githubusercontent.com/0dayScorpio/images-notaguard/refs/heads/Main/5-watermark.jpg",
+            imageUrl: img("5eur-watermark.jpeg"),
             howToCheck: "Дръж банкнотата срещу светлина и виж водния знак.",
           },
           {
-            id: "eur-5-embosed-print",
-            name: "Релефни линии",
-            description: "Релефни линии от лявата страна на банкнотат, които се усещат изпъкнали при допир.",
-            imageUrl:
-              "https://raw.githubusercontent.com/0dayScorpio/images-notaguard/refs/heads/Main/5-embosed-print.png",
-            howToCheck: "Пипнете и усетете дали ресните са изпъкнали.",
-          },
-          {
-            id: "eur-5-hologram",
-            name: "Холограмна лента",
-            description: "Холографски образ върху вертикална лента, променящ се при накланяне.",
-            imageUrl: "https://raw.githubusercontent.com/0dayScorpio/images-notaguard/refs/heads/Main/5-hologram.png",
-            howToCheck: "Наклони банкнотата – холограмата променя изображението.",
+            id: "eur-5-embossed-print",
+            name: "Релефен печат",
+            description: "Релефни елементи (осезаеми при допир) в определени зони на банкнотата.",
+            imageUrl: img("5eur-embosed-print.jpeg"), // (файлът ти е с 'embosed')
+            howToCheck: "Пипни/прекарай пръст – трябва да се усеща релеф.",
           },
           {
             id: "eur-5-security-thread",
             name: "Защитна нишка",
-            description: "Вградена нишка, видима като тъмна линия при осветление.",
-            imageUrl:
-              "https://raw.githubusercontent.com/0dayScorpio/images-notaguard/refs/heads/Main/5-security-thread.png",
-            howToCheck: "Дръж срещу светлина – нишката става видима.",
+            description: "Тъмна нишка, видима срещу светлина, с дребни надписи/символи.",
+            imageUrl: img("5eur-security-thread.jpeg"),
+            howToCheck: "Дръж срещу светлина – нишката трябва да личи ясно.",
+          },
+          {
+            id: "eur-5-hologram",
+            name: "Холограма",
+            description: "Холограмен елемент, който сменя изображение/блясък при накланяне.",
+            imageUrl: img("5eur-hologram.jpeg"),
+            howToCheck: "Наклони банкнотата – холограмата трябва да се променя.",
+          },
+          {
+            id: "eur-5-transparent",
+            name: "Прозрачен елемент",
+            description: "Прозрачен/полупрозрачен елемент (ако е приложимо за серията/номинала).",
+            imageUrl: img("5eur-transparent.jpeg"), // ако нямаш такъв файл за 5€, махни този feature
+            howToCheck: "Гледай срещу светлина за прозрачен прозорец/елемент.",
           },
         ],
       },
+
+      // Пример за 10€ (копирай същото за 20/50/100 и смени value + файловете)
       {
         value: 10,
         color: "Червена",
@@ -50,33 +59,34 @@ export const currencies: CurrencyInfo[] = [
           {
             id: "eur-10-watermark",
             name: "Воден знак",
-            description: "Портретен воден знак видим при държане срещу светлина.",
-            imageUrl: "",
-            howToCheck: "Проверете водния знак под силна светлина.",
+            description: "Виден срещу светлина воден знак.",
+            imageUrl: img("10eur-watermark.jpeg"),
+            howToCheck: "Дръж срещу светлина.",
           },
           {
-            id: "eur-10-embosed-print",
-            name: "Релефни линии",
-            description: "Релефни линии от лявата страна на банкнотат, които се усещат изпъкнали при допир.",
-            imageUrl: "",
-            howToCheck: "Пипнете и усетете дали ресните са изпъкнали.",
-          },
-          {
-            id: "eur-10-emerald-number",
-            name: "Изумрудено число",
-            description: "Числото променя цвета си при накланяне.",
-            imageUrl: "",
-            howToCheck: "Накланяне показва преход от зелено към тъмносиньо.",
+            id: "eur-10-embossed-print",
+            name: "Релефен печат",
+            description: "Осезаем релеф при допир.",
+            imageUrl: img("10eur-embosed-print.jpeg"),
+            howToCheck: "Пипни/прекарай пръст.",
           },
           {
             id: "eur-10-security-thread",
             name: "Защитна нишка",
-            description: "Вградена нишка с микронадпис, видима при светлина.",
-            imageUrl: "",
-            howToCheck: "Дръж банкнотата срещу светлина – нишката се появява.",
+            description: "Нишка видима срещу светлина.",
+            imageUrl: img("10eur-security-thread.jpeg"),
+            howToCheck: "Дръж срещу светлина.",
+          },
+          {
+            id: "eur-10-hologram",
+            name: "Холограма",
+            description: "Холограмен елемент, реагира при накланяне.",
+            imageUrl: img("10eur-hologram.jpeg"),
+            howToCheck: "Наклони банкнотата.",
           },
         ],
       },
+
       {
         value: 20,
         color: "Синя",
