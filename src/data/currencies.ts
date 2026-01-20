@@ -14,7 +14,7 @@ export const currencies: CurrencyInfo[] = [
           {
             id: "eur-5-watermark",
             name: "Воден знак",
-            description: "Воден знак с архитектурен образ, видим при държане срещу светлина.",
+            description: "Воден знак с лице, видим при поставяне срещу светлина.",
             imageUrl: "/images/5eur-watermark.jpeg",
             howToCheck: "Дръжте банкнотата срещу светлина и вижте водния знак.",
           },
@@ -49,7 +49,7 @@ export const currencies: CurrencyInfo[] = [
           {
             id: "eur-10-watermark",
             name: "Воден знак",
-            description: "Портретен воден знак видим при държане срещу светлина.",
+            description: "Воден знак с лице, видим при поставяне срещу светлина.",
             imageUrl: "/images/10eur-watermark.jpeg",
             howToCheck: "Проверете водния знак под силна светлина.",
           },
@@ -84,7 +84,7 @@ export const currencies: CurrencyInfo[] = [
           {
             id: "eur-20-watermark",
             name: "Воден знак",
-            description: "Портретен воден знак видим при държане срещу светлина.",
+            description: "Воден знак с лице, видим при поставяне срещу светлина.",
             imageUrl: "/images/20eur-watermark.jpeg",
             howToCheck: "Наклонете банкнотата – портретът е в прозореца.",
           },
@@ -119,7 +119,7 @@ export const currencies: CurrencyInfo[] = [
           {
             id: "eur-50-watermark",
             name: "Воден знак",
-            description: "Воден знак на архитектурен елемент.",
+            description: "Воден знак с лице, видим при поставяне срещу светлина.",
             imageUrl: "/images/50eur-watermark.jpeg",
             howToCheck: "Погледнете срещу светлина за водния знак.",
           },
@@ -154,7 +154,7 @@ export const currencies: CurrencyInfo[] = [
           {
             id: "eur-100-portrait-watermark",
             name: "Портретен воден знак",
-            description: "Портретен воден знак, видим при осветление.",
+            description: "Воден знак с лице, видим при поставяне срещу светлина.",
             imageUrl: "/images/100eur-watermark.jpeg",
             howToCheck: "Дръжте банкнотата срещу светлина – вижте портрета.",
           },
@@ -188,7 +188,7 @@ export const currencies: CurrencyInfo[] = [
           {
             id: "eur-200-watermark",
             name: "Воден знак",
-            description: "Воден знак с архитектурен елемент, видим при силна светлина.",
+            description: "Воден знак с лице, видим при поставяне срещу светлина.",
             imageUrl: "",
             howToCheck: "Дръжте срещу светлина – вижте водния знак.",
           },
