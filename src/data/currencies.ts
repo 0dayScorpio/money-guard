@@ -21,7 +21,7 @@ export const currencies: CurrencyInfo[] = [
           {
             id: "eur-5-embosed-print",
             name: "Релефни линии",
-            description: "Релефни линии от лявата страна на банкнотат, които се усещат изпъкнали при допир.",
+            description: "Релефни линии от лявата страна на банкнотата, които се усещат изпъкнали при допир.",
             imageUrl: "/images/5eur-embosed-print.jpeg",
             howToCheck: "Пипнете и усетете дали ресните са изпъкнали.",
           },
@@ -56,7 +56,7 @@ export const currencies: CurrencyInfo[] = [
           {
             id: "eur-10-embosed-print",
             name: "Релефни линии",
-            description: "Релефни линии от лявата страна на банкнотат.",
+            description: "Релефни линии от лявата страна на банкнотата.",
             imageUrl: "/images/10eur-embosed-print.jpeg",
             howToCheck: "Пипнете и усетете дали ресните са изпъкнали.",
           },
@@ -91,7 +91,7 @@ export const currencies: CurrencyInfo[] = [
           {
             id: "eur-20-embosed-print",
             name: "Релефни линии",
-            description: "Релефни линии от лявата страна на банкнотат.",
+            description: "Релефни линии от лявата страна на банкнотата.",
             imageUrl: "/images/20eur-embosed-print.jpeg",
             howToCheck: "Пипнете и усетете дали ресните са изпъкнали.",
           },
@@ -126,7 +126,7 @@ export const currencies: CurrencyInfo[] = [
           {
             id: "eur-50-embosed-print",
             name: "Релефни линии",
-            description: "Релефни линии от лявата страна на банкнотат.",
+            description: "Релефни линии от лявата страна на банкнотата.",
             imageUrl: "/images/50eur-embosed-print.jpeg",
             howToCheck: "Пипнете и усетете дали ресните са изпъкнали.",
           },
@@ -161,7 +161,7 @@ export const currencies: CurrencyInfo[] = [
           {
             id: "eur-100-embosed-print",
             name: "Релефни линии",
-            description: "Релефни линии от лявата страна на банкнотат.",
+            description: "Релефни линии от лявата страна на банкнотата.",
             imageUrl: "/images/100eur-embosed-print.jpeg",
             howToCheck: "Пипнете и усетете дали ресните са изпъкнали.",
           },
@@ -195,7 +195,7 @@ export const currencies: CurrencyInfo[] = [
           {
             id: "eur-200-embosed-print",
             name: "Релефни линии",
-            description: "Релефни линии от лявата страна на банкнотат, които се усещат изпъкнали при допир.",
+            description: "Релефни линии от лявата страна на банкнотата.",
             imageUrl: "",
             howToCheck: "Пипнете и усетете дали ресните са изпъкнали.",
           },
@@ -238,7 +238,7 @@ export const currencies: CurrencyInfo[] = [
           {
             id: "eur-5-embosed-print",
             name: "Релефни линии",
-            description: "Релефни линии от лявата страна на банкнотат, които се усещат изпъкнали при допир.",
+            description: "Релефни линии от лявата страна на банкнотата.",
             imageUrl:
               "https://raw.githubusercontent.com/0dayScorpio/images-notaguard/refs/heads/Main/5-embosed-print.png",
             howToCheck: "Пипнете и усетете дали ресните са изпъкнали.",
@@ -274,7 +274,7 @@ export const currencies: CurrencyInfo[] = [
           {
             id: "eur-10-embosed-print",
             name: "Релефни линии",
-            description: "Релефни линии от лявата страна на банкнотат, които се усещат изпъкнали при допир.",
+            description: "Релефни линии от лявата страна на банкнотата.",
             imageUrl: "",
             howToCheck: "Пипнете и усетете дали ресните са изпъкнали.",
           },
@@ -308,7 +308,7 @@ export const currencies: CurrencyInfo[] = [
           {
             id: "eur-20-embosed-print",
             name: "Релефни линии",
-            description: "Релефни линии от лявата страна на банкнотат, които се усещат изпъкнали при допир.",
+            description: "Релефни линии от лявата страна на банкнотата.",
             imageUrl: "",
             howToCheck: "Пипнете и усетете дали ресните са изпъкнали.",
           },
@@ -342,7 +342,7 @@ export const currencies: CurrencyInfo[] = [
           {
             id: "eur-50-embosed-print",
             name: "Релефни линии",
-            description: "Релефни линии от лявата страна на банкнотат, които се усещат изпъкнали при допир.",
+            description: "Релефни линии от лявата страна на банкнотата.",
             imageUrl: "",
             howToCheck: "Пипнете и усетете дали ресните са изпъкнали.",
           },
@@ -376,7 +376,7 @@ export const currencies: CurrencyInfo[] = [
           {
             id: "eur-100-embosed-print",
             name: "Релефни линии",
-            description: "Релефни линии от лявата страна на банкнотат, които се усещат изпъкнали при допир.",
+            description: "Релефни линии от лявата страна на банкнотата.",
             imageUrl: "",
             howToCheck: "Пипнете и усетете дали ресните са изпъкнали.",
           },
@@ -410,7 +410,7 @@ export const currencies: CurrencyInfo[] = [
           {
             id: "eur-200-embosed-print",
             name: "Релефни линии",
-            description: "Релефни линии от лявата страна на банкнотат, които се усещат изпъкнали при допир.",
+            description: "Релефни линии от лявата страна на банкнотата.",
             imageUrl: "",
             howToCheck: "Пипнете и усетете дали ресните са изпъкнали.",
           },
