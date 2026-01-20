@@ -476,7 +476,7 @@ export const currencies: CurrencyInfo[] = [
 
   {
     code: "BGN_NEW",
-    name: "Български лев - НОВ",
+    name: "Български лев - НОВО",
     symbol: "лв.",
     flag: "🇧🇬",
     denominations: [
@@ -620,7 +620,7 @@ export const currencies: CurrencyInfo[] = [
 
   {
     code: "BGN_OLD",
-    name: "Български лев - СТАР",
+    name: "Български лев - СТАРО",
     symbol: "лв.",
     flag: "🇧🇬",
     denominations: [
