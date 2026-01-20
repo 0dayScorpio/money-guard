@@ -6,6 +6,7 @@ interface ResponsiveImageProps {
   className?: string;
   containerClassName?: string;
   variant?: "cover" | "contain";
+  scale?: number; // Scale factor (e.g., 0.5 for 50%, 0.2 for 20%)
 }
 
 /**
@@ -20,7 +21,10 @@ export const ResponsiveImage = ({
   alt,
   className,
   containerClassName,
+  scale,
 }: ResponsiveImageProps) => {
+  const scaleStyle = scale ? { maxWidth: `${scale * 100}%`, height: 'auto' } : {};
+  
   return (
     <div
       className={cn(
@@ -32,6 +36,7 @@ export const ResponsiveImage = ({
       <img
         src={src}
         alt={alt}
+        style={scaleStyle}
         className={cn(
           // Natural size, no constraints
           "w-auto h-auto",
