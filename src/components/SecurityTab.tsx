@@ -166,8 +166,8 @@ export const SecurityTab = () => {
                             src={feature.imageUrl}
                             alt={feature.name}
                             variant="cover"
-                            scale={feature.id.includes('watermark') ? 0.2 : feature.id.includes('transparent') ? 0.25 : 0.5}
-                            mobileScale={feature.id.includes('watermark') ? 0.4 : feature.id.includes('transparent') ? 0.5 : 1.0}
+                            scale={feature.id.includes('watermark') ? 0.2 : feature.id.includes('transparent') ? 0.21 : 0.5}
+                            mobileScale={feature.id.includes('watermark') ? 0.4 : feature.id.includes('transparent') ? 0.42 : 1.0}
                           />
 
                           {/* Description */}
