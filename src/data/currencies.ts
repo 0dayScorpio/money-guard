@@ -33,14 +33,6 @@ export const currencies: CurrencyInfo[] = [
             howToCheck: "Наклонете банкнотата – вижте изображението и 3D номер 5.",
           },
           {
-            id: "eur-5-green",
-            name: "Изумрудено число",
-            description:
-              "Изумрудено зелено число в левия ъгъл, което при накланяне създава движещ се светлинен ефект, а не стои на едно място.",
-            imageUrl: "/images/5eur-green.jpeg",
-            howToCheck: "Наклонете банкнотата и вижте движението на зеления светлинен ефект.",
-          },
-          {
             id: "eur-5-security-thread",
             name: "Защитна нишка",
             description: "Вградена нишка, видима като тъмна линия при осветление.",
@@ -76,14 +68,6 @@ export const currencies: CurrencyInfo[] = [
             howToCheck: "Наклонете банкнотата – вижте изображението и 3D номер 10.",
           },
           {
-            id: "eur-10-green",
-            name: "Изумрудено число",
-            description:
-              "Изумрудено зелено число в левия ъгъл, което при накланяне създава движещ се светлинен ефект, а не стои на едно място.",
-            imageUrl: "/images/10eur-green.jpeg",
-            howToCheck: "Наклонете банкнотата и вижте движението на зеления светлинен ефект.",
-          },
-          {
             id: "eur-10-security-thread",
             name: "Защитна нишка",
             description: "Вградена нишка с микронадпис.",
@@ -117,14 +101,6 @@ export const currencies: CurrencyInfo[] = [
             description: "Холографски ефекти върху вертикална лента.",
             imageUrl: "/images/20eur-hologram.jpeg",
             howToCheck: "Наклонете банкнотата – вижте изображението и 3D номер 20.",
-          },
-          {
-            id: "eur-20-green",
-            name: "Изумрудено число",
-            description:
-              "Изумрудено зелено число в левия ъгъл, което при накланяне създава движещ се светлинен ефект, а не стои на едно място.",
-            imageUrl: "/images/20eur-green.jpeg",
-            howToCheck: "Наклонете банкнотата и вижте движението на зеления светлинен ефект.",
           },
           {
             id: "eur-20-security-thread",
@@ -169,14 +145,6 @@ export const currencies: CurrencyInfo[] = [
             howToCheck: "Наклонете банкнотата – вижте изображението и 3D номер 50.",
           },
           {
-            id: "eur-50-green",
-            name: "Изумрудено число",
-            description:
-              "Изумрудено зелено число в левия ъгъл, което при накланяне създава движещ се светлинен ефект, а не стои на едно място.",
-            imageUrl: "/images/50eur-green.jpeg",
-            howToCheck: "Наклонете банкнотата и вижте движението на зеления светлинен ефект.",
-          },
-          {
             id: "eur-50-security-thread",
             name: "Защитна нишка",
             description: "Вградена нишка, видима при осветление.",
@@ -219,14 +187,6 @@ export const currencies: CurrencyInfo[] = [
             howToCheck: "Наклонете банкнотата – вижте изображението и 3D номер 100.",
           },
           {
-            id: "eur-100-green",
-            name: "Изумрудено число",
-            description:
-              "Изумрудено зелено число в левия ъгъл, което при накланяне създава движещ се светлинен ефект, а не стои на едно място.",
-            imageUrl: "/images/100eur-green.jpeg",
-            howToCheck: "Наклонете банкнотата и вижте движението на зеления светлинен ефект.",
-          },
-          {
             id: "eur-100-security-thread",
             name: "Защитна нишка",
             description: "Вградена нишка с микронадпис.",
@@ -266,14 +226,6 @@ export const currencies: CurrencyInfo[] = [
             description: "Холографски изображения при накланяне.",
             imageUrl: "",
             howToCheck: "Наклонете банкнотата – вижте изображението и 3D номер 200.",
-          },
-          {
-            id: "eur-200-green",
-            name: "Изумрудено число",
-            description:
-              "Изумрудено зелено число в левия ъгъл, което при накланяне създава движещ се светлинен ефект, а не стои на едно място.",
-            imageUrl: "/images/200eur-green.jpeg",
-            howToCheck: "Наклонете банкнотата и вижте движението на зеления светлинен ефект.",
           },
           {
             id: "eur-200-security-thread",
@@ -582,6 +534,13 @@ export const currencies: CurrencyInfo[] = [
             howToCheck: "Пипнете и усетете дали релефът е изпъкнал.",
           },
           {
+            id: "bgn-new-5-stripes",
+            name: "Холограмни линии",
+            description: "Разноцветни прекъснати ивици в хартията, видими при светлина.",
+            imageUrl: "/images/5lev-stripes.jpeg",
+            howToCheck: "Погледнете на гърба на банкнотата за холограмни прекъснати линии.",
+          },
+          {
             id: "bgn-new-5-security-thread",
             name: "Защитна нишка",
             description: "В средата на банкнотата на светлина се вижда тъмна лента.",
@@ -614,6 +573,13 @@ export const currencies: CurrencyInfo[] = [
             description: "Релефни линии от лявата страна на банкнотата.",
             imageUrl: "/images/10lev-new-embosed-print.jpeg",
             howToCheck: "Пипнете и усетете дали релефът е изпъкнал.",
+          },
+          {
+            id: "bgn-new-10-stripes",
+            name: "Холограмни линии",
+            description: "Разноцветни прекъснати ивици в хартията, видими при светлина.",
+            imageUrl: "/images/10lev-stripes.jpeg",
+            howToCheck: "Погледнете на гърба на банкнотата за холограмни прекъснати линии.",
           },
           {
             id: "bgn-new-10-security-thread",
@@ -650,6 +616,13 @@ export const currencies: CurrencyInfo[] = [
             howToCheck: "Пипнете и усетете дали релефът е изпъкнал.",
           },
           {
+            id: "bgn-new-20-stripes",
+            name: "Холограмни линии",
+            description: "Разноцветни прекъснати ивици в хартията, видими при светлина.",
+            imageUrl: "/images/20lev-stripes.jpeg",
+            howToCheck: "Погледнете на гърба на банкнотата за холограмни прекъснати линии.",
+          },
+          {
             id: "bgn-new-20-security-thread",
             name: "Защитна нишка",
             description: "В средата на банкнотата на светлина се вижда тъмна лента.",
@@ -684,6 +657,13 @@ export const currencies: CurrencyInfo[] = [
             howToCheck: "Пипнете и усетете дали релефът е изпъкнал.",
           },
           {
+            id: "bgn-new-50-stripes",
+            name: "Холограмни линии",
+            description: "Разноцветни прекъснати ивици в хартията, видими при светлина.",
+            imageUrl: "/images/50lev-stripes.jpeg",
+            howToCheck: "Погледнете на гърба на банкнотата за холограмни прекъснати линии.",
+          },
+          {
             id: "bgn-new-50-security-thread",
             name: "Защитна нишка",
             description: "В средата на банкнотата на светлина се вижда тъмна лента.",
@@ -709,6 +689,13 @@ export const currencies: CurrencyInfo[] = [
             description: "3D воден знак с портрет и инициали 'БНБ'.",
             imageUrl: "/images/100lev-new-watermark.jpeg",
             howToCheck: "Дръжте срещу светлина – вижте портрета и инициали.",
+          },
+          {
+            id: "bgn-new-100-stripes",
+            name: "Холограмни линии",
+            description: "Разноцветни прекъснати ивици в хартията, видими при светлина.",
+            imageUrl: "/images/100lev-stripes.jpeg",
+            howToCheck: "Погледнете на гърба на банкнотата за холограмни прекъснати линии.",
           },
           {
             id: "bgn-new-100-embosed-print",
@@ -755,10 +742,10 @@ export const currencies: CurrencyInfo[] = [
           },
           {
             id: "bgn-old-5-stripes",
-            name: "Цветни ивици",
-            description: "Разноцветни ивици в хартията, видими при светлина.",
+            name: "Холограмни линии",
+            description: "Разноцветни прекъснати ивици в хартията, видими при светлина.",
             imageUrl: "/images/5lev-stripes.jpeg",
-            howToCheck: "Погледнете банкнотата срещу светлина – вижте ивиците.",
+            howToCheck: "Погледнете на гърба на банкнотата за холограмни прекъснати линии.",
           },
           {
             id: "bgn-old-5-security-thread",
@@ -789,10 +776,10 @@ export const currencies: CurrencyInfo[] = [
           },
           {
             id: "bgn-old-10-stripes",
-            name: "Цветни ивици",
-            description: "Разноцветни ивици в хартията, видими при светлина.",
+            name: "Холограмни линии",
+            description: "Разноцветни прекъснати ивици в хартията, видими при светлина.",
             imageUrl: "/images/10lev-stripes.jpeg",
-            howToCheck: "Погледнете банкнотата срещу светлина – вижте ивиците.",
+            howToCheck: "Погледнете на гърба на банкнотата за холограмни прекъснати линии.",
           },
           {
             id: "bgn-old-10-security-thread",
@@ -823,10 +810,10 @@ export const currencies: CurrencyInfo[] = [
           },
           {
             id: "bgn-old-20-stripes",
-            name: "Цветни ивици",
-            description: "Разноцветни ивици в хартията, видими при светлина.",
+            name: "Холограмни линии",
+            description: "Разноцветни прекъснати ивици в хартията, видими при светлина.",
             imageUrl: "/images/20lev-stripes.jpeg",
-            howToCheck: "Погледнете банкнотата срещу светлина – вижте ивиците.",
+            howToCheck: "Погледнете на гърба на банкнотата за холограмни прекъснати линии.",
           },
           {
             id: "bgn-old-20-security-thread",
@@ -884,10 +871,10 @@ export const currencies: CurrencyInfo[] = [
           },
           {
             id: "bgn-old-100-stripes",
-            name: "Цветни ивици",
-            description: "Разноцветни ивици в хартията, видими при светлина.",
+            name: "Холограмни линии",
+            description: "Разноцветни прекъснати ивици в хартията, видими при светлина.",
             imageUrl: "/images/100lev-stripes.jpeg",
-            howToCheck: "Погледнете банкнотата срещу светлина – вижте ивиците.",
+            howToCheck: "Погледнете на гърба на банкнотата за холограмни прекъснати линии.",
           },
           {
             id: "bgn-old-100-security-thread",
