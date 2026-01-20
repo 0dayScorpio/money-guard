@@ -166,6 +166,7 @@ export const SecurityTab = () => {
                             src={feature.imageUrl}
                             alt={feature.name}
                             variant="cover"
+                            scale={feature.id.includes('watermark') ? 0.2 : 0.5}
                           />
 
                           {/* Description */}
