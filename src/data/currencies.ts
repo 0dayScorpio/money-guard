@@ -109,6 +109,13 @@ export const currencies: CurrencyInfo[] = [
             imageUrl: "/images/20eur-security-thread.jpeg",
             howToCheck: "Дръжте срещу светлина – нишката се появява.",
           },
+          {
+            id: "eur-20-transparent",
+            name: "Прозрачен холограмен портрет",
+            description: "Прозрачен портрет в холограмния елемент, през който преминава светлина.",
+            imageUrl: "/images/20eur-transparent.jpeg",
+            howToCheck: "Изложете на светлина - портрета става прозрачен.",
+          },
         ],
       },
 
