@@ -475,8 +475,8 @@ export const currencies: CurrencyInfo[] = [
   },
 
   {
-    code: "BGN",
-    name: "Български лев",
+    code: "BGN_NEW",
+    name: "Български лев - НОВ",
     symbol: "лв.",
     flag: "🇧🇬",
     denominations: [
@@ -485,21 +485,21 @@ export const currencies: CurrencyInfo[] = [
         color: "Червена",
         features: [
           {
-            id: "bgn-5-hologram",
+            id: "bgn-new-5-hologram",
             name: "Холограмна лента с динамични изображения",
             description: "Холограма с изображения и преливащи цветове.",
             imageUrl: "",
             howToCheck: "Накланяй банкнотата – виж изображението и 3D номер 5.",
           },
           {
-            id: "bgn-5-fibres",
+            id: "bgn-new-5-fibres",
             name: "Влакна и нишки",
             description: "Вградени разноцветни влакна в хартията, видими под UV светлина.",
             imageUrl: "",
             howToCheck: "Под UV светлина – виж цветни влакна.",
           },
           {
-            id: "bgn-5-watermark",
+            id: "bgn-new-5-watermark",
             name: "Воден знак",
             description: "Високочестотен воден знак с детайлно изображение.",
             imageUrl: "",
@@ -512,21 +512,21 @@ export const currencies: CurrencyInfo[] = [
         color: "Зелена",
         features: [
           {
-            id: "bgn-10-hologram",
+            id: "bgn-new-10-hologram",
             name: "Холограмна лента с оптични ефекти",
             description: "Холограма с променящи се изображения на глобус и планети.",
             imageUrl: "",
             howToCheck: "Накланяй банкнотата – виж ефекти.",
           },
           {
-            id: "bgn-10-security-thread",
+            id: "bgn-new-10-security-thread",
             name: "Защитна нишка",
-            description: "Вградена нишка с повторяем текст „БНБ 10“.",
+            description: "Вградена нишка с повторяем текст 'БНБ 10'.",
             imageUrl: "",
             howToCheck: "Дръж срещу светлина – виж нишката.",
           },
           {
-            id: "bgn-10-watermark",
+            id: "bgn-new-10-watermark",
             name: "Воден знак",
             description: "Полутонов воден знак на портрета.",
             imageUrl: "",
@@ -539,21 +539,21 @@ export const currencies: CurrencyInfo[] = [
         color: "Синя",
         features: [
           {
-            id: "bgn-20-angled-lines",
+            id: "bgn-new-20-angled-lines",
             name: "Маркировки за незрящи",
             description: "Три дебели и седем тънки линии под ъгъл.",
             imageUrl: "",
             howToCheck: "Допирни – линиите се усещат релефно.",
           },
           {
-            id: "bgn-20-security-thread",
+            id: "bgn-new-20-security-thread",
             name: "Защитна нишка",
-            description: "Вградена нишка с текст „БНБ 20“ и динамичен ефект.",
+            description: "Вградена нишка с текст 'БНБ 20' и динамичен ефект.",
             imageUrl: "",
             howToCheck: "Дръж срещу светлина – виж нишката.",
           },
           {
-            id: "bgn-20-watermark",
+            id: "bgn-new-20-watermark",
             name: "Воден знак",
             description: "Воден знак, видим при държане срещу светлина.",
             imageUrl: "",
@@ -566,21 +566,21 @@ export const currencies: CurrencyInfo[] = [
         color: "Кафява",
         features: [
           {
-            id: "bgn-50-hologram",
+            id: "bgn-new-50-hologram",
             name: "Цветна холограма с динамичен ефект",
             description: "Холограма с птица и фигури, променящи цвят при накланяне.",
             imageUrl: "",
             howToCheck: "Накланяй банкнотата – виж цветови промени.",
           },
           {
-            id: "bgn-50-watermark",
+            id: "bgn-new-50-watermark",
             name: "Воден знак",
             description: "Високочестотен воден знак видим при светлина.",
             imageUrl: "",
             howToCheck: "Дръж срещу светлина – виж водния знак.",
           },
           {
-            id: "bgn-50-lines",
+            id: "bgn-new-50-lines",
             name: "Маркировки за незрящи",
             description: "Диагонални линии като тактилна опция.",
             imageUrl: "",
@@ -593,23 +593,167 @@ export const currencies: CurrencyInfo[] = [
         color: "Зелена",
         features: [
           {
-            id: "bgn-100-rollingstar",
+            id: "bgn-new-100-rollingstar",
             name: "RollingStar® лента",
             description: "Динамична ефектна лента, променяща цвета си при накланяне.",
             imageUrl: "",
             howToCheck: "Накланяй банкнотата – виж цветови ефекти.",
           },
           {
-            id: "bgn-100-security-fibres",
+            id: "bgn-new-100-security-fibres",
             name: "UV влакна и микротекст",
             description: "Трицветни влакна и микронадписи, видими под UV.",
             imageUrl: "",
             howToCheck: "Под UV светлина – виж влакна и микронадписи.",
           },
           {
-            id: "bgn-100-watermark",
+            id: "bgn-new-100-watermark",
             name: "Воден знак и портрет",
-            description: "3D воден знак с портрет и инициали „БНБ“.",
+            description: "3D воден знак с портрет и инициали 'БНБ'.",
+            imageUrl: "",
+            howToCheck: "Дръж срещу светлина – виж портрета и инициали.",
+          },
+        ],
+      },
+    ],
+  },
+
+  {
+    code: "BGN_OLD",
+    name: "Български лев - СТАР",
+    symbol: "лв.",
+    flag: "🇧🇬",
+    denominations: [
+      {
+        value: 5,
+        color: "Червена",
+        features: [
+          {
+            id: "bgn-old-5-hologram",
+            name: "Холограмна лента с динамични изображения",
+            description: "Холограма с изображения и преливащи цветове.",
+            imageUrl: "",
+            howToCheck: "Накланяй банкнотата – виж изображението и 3D номер 5.",
+          },
+          {
+            id: "bgn-old-5-fibres",
+            name: "Влакна и нишки",
+            description: "Вградени разноцветни влакна в хартията, видими под UV светлина.",
+            imageUrl: "",
+            howToCheck: "Под UV светлина – виж цветни влакна.",
+          },
+          {
+            id: "bgn-old-5-watermark",
+            name: "Воден знак",
+            description: "Високочестотен воден знак с детайлно изображение.",
+            imageUrl: "",
+            howToCheck: "Дръж срещу светлина – виж водния знак.",
+          },
+        ],
+      },
+      {
+        value: 10,
+        color: "Зелена",
+        features: [
+          {
+            id: "bgn-old-10-hologram",
+            name: "Холограмна лента с оптични ефекти",
+            description: "Холограма с променящи се изображения на глобус и планети.",
+            imageUrl: "",
+            howToCheck: "Накланяй банкнотата – виж ефекти.",
+          },
+          {
+            id: "bgn-old-10-security-thread",
+            name: "Защитна нишка",
+            description: "Вградена нишка с повторяем текст 'БНБ 10'.",
+            imageUrl: "",
+            howToCheck: "Дръж срещу светлина – виж нишката.",
+          },
+          {
+            id: "bgn-old-10-watermark",
+            name: "Воден знак",
+            description: "Полутонов воден знак на портрета.",
+            imageUrl: "",
+            howToCheck: "Постави срещу светлина – виж водният знак.",
+          },
+        ],
+      },
+      {
+        value: 20,
+        color: "Синя",
+        features: [
+          {
+            id: "bgn-old-20-angled-lines",
+            name: "Маркировки за незрящи",
+            description: "Три дебели и седем тънки линии под ъгъл.",
+            imageUrl: "",
+            howToCheck: "Допирни – линиите се усещат релефно.",
+          },
+          {
+            id: "bgn-old-20-security-thread",
+            name: "Защитна нишка",
+            description: "Вградена нишка с текст 'БНБ 20' и динамичен ефект.",
+            imageUrl: "",
+            howToCheck: "Дръж срещу светлина – виж нишката.",
+          },
+          {
+            id: "bgn-old-20-watermark",
+            name: "Воден знак",
+            description: "Воден знак, видим при държане срещу светлина.",
+            imageUrl: "",
+            howToCheck: "Погледни срещу светлина – виж водния знак.",
+          },
+        ],
+      },
+      {
+        value: 50,
+        color: "Кафява",
+        features: [
+          {
+            id: "bgn-old-50-hologram",
+            name: "Цветна холограма с динамичен ефект",
+            description: "Холограма с птица и фигури, променящи цвят при накланяне.",
+            imageUrl: "",
+            howToCheck: "Накланяй банкнотата – виж цветови промени.",
+          },
+          {
+            id: "bgn-old-50-watermark",
+            name: "Воден знак",
+            description: "Високочестотен воден знак видим при светлина.",
+            imageUrl: "",
+            howToCheck: "Дръж срещу светлина – виж водния знак.",
+          },
+          {
+            id: "bgn-old-50-lines",
+            name: "Маркировки за незрящи",
+            description: "Диагонални линии като тактилна опция.",
+            imageUrl: "",
+            howToCheck: "Прекарай пръст по линиите.",
+          },
+        ],
+      },
+      {
+        value: 100,
+        color: "Зелена",
+        features: [
+          {
+            id: "bgn-old-100-rollingstar",
+            name: "RollingStar® лента",
+            description: "Динамична ефектна лента, променяща цвета си при накланяне.",
+            imageUrl: "",
+            howToCheck: "Накланяй банкнотата – виж цветови ефекти.",
+          },
+          {
+            id: "bgn-old-100-security-fibres",
+            name: "UV влакна и микротекст",
+            description: "Трицветни влакна и микронадписи, видими под UV.",
+            imageUrl: "",
+            howToCheck: "Под UV светлина – виж влакна и микронадписи.",
+          },
+          {
+            id: "bgn-old-100-watermark",
+            name: "Воден знак и портрет",
+            description: "3D воден знак с портрет и инициали 'БНБ'.",
             imageUrl: "",
             howToCheck: "Дръж срещу светлина – виж портрета и инициали.",
           },
