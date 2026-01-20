@@ -7,6 +7,7 @@ interface ResponsiveImageProps {
   containerClassName?: string;
   variant?: "cover" | "contain";
   scale?: number; // Scale factor (e.g., 0.5 for 50%, 0.2 for 20%)
+  mobileScale?: number; // Scale factor for mobile (e.g., 1.0 for 100%)
 }
 
 /**
@@ -22,8 +23,11 @@ export const ResponsiveImage = ({
   className,
   containerClassName,
   scale,
+  mobileScale,
 }: ResponsiveImageProps) => {
-  const scaleStyle = scale ? { maxWidth: `${scale * 100}%`, height: 'auto' } : {};
+  // Use mobileScale on mobile (2x the desktop scale), otherwise use desktop scale
+  const desktopScalePercent = scale ? scale * 100 : 100;
+  const mobileScalePercent = mobileScale ? mobileScale * 100 : desktopScalePercent;
   
   return (
     <div
@@ -36,7 +40,6 @@ export const ResponsiveImage = ({
       <img
         src={src}
         alt={alt}
-        style={scaleStyle}
         className={cn(
           // Natural size, no constraints
           "w-auto h-auto",
@@ -46,8 +49,19 @@ export const ResponsiveImage = ({
           "transition-opacity duration-300",
           className
         )}
+        style={{
+          maxWidth: `${mobileScalePercent}%`,
+          height: 'auto',
+        }}
         loading="lazy"
       />
+      <style>{`
+        @media (min-width: 640px) {
+          img[src="${src}"] {
+            max-width: ${desktopScalePercent}% !important;
+          }
+        }
+      `}</style>
     </div>
   );
 };
