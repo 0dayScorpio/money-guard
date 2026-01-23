@@ -164,29 +164,25 @@ export const CameraTab = ({ onScanComplete }: CameraTabProps) => {
   const ScanGradientIcon = ({ useGradient = false }: { useGradient?: boolean }) => (
     <svg className="w-12 h-12" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
       <defs>
-        <linearGradient id="cameraGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-          <stop offset="0%" stopColor="hsl(262, 83%, 58%)" />
-          <stop offset="50%" stopColor="hsl(280, 80%, 55%)" />
-          <stop offset="100%" stopColor="hsl(250, 90%, 60%)" />
+        <linearGradient id="cameraGradientFill" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stopColor="hsl(270, 70%, 70%)" />
+          <stop offset="50%" stopColor="hsl(265, 80%, 60%)" />
+          <stop offset="100%" stopColor="hsl(258, 85%, 55%)" />
         </linearGradient>
       </defs>
-      {/* Camera body */}
+      {/* Camera body - filled with gradient in light mode */}
       <path 
         d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z" 
-        stroke={useGradient ? "url(#cameraGradient)" : "currentColor"} 
-        strokeWidth="2" 
-        strokeLinecap="round" 
-        strokeLinejoin="round"
-        fill={useGradient ? "url(#cameraGradient)" : "none"}
+        stroke="none"
+        fill={useGradient ? "url(#cameraGradientFill)" : "white"}
       />
-      {/* Camera lens */}
+      {/* Camera lens - white circle cutout */}
       <circle 
         cx="12" 
         cy="13" 
         r="4" 
-        stroke={useGradient ? "white" : "currentColor"} 
-        strokeWidth="2"
-        fill={useGradient ? "white" : "none"}
+        stroke="none"
+        fill={useGradient ? "white" : "currentColor"}
       />
     </svg>
   );
