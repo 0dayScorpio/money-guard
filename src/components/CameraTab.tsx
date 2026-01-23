@@ -1,7 +1,6 @@
 import { useState, useCallback, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
-  Camera,
   Scan,
   AlertCircle,
   CheckCircle2,
@@ -24,6 +23,7 @@ import { useBanknoteAnalysis, AnalysisResult } from "@/hooks/useBanknoteAnalysis
 import { CameraBackground } from "./CameraBackground";
 import { PrivacyConsentScreen } from "./PrivacyConsentScreen";
 import { useLocalStorage } from "@/hooks/useLocalStorage";
+import { ScannerFrame } from "./ScannerFrame";
 
 interface CameraTabProps {
   onScanComplete: (scan: ScanHistory) => void;
@@ -160,24 +160,23 @@ export const CameraTab = ({ onScanComplete }: CameraTabProps) => {
 
   const error = cameraError || analysisError;
 
-  // SVG gradient for camera icon
-  const CameraGradientIcon = () => (
-    <svg className="w-20 h-20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+  // SVG gradient for scan icon (larger, primary action)
+  const ScanGradientIcon = () => (
+    <svg className="w-10 h-10" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
       <defs>
-        <linearGradient id="cameraGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-          <stop offset="0%" stopColor="hsl(217, 91%, 55%)" />
-          <stop offset="100%" stopColor="hsl(270, 80%, 60%)" />
+        <linearGradient id="scanGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stopColor="hsl(262, 83%, 58%)" />
+          <stop offset="50%" stopColor="hsl(280, 80%, 55%)" />
+          <stop offset="100%" stopColor="hsl(250, 90%, 60%)" />
         </linearGradient>
       </defs>
-      <path
-        d="M14.5 4h-5L7.5 6.5H4c-.83 0-1.5.67-1.5 1.5v10c0 .83.67 1.5 1.5 1.5h16c.83 0 1.5-.67 1.5-1.5V8c0-.83-.67-1.5-1.5-1.5h-3.5L14.5 4z"
-        stroke="url(#cameraGradient)"
-        strokeWidth="2"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        fill="none"
-      />
-      <circle cx="12" cy="13" r="4" stroke="url(#cameraGradient)" strokeWidth="2" fill="none" />
+      {/* Scanner frame corners */}
+      <path d="M3 7V5a2 2 0 0 1 2-2h2" stroke="url(#scanGradient)" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
+      <path d="M17 3h2a2 2 0 0 1 2 2v2" stroke="url(#scanGradient)" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
+      <path d="M21 17v2a2 2 0 0 1-2 2h-2" stroke="url(#scanGradient)" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
+      <path d="M7 21H5a2 2 0 0 1-2-2v-2" stroke="url(#scanGradient)" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
+      {/* Scan line */}
+      <line x1="5" y1="12" x2="19" y2="12" stroke="url(#scanGradient)" strokeWidth="2" strokeLinecap="round" />
     </svg>
   );
 
@@ -223,46 +222,25 @@ export const CameraTab = ({ onScanComplete }: CameraTabProps) => {
               )}
             </div>
           ) : (
-            // Camera viewfinder overlay
-            <div className="absolute inset-0 flex items-center justify-center">
-              <div className="relative w-full max-w-sm aspect-[16/10] mx-4">
-                {/* Camera frame */}
-                <motion.div
-                  animate={isCapturing ? { opacity: [0.5, 1, 0.5] } : { opacity: 1 }}
-                  transition={{ duration: 1.5, repeat: isCapturing ? Infinity : 0 }}
-                  className="absolute inset-0 border-2 border-white/50 rounded-2xl"
-                >
-                  {/* Corner accents */}
-                  <div className="absolute -top-1 -left-1 w-8 h-8 border-t-4 border-l-4 border-primary rounded-tl-xl" />
-                  <div className="absolute -top-1 -right-1 w-8 h-8 border-t-4 border-r-4 border-primary rounded-tr-xl" />
-                  <div className="absolute -bottom-1 -left-1 w-8 h-8 border-b-4 border-l-4 border-primary rounded-bl-xl" />
-                  <div className="absolute -bottom-1 -right-1 w-8 h-8 border-b-4 border-r-4 border-primary rounded-br-xl" />
-                </motion.div>
+            // Camera viewfinder overlay with modern scanner frame
+            <div className="absolute inset-0 flex flex-col items-center justify-center">
+              {/* Scanner Frame with glowing corners */}
+              <ScannerFrame 
+                isScanning={isCapturing} 
+                isSuccess={!!analysisResult && analysisResult.result === 'authentic'}
+              />
 
-                {/* Scanning line */}
-                <AnimatePresence>
-                  {isCapturing && (
-                    <motion.div
-                      initial={{ top: 0, opacity: 0 }}
-                      animate={{ top: "100%", opacity: [0, 1, 1, 0] }}
-                      exit={{ opacity: 0 }}
-                      transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
-                      className="absolute left-2 right-2 h-1 bg-gradient-to-r from-transparent via-primary to-transparent rounded-full shadow-lg shadow-primary/50"
-                    />
-                  )}
-                </AnimatePresence>
-
-                {/* Instruction text */}
-                <div className="absolute inset-0 flex flex-col items-center justify-center">
-                  <motion.p
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    className="text-white/80 text-sm text-center bg-black/40 px-4 py-2 rounded-full"
-                  >
-                    Изберете от галерията или направете снимка на банкнотата.
-                  </motion.p>
-                </div>
-              </div>
+              {/* Instruction text - positioned below frame */}
+              <motion.div
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.3 }}
+                className="mt-6"
+              >
+                <p className="text-white/90 text-sm text-center px-6 py-2.5 rounded-full bg-black/50 backdrop-blur-sm border border-white/10">
+                  Позиционирайте банкнотата в рамката
+                </p>
+              </motion.div>
             </div>
           )}
 
@@ -277,42 +255,63 @@ export const CameraTab = ({ onScanComplete }: CameraTabProps) => {
           )}
 
           {/* Action buttons */}
-          <div className="absolute bottom-8 left-0 right-0 flex justify-center gap-4 z-20">
+          <div className="absolute bottom-8 left-0 right-0 flex items-end justify-center gap-6 z-20 px-4">
             {!imageBase64 ? (
               <>
-                {/* Gallery button */}
-                <motion.div whileTap={{ scale: 0.95 }}>
+                {/* Gallery button - secondary, smaller */}
+                <motion.div 
+                  whileTap={{ scale: 0.92 }}
+                  whileHover={{ scale: 1.05 }}
+                  className="relative"
+                >
                   <Button
                     onClick={selectFromGallery}
                     disabled={isCapturing}
                     size="lg"
                     variant="outline"
-                    className="h-16 w-16 rounded-full bg-[#ffffff] dark:bg-[#27272a] border-2 border-purple-500 shadow-lg hover:bg-[#ffffff] dark:hover:bg-[#3f3f46]"
+                    className="h-14 w-14 rounded-full bg-black/30 backdrop-blur-md border border-white/20 shadow-lg hover:bg-black/40 hover:border-white/30 transition-all duration-300"
                   >
-                    <ImageIcon className="w-7 h-7 text-black dark:text-white" />
+                    <ImageIcon className="w-6 h-6 text-white/90" />
                   </Button>
+                  <span className="absolute -bottom-6 left-1/2 -translate-x-1/2 text-xs text-white/60 whitespace-nowrap">
+                    Галерия
+                  </span>
                 </motion.div>
 
-                {/* Camera button */}
-                <motion.div whileTap={{ scale: 0.95 }}>
+                {/* Scan button - primary, large and emphasized */}
+                <motion.div 
+                  whileTap={{ scale: 0.95 }}
+                  whileHover={{ scale: 1.02 }}
+                  className="relative"
+                >
+                  <div className="absolute inset-0 rounded-full bg-gradient-to-r from-violet-600 via-purple-600 to-indigo-600 blur-lg opacity-60 animate-pulse" />
                   <Button
                     onClick={handleCaptureFromStream}
                     disabled={isCapturing}
                     size="lg"
-                    className="h-24 w-24 rounded-full bg-[#ffffff] dark:bg-[#27272a] shadow-xl disabled:opacity-50 border-2 border-purple-500 hover:bg-[#ffffff] dark:hover:bg-[#3f3f46]"
+                    className="relative h-20 w-20 rounded-full bg-gradient-to-br from-violet-500 via-purple-500 to-indigo-500 shadow-2xl disabled:opacity-50 border-2 border-white/20 hover:from-violet-400 hover:via-purple-400 hover:to-indigo-400 transition-all duration-300"
+                    style={{
+                      boxShadow: "0 0 30px rgba(139, 92, 246, 0.5), 0 10px 40px rgba(0, 0, 0, 0.3)"
+                    }}
                   >
                     {isCapturing ? (
                       <motion.div
                         animate={{ rotate: 360 }}
                         transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
                       >
-                        <Scan className="w-10 h-10 text-primary" />
+                        <Scan className="w-9 h-9 text-white" />
                       </motion.div>
                     ) : (
-                      <CameraGradientIcon />
+                      <ScanGradientIcon />
                     )}
                   </Button>
+                  <span className="absolute -bottom-6 left-1/2 -translate-x-1/2 text-xs text-white/80 font-medium whitespace-nowrap">
+                    Сканирай
+                  </span>
                 </motion.div>
+
+                {/* Spacer for visual balance */}
+                <div className="w-14 h-14" />
               </>
             ) : !analysisResult ? (
               <>
