@@ -177,16 +177,16 @@ export const CameraTab = ({ onScanComplete }: CameraTabProps) => {
         strokeWidth="2" 
         strokeLinecap="round" 
         strokeLinejoin="round"
-        fill="none"
+        fill={useGradient ? "url(#cameraGradient)" : "none"}
       />
       {/* Camera lens */}
       <circle 
         cx="12" 
         cy="13" 
         r="4" 
-        stroke={useGradient ? "url(#cameraGradient)" : "currentColor"} 
+        stroke={useGradient ? "white" : "currentColor"} 
         strokeWidth="2"
-        fill="none"
+        fill={useGradient ? "white" : "none"}
       />
     </svg>
   );
