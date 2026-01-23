@@ -267,25 +267,53 @@ export const CameraTab = ({ onScanComplete }: CameraTabProps) => {
                   whileHover={{ scale: 1.05 }}
                   className="relative"
                 >
-                  <Button
-                    onClick={selectFromGallery}
-                    disabled={isCapturing}
-                    size="lg"
-                    variant="outline"
-                    className={`h-14 w-14 rounded-full shadow-lg transition-all duration-300 ${
-                      isDark 
-                        ? "bg-black border-white/20 hover:bg-black/80 hover:border-white/30" 
-                        : "bg-white border-black/10 hover:bg-gray-50 hover:border-black/20"
-                    }`}
+                  {isDark ? (
+                    /* DARK MODE: Black background, white icon */
+                    <Button
+                      onClick={selectFromGallery}
+                      disabled={isCapturing}
+                      size="lg"
+                      className="h-14 w-14 rounded-full shadow-lg transition-all duration-300"
+                      style={{
+                        backgroundColor: '#000000',
+                        border: '1px solid rgba(255, 255, 255, 0.2)',
+                      }}
+                    >
+                      <ImageIcon 
+                        style={{ 
+                          width: '24px', 
+                          height: '24px', 
+                          color: '#ffffff',
+                          strokeWidth: 2
+                        }}
+                      />
+                    </Button>
+                  ) : (
+                    /* LIGHT MODE: White background, black icon */
+                    <Button
+                      onClick={selectFromGallery}
+                      disabled={isCapturing}
+                      size="lg"
+                      className="h-14 w-14 rounded-full shadow-lg transition-all duration-300"
+                      style={{
+                        backgroundColor: '#ffffff',
+                        border: '1px solid rgba(0, 0, 0, 0.1)',
+                      }}
+                    >
+                      <ImageIcon 
+                        style={{ 
+                          width: '24px', 
+                          height: '24px', 
+                          color: '#000000',
+                          strokeWidth: 2
+                        }}
+                      />
+                    </Button>
+                  )}
+                  <span 
+                    className="absolute -bottom-6 left-1/2 -translate-x-1/2 text-xs whitespace-nowrap"
+                    style={{ color: isDark ? 'rgba(255,255,255,0.6)' : 'rgba(255,255,255,0.8)' }}
                   >
-                    <ImageIcon 
-                      className="w-6 h-6" 
-                      style={{ color: isDark ? '#ffffff' : '#000000' }}
-                    />
-                  </Button>
-                  <span className={`absolute -bottom-6 left-1/2 -translate-x-1/2 text-xs whitespace-nowrap ${
-                    isDark ? "text-white/60" : "text-white/80"
-                  }`}>
                     Галерия
                   </span>
                 </motion.div>
@@ -296,43 +324,90 @@ export const CameraTab = ({ onScanComplete }: CameraTabProps) => {
                   whileHover={{ scale: 1.02 }}
                   className="relative"
                 >
-                  {isDark && (
-                    <div className="absolute inset-0 rounded-full bg-gradient-to-r from-violet-600 via-purple-600 to-indigo-600 blur-lg opacity-60 animate-pulse" />
-                  )}
-                  <Button
-                    onClick={handleCaptureFromStream}
-                    disabled={isCapturing}
-                    size="lg"
-                    className={`relative h-20 w-20 rounded-full shadow-2xl disabled:opacity-50 transition-all duration-300 ${
-                      isDark 
-                        ? "bg-gradient-to-br from-violet-500 via-purple-500 to-indigo-500 border-2 border-white/20 hover:from-violet-400 hover:via-purple-400 hover:to-indigo-400" 
-                        : "bg-white border-2 border-purple-200 hover:bg-gray-50 hover:border-purple-300"
-                    }`}
-                    style={{
-                      boxShadow: isDark 
-                        ? "0 0 30px rgba(139, 92, 246, 0.5), 0 10px 40px rgba(0, 0, 0, 0.3)"
-                        : "0 4px 20px rgba(139, 92, 246, 0.3), 0 8px 32px rgba(0, 0, 0, 0.1)"
-                    }}
-                  >
-                    {isCapturing ? (
-                      <motion.div
-                        animate={{ rotate: 360 }}
-                        transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
+                  {isDark ? (
+                    /* DARK MODE: Purple gradient background, white camera icon */
+                    <>
+                      <div 
+                        className="absolute inset-0 rounded-full animate-pulse"
+                        style={{
+                          background: 'linear-gradient(to right, #7c3aed, #8b5cf6, #6366f1)',
+                          filter: 'blur(16px)',
+                          opacity: 0.6
+                        }}
+                      />
+                      <Button
+                        onClick={handleCaptureFromStream}
+                        disabled={isCapturing}
+                        size="lg"
+                        className="relative h-20 w-20 rounded-full disabled:opacity-50 transition-all duration-300"
+                        style={{
+                          background: 'linear-gradient(to bottom right, #8b5cf6, #a855f7, #6366f1)',
+                          border: '2px solid rgba(255, 255, 255, 0.2)',
+                          boxShadow: '0 0 30px rgba(139, 92, 246, 0.5), 0 10px 40px rgba(0, 0, 0, 0.3)'
+                        }}
                       >
-                        <Scan 
-                          className="w-9 h-9" 
-                          style={{ color: isDark ? '#ffffff' : '#8b5cf6' }}
-                        />
-                      </motion.div>
-                    ) : isDark ? (
-                      <Camera className="w-10 h-10" style={{ color: '#ffffff' }} />
-                    ) : (
-                      <CameraGradientIcon />
-                    )}
-                  </Button>
-                  <span className={`absolute -bottom-6 left-1/2 -translate-x-1/2 text-xs font-medium whitespace-nowrap ${
-                    isDark ? "text-white/80" : "text-white/90"
-                  }`}>
+                        {isCapturing ? (
+                          <motion.div
+                            animate={{ rotate: 360 }}
+                            transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
+                          >
+                            <Scan 
+                              style={{ 
+                                width: '36px', 
+                                height: '36px', 
+                                color: '#ffffff',
+                                strokeWidth: 2
+                              }}
+                            />
+                          </motion.div>
+                        ) : (
+                          <Camera 
+                            style={{ 
+                              width: '40px', 
+                              height: '40px', 
+                              color: '#ffffff',
+                              strokeWidth: 2
+                            }}
+                          />
+                        )}
+                      </Button>
+                    </>
+                  ) : (
+                    /* LIGHT MODE: White background, gradient camera icon */
+                    <Button
+                      onClick={handleCaptureFromStream}
+                      disabled={isCapturing}
+                      size="lg"
+                      className="relative h-20 w-20 rounded-full disabled:opacity-50 transition-all duration-300"
+                      style={{
+                        backgroundColor: '#ffffff',
+                        border: '2px solid rgba(139, 92, 246, 0.3)',
+                        boxShadow: '0 4px 20px rgba(139, 92, 246, 0.3), 0 8px 32px rgba(0, 0, 0, 0.1)'
+                      }}
+                    >
+                      {isCapturing ? (
+                        <motion.div
+                          animate={{ rotate: 360 }}
+                          transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
+                        >
+                          <Scan 
+                            style={{ 
+                              width: '36px', 
+                              height: '36px', 
+                              color: '#8b5cf6',
+                              strokeWidth: 2
+                            }}
+                          />
+                        </motion.div>
+                      ) : (
+                        <CameraGradientIcon />
+                      )}
+                    </Button>
+                  )}
+                  <span 
+                    className="absolute -bottom-6 left-1/2 -translate-x-1/2 text-xs font-medium whitespace-nowrap"
+                    style={{ color: isDark ? 'rgba(255,255,255,0.8)' : 'rgba(255,255,255,0.9)' }}
+                  >
                     Сканирай
                   </span>
                 </motion.div>
