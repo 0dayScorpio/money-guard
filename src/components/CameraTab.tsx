@@ -160,23 +160,34 @@ export const CameraTab = ({ onScanComplete }: CameraTabProps) => {
 
   const error = cameraError || analysisError;
 
-  // SVG gradient for scan icon (larger, primary action)
-  const ScanGradientIcon = () => (
-    <svg className="w-10 h-10" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+  // SVG gradient for scan icon - larger camera icon
+  const ScanGradientIcon = ({ useGradient = false }: { useGradient?: boolean }) => (
+    <svg className="w-12 h-12" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
       <defs>
-        <linearGradient id="scanGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+        <linearGradient id="cameraGradient" x1="0%" y1="0%" x2="100%" y2="100%">
           <stop offset="0%" stopColor="hsl(262, 83%, 58%)" />
           <stop offset="50%" stopColor="hsl(280, 80%, 55%)" />
           <stop offset="100%" stopColor="hsl(250, 90%, 60%)" />
         </linearGradient>
       </defs>
-      {/* Scanner frame corners */}
-      <path d="M3 7V5a2 2 0 0 1 2-2h2" stroke="url(#scanGradient)" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
-      <path d="M17 3h2a2 2 0 0 1 2 2v2" stroke="url(#scanGradient)" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
-      <path d="M21 17v2a2 2 0 0 1-2 2h-2" stroke="url(#scanGradient)" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
-      <path d="M7 21H5a2 2 0 0 1-2-2v-2" stroke="url(#scanGradient)" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
-      {/* Scan line */}
-      <line x1="5" y1="12" x2="19" y2="12" stroke="url(#scanGradient)" strokeWidth="2" strokeLinecap="round" />
+      {/* Camera body */}
+      <path 
+        d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z" 
+        stroke={useGradient ? "url(#cameraGradient)" : "currentColor"} 
+        strokeWidth="2" 
+        strokeLinecap="round" 
+        strokeLinejoin="round"
+        fill="none"
+      />
+      {/* Camera lens */}
+      <circle 
+        cx="12" 
+        cy="13" 
+        r="4" 
+        stroke={useGradient ? "url(#cameraGradient)" : "currentColor"} 
+        strokeWidth="2"
+        fill="none"
+      />
     </svg>
   );
 
@@ -269,11 +280,13 @@ export const CameraTab = ({ onScanComplete }: CameraTabProps) => {
                     disabled={isCapturing}
                     size="lg"
                     variant="outline"
-                    className="h-14 w-14 rounded-full bg-black/30 backdrop-blur-md border border-white/20 shadow-lg hover:bg-black/40 hover:border-white/30 transition-all duration-300"
+                    className="h-14 w-14 rounded-full shadow-lg transition-all duration-300
+                      dark:bg-black/30 dark:backdrop-blur-md dark:border-white/20 dark:hover:bg-black/40 dark:hover:border-white/30
+                      bg-white border-black/10 hover:bg-white/90"
                   >
-                    <ImageIcon className="w-6 h-6 text-white/90" />
+                    <ImageIcon className="w-6 h-6 dark:text-white/90 text-black" />
                   </Button>
-                  <span className="absolute -bottom-6 left-1/2 -translate-x-1/2 text-xs text-white/60 whitespace-nowrap">
+                  <span className="absolute -bottom-6 left-1/2 -translate-x-1/2 text-xs dark:text-white/60 text-white/80 whitespace-nowrap">
                     Галерия
                   </span>
                 </motion.div>
@@ -284,14 +297,17 @@ export const CameraTab = ({ onScanComplete }: CameraTabProps) => {
                   whileHover={{ scale: 1.02 }}
                   className="relative"
                 >
-                  <div className="absolute inset-0 rounded-full bg-gradient-to-r from-violet-600 via-purple-600 to-indigo-600 blur-lg opacity-60 animate-pulse" />
+                  {/* Dark mode: gradient background with glow */}
+                  <div className="dark:block hidden absolute inset-0 rounded-full bg-gradient-to-r from-violet-600 via-purple-600 to-indigo-600 blur-lg opacity-60 animate-pulse" />
                   <Button
                     onClick={handleCaptureFromStream}
                     disabled={isCapturing}
                     size="lg"
-                    className="relative h-20 w-20 rounded-full bg-gradient-to-br from-violet-500 via-purple-500 to-indigo-500 shadow-2xl disabled:opacity-50 border-2 border-white/20 hover:from-violet-400 hover:via-purple-400 hover:to-indigo-400 transition-all duration-300"
+                    className="relative h-20 w-20 rounded-full shadow-2xl disabled:opacity-50 transition-all duration-300
+                      dark:bg-gradient-to-br dark:from-violet-500 dark:via-purple-500 dark:to-indigo-500 dark:border-2 dark:border-white/20 dark:hover:from-violet-400 dark:hover:via-purple-400 dark:hover:to-indigo-400
+                      bg-white border border-black/10 hover:bg-white/90"
                     style={{
-                      boxShadow: "0 0 30px rgba(139, 92, 246, 0.5), 0 10px 40px rgba(0, 0, 0, 0.3)"
+                      boxShadow: "0 0 30px rgba(139, 92, 246, 0.3), 0 10px 40px rgba(0, 0, 0, 0.2)"
                     }}
                   >
                     {isCapturing ? (
@@ -299,13 +315,22 @@ export const CameraTab = ({ onScanComplete }: CameraTabProps) => {
                         animate={{ rotate: 360 }}
                         transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
                       >
-                        <Scan className="w-9 h-9 text-white" />
+                        <Scan className="w-10 h-10 dark:text-white text-violet-500" />
                       </motion.div>
                     ) : (
-                      <ScanGradientIcon />
+                      <>
+                        {/* Dark mode: white camera icon */}
+                        <span className="dark:block hidden">
+                          <ScanGradientIcon useGradient={false} />
+                        </span>
+                        {/* Light mode: gradient camera icon */}
+                        <span className="dark:hidden block">
+                          <ScanGradientIcon useGradient={true} />
+                        </span>
+                      </>
                     )}
                   </Button>
-                  <span className="absolute -bottom-6 left-1/2 -translate-x-1/2 text-xs text-white/80 font-medium whitespace-nowrap">
+                  <span className="absolute -bottom-6 left-1/2 -translate-x-1/2 text-xs dark:text-white/80 text-white/90 font-medium whitespace-nowrap">
                     Сканирай
                   </span>
                 </motion.div>
