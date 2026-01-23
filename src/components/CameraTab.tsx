@@ -279,14 +279,7 @@ export const CameraTab = ({ onScanComplete }: CameraTabProps) => {
                         border: '1px solid rgba(255, 255, 255, 0.2)',
                       }}
                     >
-                      <ImageIcon 
-                        style={{ 
-                          width: '24px', 
-                          height: '24px', 
-                          color: '#ffffff',
-                          strokeWidth: 2
-                        }}
-                      />
+                      <ImageIcon className="w-6 h-6" style={{ color: '#ffffff' }} />
                     </Button>
                   ) : (
                     /* LIGHT MODE: White background, black icon */
@@ -300,14 +293,7 @@ export const CameraTab = ({ onScanComplete }: CameraTabProps) => {
                         border: '1px solid rgba(0, 0, 0, 0.1)',
                       }}
                     >
-                      <ImageIcon 
-                        style={{ 
-                          width: '24px', 
-                          height: '24px', 
-                          color: '#000000',
-                          strokeWidth: 2
-                        }}
-                      />
+                      <ImageIcon className="w-6 h-6" style={{ color: '#000000' }} />
                     </Button>
                   )}
                   <span 
@@ -339,10 +325,8 @@ export const CameraTab = ({ onScanComplete }: CameraTabProps) => {
                         onClick={handleCaptureFromStream}
                         disabled={isCapturing}
                         size="lg"
-                        className="relative h-20 w-20 rounded-full disabled:opacity-50 transition-all duration-300"
+                        className="relative h-20 w-20 rounded-full disabled:opacity-50 transition-all duration-300 bg-gradient-to-br from-violet-500 via-purple-500 to-indigo-500 border-2 border-white/20"
                         style={{
-                          background: 'linear-gradient(to bottom right, #8b5cf6, #a855f7, #6366f1)',
-                          border: '2px solid rgba(255, 255, 255, 0.2)',
                           boxShadow: '0 0 30px rgba(139, 92, 246, 0.5), 0 10px 40px rgba(0, 0, 0, 0.3)'
                         }}
                       >
@@ -351,24 +335,10 @@ export const CameraTab = ({ onScanComplete }: CameraTabProps) => {
                             animate={{ rotate: 360 }}
                             transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
                           >
-                            <Scan 
-                              style={{ 
-                                width: '36px', 
-                                height: '36px', 
-                                color: '#ffffff',
-                                strokeWidth: 2
-                              }}
-                            />
+                            <Scan className="w-9 h-9" style={{ color: '#ffffff' }} />
                           </motion.div>
                         ) : (
-                          <Camera 
-                            style={{ 
-                              width: '40px', 
-                              height: '40px', 
-                              color: '#ffffff',
-                              strokeWidth: 2
-                            }}
-                          />
+                          <Camera className="w-10 h-10" style={{ color: '#ffffff' }} />
                         )}
                       </Button>
                     </>
