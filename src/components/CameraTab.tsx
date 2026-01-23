@@ -170,20 +170,29 @@ export const CameraTab = ({ onScanComplete }: CameraTabProps) => {
           <stop offset="100%" stopColor="hsl(258, 85%, 55%)" />
         </linearGradient>
       </defs>
-      {/* Camera body - filled with gradient in light mode */}
-      <path 
-        d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z" 
-        stroke="none"
-        fill={useGradient ? "url(#cameraGradientFill)" : "white"}
-      />
-      {/* Camera lens - white circle cutout */}
-      <circle 
-        cx="12" 
-        cy="13" 
-        r="4" 
-        stroke="none"
-        fill={useGradient ? "white" : "currentColor"}
-      />
+      {useGradient ? (
+        <>
+          {/* Light mode: filled gradient camera with white lens */}
+          <path 
+            d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z" 
+            fill="url(#cameraGradientFill)"
+          />
+          <circle cx="12" cy="13" r="4" fill="white" />
+        </>
+      ) : (
+        <>
+          {/* Dark mode: white outline camera */}
+          <path 
+            d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z" 
+            stroke="white"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            fill="none"
+          />
+          <circle cx="12" cy="13" r="4" stroke="white" strokeWidth="2" fill="none" />
+        </>
+      )}
     </svg>
   );
 
