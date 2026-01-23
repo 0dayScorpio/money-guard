@@ -2,6 +2,8 @@ import { useState, useEffect, useRef, useCallback } from 'react';
 
 export type CameraPermissionStatus = 'prompt' | 'granted' | 'denied' | 'unavailable';
 
+const CAMERA_PERMISSION_KEY = 'camera-permission-granted';
+
 interface UseCameraStreamResult {
   videoRef: React.RefObject<HTMLVideoElement>;
   stream: MediaStream | null;
@@ -14,10 +16,35 @@ interface UseCameraStreamResult {
   captureFrame: () => string | null;
 }
 
+// Check if permission was previously granted and persisted
+const getPersistedPermission = (): boolean => {
+  try {
+    return localStorage.getItem(CAMERA_PERMISSION_KEY) === 'true';
+  } catch {
+    return false;
+  }
+};
+
+// Persist the granted permission
+const persistPermission = (granted: boolean): void => {
+  try {
+    if (granted) {
+      localStorage.setItem(CAMERA_PERMISSION_KEY, 'true');
+    } else {
+      localStorage.removeItem(CAMERA_PERMISSION_KEY);
+    }
+  } catch (error) {
+    console.error('Error persisting camera permission:', error);
+  }
+};
+
 export const useCameraStream = (): UseCameraStreamResult => {
   const videoRef = useRef<HTMLVideoElement>(null);
   const [stream, setStream] = useState<MediaStream | null>(null);
-  const [permissionStatus, setPermissionStatus] = useState<CameraPermissionStatus>('prompt');
+  // Initialize with 'granted' if previously persisted, otherwise 'prompt'
+  const [permissionStatus, setPermissionStatus] = useState<CameraPermissionStatus>(
+    getPersistedPermission() ? 'granted' : 'prompt'
+  );
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -67,9 +94,10 @@ export const useCameraStream = (): UseCameraStreamResult => {
         audio: false,
       });
 
-      // Permission granted, store stream
+      // Permission granted, store stream and persist
       setStream(mediaStream);
       setPermissionStatus('granted');
+      persistPermission(true);
       return true;
     } catch (err) {
       console.error('Camera permission error:', err);
@@ -77,6 +105,7 @@ export const useCameraStream = (): UseCameraStreamResult => {
       
       if (errorMessage.includes('Permission denied') || errorMessage.includes('NotAllowedError')) {
         setPermissionStatus('denied');
+        persistPermission(false); // Clear persisted permission if denied
         setError('Достъпът до камерата е отказан');
       } else if (errorMessage.includes('NotFoundError')) {
         setPermissionStatus('unavailable');
