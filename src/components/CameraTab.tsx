@@ -160,39 +160,21 @@ export const CameraTab = ({ onScanComplete }: CameraTabProps) => {
 
   const error = cameraError || analysisError;
 
-  // SVG gradient for scan icon - larger camera icon
+  // SVG gradient for scan icon - solid camera icon
   const ScanGradientIcon = ({ useGradient = false }: { useGradient?: boolean }) => (
-    <svg className="w-12 h-12" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <svg className="w-12 h-12" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
       <defs>
         <linearGradient id="cameraGradientFill" x1="0%" y1="0%" x2="100%" y2="100%">
-          <stop offset="0%" stopColor="hsl(270, 70%, 70%)" />
-          <stop offset="50%" stopColor="hsl(265, 80%, 60%)" />
-          <stop offset="100%" stopColor="hsl(258, 85%, 55%)" />
+          <stop offset="0%" stopColor="#a78bfa" />
+          <stop offset="50%" stopColor="#8b5cf6" />
+          <stop offset="100%" stopColor="#7c3aed" />
         </linearGradient>
       </defs>
-      {useGradient ? (
-        <>
-          {/* Light mode: filled gradient camera with white lens */}
-          <path 
-            d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z" 
-            fill="url(#cameraGradientFill)"
-          />
-          <circle cx="12" cy="13" r="4" fill="white" />
-        </>
-      ) : (
-        <>
-          {/* Dark mode: white outline camera */}
-          <path 
-            d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z" 
-            stroke="white"
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            fill="none"
-          />
-          <circle cx="12" cy="13" r="4" stroke="white" strokeWidth="2" fill="none" />
-        </>
-      )}
+      {/* Solid camera icon - single path for reliability */}
+      <path 
+        d="M9 3L7.17 5H4C2.9 5 2 5.9 2 7V19C2 20.1 2.9 21 4 21H20C21.1 21 22 20.1 22 19V7C22 5.9 21.1 5 20 5H16.83L15 3H9ZM12 18C9.24 18 7 15.76 7 13C7 10.24 9.24 8 12 8C14.76 8 17 10.24 17 13C17 15.76 14.76 18 12 18ZM12 10C10.35 10 9 11.35 9 13C9 14.65 10.35 16 12 16C13.65 16 15 14.65 15 13C15 11.35 13.65 10 12 10Z"
+        fill={useGradient ? "url(#cameraGradientFill)" : "white"}
+      />
     </svg>
   );
 
