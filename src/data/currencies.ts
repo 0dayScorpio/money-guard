@@ -33,6 +33,14 @@ export const currencies: CurrencyInfo[] = [
             howToCheck: "Наклонете банкнотата – вижте изображението и 3D номер 5.",
           },
           {
+            id: "eur-5-green",
+            name: "Изумрудено число",
+            description: "Погледнете изумруденото зелено число 5 в левия ъгъл на банкнотата.",
+            imageUrl: "/images/5eur-green.png",
+            howToCheck:
+              "Наклонете банкнотата - зелената ивица на изумруденото число трябва да се мърда и да има холограмен ефект.",
+          },
+          {
             id: "eur-5-security-thread",
             name: "Защитна нишка",
             description: "Вградена нишка, видима като тъмна линия при осветление.",
@@ -66,6 +74,14 @@ export const currencies: CurrencyInfo[] = [
             description: "Холографски образ върху вертикална лента, променящ се при накланяне.",
             imageUrl: "/images/10eur-hologram.jpeg",
             howToCheck: "Наклонете банкнотата – вижте изображението и 3D номер 10.",
+          },
+          {
+            id: "eur-10-green",
+            name: "Изумрудено число",
+            description: "Погледнете изумруденото зелено число 10 в левия ъгъл на банкнотата.",
+            imageUrl: "/images/10eur-green.png",
+            howToCheck:
+              "Наклонете банкнотата - зелената ивица на изумруденото число трябва да се мърда и да има холограмен ефект.",
           },
           {
             id: "eur-10-security-thread",
@@ -110,6 +126,14 @@ export const currencies: CurrencyInfo[] = [
             howToCheck: "Дръжте срещу светлина – нишката се появява.",
           },
           {
+            id: "eur-20-green",
+            name: "Изумрудено число",
+            description: "Погледнете изумруденото зелено число 20 в левия ъгъл на банкнотата.",
+            imageUrl: "/images/20eur-green.png",
+            howToCheck:
+              "Наклонете банкнотата - зелената ивица на изумруденото число трябва да се мърда и да има холограмен ефект.",
+          },
+          {
             id: "eur-20-transparent",
             name: "Прозрачен холограмен портрет",
             description: "Прозрачен портрет в холограмния елемент, през който преминава светлина.",
@@ -152,6 +176,14 @@ export const currencies: CurrencyInfo[] = [
             howToCheck: "Дръжте срещу светлина – вижте нишката.",
           },
           {
+            id: "eur-50-green",
+            name: "Изумрудено число",
+            description: "Погледнете изумруденото зелено число 50 в левия ъгъл на банкнотата.",
+            imageUrl: "/images/50eur-green.png",
+            howToCheck:
+              "Наклонете банкнотата - зелената ивица на изумруденото число трябва да се мърда и да има холограмен ефект.",
+          },
+          {
             id: "eur-50-transparent",
             name: "Прозрачен холограмен портрет",
             description: "Прозрачен портрет в холограмния елемент, през който преминава светлина.",
@@ -167,7 +199,7 @@ export const currencies: CurrencyInfo[] = [
         features: [
           {
             id: "eur-100-portrait-watermark",
-            name: "Портретен воден знак",
+            name: "Воден знак",
             description: "Воден знак с лице, видим при поставяне срещу светлина.",
             imageUrl: "/images/100eur-watermark.jpeg",
             howToCheck: "Дръжте банкнотата срещу светлина – вижте портрета.",
@@ -192,6 +224,14 @@ export const currencies: CurrencyInfo[] = [
             description: "Вградена нишка с микронадпис.",
             imageUrl: "/images/100eur-security-thread.jpeg",
             howToCheck: "Дръжте срещу светлина – нишката е видима.",
+          },
+          {
+            id: "eur-100-green",
+            name: "Изумрудено число",
+            description: "Погледнете изумруденото зелено число 100 в левия ъгъл на банкнотата.",
+            imageUrl: "/images/100eur-green.png",
+            howToCheck:
+              "Наклонете банкнотата - зелената ивица на изумруденото число трябва да се мърда и да има холограмен ефект.",
           },
           {
             id: "eur-100-transparent",
@@ -233,6 +273,14 @@ export const currencies: CurrencyInfo[] = [
             description: "Вградена нишка, видима при държане срещу светлина.",
             imageUrl: "",
             howToCheck: "Поставете срещу светлина – вижте нишката.",
+          },
+          {
+            id: "eur-200-green",
+            name: "Изумрудено число",
+            description: "Погледнете изумруденото зелено число 200 в левия ъгъл на банкнотата.",
+            imageUrl: "/images/200eur-green.png",
+            howToCheck:
+              "Наклонете банкнотата - зелената ивица на изумруденото число трябва да се мърда и да има холограмен ефект.",
           },
           {
             id: "eur-200-transparent",
