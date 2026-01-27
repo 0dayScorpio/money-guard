@@ -36,7 +36,7 @@ export const currencies: CurrencyInfo[] = [
             id: "eur-5-green",
             name: "Изумрудено число",
             description: "Погледнете изумруденото зелено число 5 в левия ъгъл на банкнотата.",
-            imageUrl: "/images/5eur-green.png",
+            imageUrl: "/images/5eur-emerald.jpeg",
             howToCheck:
               "Наклонете банкнотата - зелената ивица на изумруденото число трябва да се мърда и да има холограмен ефект.",
           },
@@ -79,7 +79,7 @@ export const currencies: CurrencyInfo[] = [
             id: "eur-10-green",
             name: "Изумрудено число",
             description: "Погледнете изумруденото зелено число 10 в левия ъгъл на банкнотата.",
-            imageUrl: "/images/10eur-green.png",
+            imageUrl: "/images/10eur-emerald.jpeg",
             howToCheck:
               "Наклонете банкнотата - зелената ивица на изумруденото число трябва да се мърда и да има холограмен ефект.",
           },
@@ -129,7 +129,7 @@ export const currencies: CurrencyInfo[] = [
             id: "eur-20-green",
             name: "Изумрудено число",
             description: "Погледнете изумруденото зелено число 20 в левия ъгъл на банкнотата.",
-            imageUrl: "/images/20eur-green.png",
+            imageUrl: "/images/20eur-emerald.jpeg",
             howToCheck:
               "Наклонете банкнотата - зелената ивица на изумруденото число трябва да се мърда и да има холограмен ефект.",
           },
@@ -179,7 +179,7 @@ export const currencies: CurrencyInfo[] = [
             id: "eur-50-green",
             name: "Изумрудено число",
             description: "Погледнете изумруденото зелено число 50 в левия ъгъл на банкнотата.",
-            imageUrl: "/images/50eur-green.png",
+            imageUrl: "/images/50eur-emerald.jpeg",
             howToCheck:
               "Наклонете банкнотата - зелената ивица на изумруденото число трябва да се мърда и да има холограмен ефект.",
           },
@@ -229,7 +229,7 @@ export const currencies: CurrencyInfo[] = [
             id: "eur-100-green",
             name: "Изумрудено число",
             description: "Погледнете изумруденото зелено число 100 в левия ъгъл на банкнотата.",
-            imageUrl: "/images/100eur-green.png",
+            imageUrl: "/images/100eur-emerald.jpeg",
             howToCheck:
               "Наклонете банкнотата - зелената ивица на изумруденото число трябва да се мърда и да има холограмен ефект.",
           },
