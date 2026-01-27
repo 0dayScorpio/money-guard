@@ -169,13 +169,13 @@ export const SecurityTab = () => {
                             scale={
                               feature.id.includes('watermark') ? 0.2 : 
                               feature.id.includes('transparent') ? 0.21 : 
-                              feature.id === 'eur-50-old-hologram' ? 0.3 : 
+                              feature.id === 'eur-50-old-hologram' ? 0.12 : 
                               0.5
                             }
                             mobileScale={
                               feature.id.includes('watermark') ? 0.4 : 
                               feature.id.includes('transparent') ? 0.42 : 
-                              feature.id === 'eur-50-old-hologram' ? 0.6 : 
+                              feature.id === 'eur-50-old-hologram' ? 0.24 : 
                               1.0
                             }
                           />
