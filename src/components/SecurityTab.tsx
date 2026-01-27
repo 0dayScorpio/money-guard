@@ -170,14 +170,14 @@ export const SecurityTab = () => {
                               feature.id.includes('watermark') ? 0.2 : 
                               feature.id.includes('transparent') ? 0.21 : 
                               feature.id === 'eur-50-old-hologram' ? 0.12 : 
-                              feature.id.includes('-green') ? 0.25 :
+                              feature.id.includes('-green') ? 0.175 :
                               0.5
                             }
                             mobileScale={
                               feature.id.includes('watermark') ? 0.4 : 
                               feature.id.includes('transparent') ? 0.42 : 
                               feature.id === 'eur-50-old-hologram' ? 0.24 : 
-                              feature.id.includes('-green') ? 0.5 :
+                              feature.id.includes('-green') ? 0.35 :
                               1.0
                             }
                           />
