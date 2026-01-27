@@ -278,7 +278,7 @@ export const currencies: CurrencyInfo[] = [
             id: "eur-200-green",
             name: "Изумрудено число",
             description: "Погледнете изумруденото зелено число 200 в левия ъгъл на банкнотата.",
-            imageUrl: "/images/200eur-green.png",
+            imageUrl: "/images/200eur-emerald.jpeg",
             howToCheck:
               "Наклонете банкнотата - зелената ивица на изумруденото число трябва да се мърда и да има холограмен ефект.",
           },
