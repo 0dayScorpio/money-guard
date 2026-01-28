@@ -775,7 +775,7 @@ export const currencies: CurrencyInfo[] = [
             id: "bgn-new-100-stripes",
             name: "Холограмни линии",
             description: "Разноцветни прекъснати ивици в хартията, видими при светлина.",
-            imageUrl: "/images/100lev-new-stripes.jpeg",
+            imageUrl: "/images/100lev-stripes.jpeg",
             howToCheck: "Погледнете на гърба на банкнотата за холограмни прекъснати линии.",
           },
           {
