@@ -93,7 +93,9 @@ export const CameraPermissionDenied = ({ onRetry, onOpenSettings, errorMessage }
         transition={{ delay: 0.8 }}
         className="text-white/50 text-xs text-center max-w-xs mt-8"
       >
-        Стъпки: Настройки → Приложения → NotaGuard → Разрешения → Камера → Разреши
+        {!!(window as any).Capacitor?.isNativePlatform?.()
+          ? 'Стъпки: Настройки → NotaGuard → Камера → Разреши'
+          : 'Стъпки: Настройки → Приложения → NotaGuard → Разрешения → Камера → Разреши'}
       </motion.p>
     </motion.div>
   );

@@ -87,12 +87,26 @@ export const CameraBackground = ({
   }, [requestPermission]);
 
   const handleOpenSettings = useCallback(() => {
-    if (navigator.userAgent.includes('Android')) {
-      alert('Отворете Настройки → Приложения → Браузър → Разрешения → Камера');
-    } else if (navigator.userAgent.includes('iPhone') || navigator.userAgent.includes('iPad')) {
-      alert('Отворете Настройки → Safari → Камера → Разреши');
+    // Check if running as a native app (Capacitor)
+    const isNativeApp = !!(window as any).Capacitor?.isNativePlatform?.();
+    
+    if (isNativeApp) {
+      // Native app - open device settings directly if possible
+      if (navigator.userAgent.includes('Android')) {
+        alert('Отворете Настройки → Приложения → NotaGuard → Разрешения → Камера → Разреши');
+      } else {
+        // iOS native app
+        alert('Отворете Настройки → NotaGuard → Камера → Разреши');
+      }
     } else {
-      alert('Отворете настройките на браузъра и разрешете достъп до камерата за този сайт');
+      // Web browser
+      if (navigator.userAgent.includes('Android')) {
+        alert('Отворете Настройки → Приложения → Браузър → Разрешения → Камера');
+      } else if (navigator.userAgent.includes('iPhone') || navigator.userAgent.includes('iPad')) {
+        alert('Отворете Настройки → Safari → Камера → Разреши');
+      } else {
+        alert('Отворете настройките на браузъра и разрешете достъп до камерата за този сайт');
+      }
     }
   }, []);
 
