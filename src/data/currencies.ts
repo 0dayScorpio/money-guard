@@ -731,18 +731,18 @@ export const currencies: CurrencyInfo[] = [
             howToCheck: "Дръжте срещу светлина – вижте водния знак.",
           },
           {
-            id: "bgn-new-50-embosed-print",
-            name: "Релефен печат",
-            description: "Релефни линии от лявата страна на банкнотата.",
-            imageUrl: "/images/50lev-new-embosed-print.jpeg",
-            howToCheck: "Пипнете и усетете дали релефът е изпъкнал.",
-          },
-          {
             id: "bgn-new-50-stripes",
             name: "Холограмни линии",
             description: "Разноцветни прекъснати ивици в хартията, видими при светлина.",
             imageUrl: "/images/50lev-stripes.jpeg",
             howToCheck: "Погледнете на гърба на банкнотата за холограмни прекъснати линии.",
+          },
+          {
+            id: "bgn-new-50-embosed-print",
+            name: "Релефен печат",
+            description: "Релефни линии от лявата страна на банкнотата.",
+            imageUrl: "/images/50lev-new-embosed-print.jpeg",
+            howToCheck: "Пипнете и усетете дали релефът е изпъкнал.",
           },
           {
             id: "bgn-new-50-security-thread",
