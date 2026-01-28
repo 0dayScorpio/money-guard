@@ -31,21 +31,21 @@ export const SecurityTab = () => {
       <div className="p-4 bg-card border-b border-border space-y-4">
         <h2 className="text-xl font-bold">Защитни елементи</h2>
         
-        <div className="flex gap-3">
+        <div className="flex flex-col sm:flex-row gap-3">
           {/* Currency selector */}
           <Select value={selectedCurrency} onValueChange={(value) => {
             setSelectedCurrency(value);
             setSelectedDenomination(null);
           }}>
-            <SelectTrigger className="flex-1 h-12 rounded-xl">
-              <SelectValue placeholder="Избери валута" />
+            <SelectTrigger className="w-full sm:flex-1 h-12 rounded-xl">
+              <SelectValue placeholder="Избери валута" className="truncate" />
             </SelectTrigger>
             <SelectContent>
               {currencies.map(c => (
                 <SelectItem key={c.code} value={c.code}>
                   <span className="flex items-center gap-2">
                     <span className="text-lg">{c.flag}</span>
-                    <span>{c.name}</span>
+                    <span className="whitespace-nowrap">{c.name}</span>
                   </span>
                 </SelectItem>
               ))}
@@ -58,7 +58,7 @@ export const SecurityTab = () => {
               value={selectedDenomination?.toString() || ''} 
               onValueChange={(value) => setSelectedDenomination(Number(value))}
             >
-              <SelectTrigger className="flex-1 h-12 rounded-xl">
+              <SelectTrigger className="w-full sm:flex-1 h-12 rounded-xl">
                 <SelectValue placeholder="Номинал" />
               </SelectTrigger>
               <SelectContent>
