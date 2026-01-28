@@ -101,16 +101,30 @@ export const useCameraStream = (): UseCameraStreamResult => {
       return true;
     } catch (err) {
       console.error('Camera permission error:', err);
+      const errorName = err instanceof DOMException ? err.name : '';
       const errorMessage = err instanceof Error ? err.message : 'Грешка при достъп до камерата';
       
-      if (errorMessage.includes('Permission denied') || errorMessage.includes('NotAllowedError')) {
+      // Check for permission denied (works on all platforms including iOS/Android)
+      if (
+        errorName === 'NotAllowedError' ||
+        errorName === 'PermissionDeniedError' ||
+        errorMessage.includes('Permission denied') ||
+        errorMessage.includes('not allowed') ||
+        errorMessage.includes('denied')
+      ) {
         setPermissionStatus('denied');
         persistPermission(false); // Clear persisted permission if denied
         setError('Достъпът до камерата е отказан');
-      } else if (errorMessage.includes('NotFoundError')) {
+      } else if (errorName === 'NotFoundError' || errorMessage.includes('NotFoundError')) {
         setPermissionStatus('unavailable');
         setError('Камерата не е намерена');
+      } else if (errorName === 'NotReadableError' || errorName === 'AbortError') {
+        // Camera is in use by another app or hardware error
+        setPermissionStatus('unavailable');
+        setError('Камерата е заета или недостъпна');
       } else {
+        // For any other error, show as denied so the user can see the retry screen
+        setPermissionStatus('denied');
         setError(errorMessage);
       }
       return false;
@@ -207,16 +221,25 @@ export const useCameraStream = (): UseCameraStreamResult => {
     };
   }, [stream]);
 
-  // Check initial permission status
+  // Check initial permission status - but don't override if we already know it's denied
   useEffect(() => {
+    // Skip if we already have a definitive status from a previous request
+    if (permissionStatus === 'denied' || permissionStatus === 'unavailable') {
+      return;
+    }
+    
     checkCameraAvailability().then(available => {
       if (available) {
         checkPermissionStatus().then(status => {
-          setPermissionStatus(status);
+          // Only update if we're still in 'prompt' state
+          // Don't override 'granted' from persistence
+          if (permissionStatus === 'prompt' || (status === 'denied' && permissionStatus !== 'granted')) {
+            setPermissionStatus(status);
+          }
         });
       }
     });
-  }, [checkCameraAvailability, checkPermissionStatus]);
+  }, [checkCameraAvailability, checkPermissionStatus, permissionStatus]);
 
   return {
     videoRef,
