@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">NotaGuard</string>
+    <string name="title_activity_main">NotaGuard</string>
+    <string name="package_name">app.lovable.d1c8ab13d7ed44128968ecf3e73822d3</string>
+    <string name="custom_url_scheme">app.lovable.d1c8ab13d7ed44128968ecf3e73822d3</string>
+</resources>
