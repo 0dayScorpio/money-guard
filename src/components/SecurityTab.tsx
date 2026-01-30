@@ -168,6 +168,7 @@ export const SecurityTab = () => {
                             variant="cover"
                             scale={
                               feature.id.includes('watermark') ? 0.2 : 
+                              feature.id === 'eur-200-transparent' ? 0.17 :
                               feature.id.includes('transparent') ? 0.21 : 
                               feature.id === 'eur-50-old-hologram' ? 0.12 : 
                               feature.id.includes('-green') ? 0.175 :
@@ -175,6 +176,7 @@ export const SecurityTab = () => {
                             }
                             mobileScale={
                               feature.id.includes('watermark') ? 0.4 : 
+                              feature.id === 'eur-200-transparent' ? 0.34 :
                               feature.id.includes('transparent') ? 0.42 : 
                               feature.id === 'eur-50-old-hologram' ? 0.24 : 
                               feature.id.includes('-green') ? 0.35 :
