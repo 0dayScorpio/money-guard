@@ -1,0 +1,40 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+    
+    <!-- NotaGuard Logo - Shield with checkmark -->
+    <group
+        android:translateX="27"
+        android:translateY="20">
+        
+        <!-- Shield outline -->
+        <path
+            android:pathData="M27,0 L54,10 L54,32 C54,48 41,58 27,64 C13,58 0,48 0,32 L0,10 Z"
+            android:strokeWidth="2"
+            android:strokeColor="#8B5CF6"
+            android:fillColor="#1a1a2e"/>
+        
+        <!-- Inner shield gradient effect -->
+        <path
+            android:pathData="M27,4 L50,13 L50,32 C50,45 39,54 27,59 C15,54 4,45 4,32 L4,13 Z"
+            android:fillColor="#2d2d44"/>
+        
+        <!-- Checkmark -->
+        <path
+            android:pathData="M18,32 L24,38 L38,24"
+            android:strokeWidth="4"
+            android:strokeColor="#A855F7"
+            android:strokeLineCap="round"
+            android:strokeLineJoin="round"
+            android:fillColor="#00000000"/>
+        
+        <!-- Purple accent glow -->
+        <path
+            android:pathData="M27,8 L46,15 L46,32 C46,42 37,50 27,55 C17,50 8,42 8,32 L8,15 Z"
+            android:strokeWidth="1"
+            android:strokeColor="#8B5CF680"
+            android:fillColor="#00000000"/>
+    </group>
+</vector>
