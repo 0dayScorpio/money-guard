@@ -47,90 +47,130 @@ npx cap open android
 
 ## Production Build (Google Play)
 
-### 1. Generate Upload Keystore
-
-First time only - create a signing keystore:
+### 1. Generate Upload Keystore (First Time Only)
 
 ```bash
+cd android
 keytool -genkey -v -keystore notaguard-upload-key.keystore -alias notaguard-upload -keyalg RSA -keysize 2048 -validity 10000
 ```
 
-**IMPORTANT:** Keep this keystore file safe! You'll need it for all future updates.
+**CRITICAL:** Keep this keystore file safe! You need it for ALL future app updates.
 
 ### 2. Configure Signing
 
-1. Copy `keystore.properties.template` to `keystore.properties`
-2. Update with your actual keystore credentials:
+```bash
+# Copy the template
+cp keystore.properties.template keystore.properties
+
+# Edit with your credentials
+nano keystore.properties
+```
+
+Update `keystore.properties` with your actual values:
 
 ```properties
-NOTAGUARD_UPLOAD_STORE_FILE=/path/to/notaguard-upload-key.keystore
+NOTAGUARD_UPLOAD_STORE_FILE=notaguard-upload-key.keystore
 NOTAGUARD_UPLOAD_STORE_PASSWORD=your_actual_password
 NOTAGUARD_UPLOAD_KEY_ALIAS=notaguard-upload
 NOTAGUARD_UPLOAD_KEY_PASSWORD=your_actual_password
 ```
 
-**Never commit keystore.properties to git!**
+**⚠️ NEVER commit keystore.properties to git!**
 
-### 3. Build Release AAB
+### 3. Build Signed AAB (Command Line)
 
 ```bash
-# Build the web app
+# From project root
 npm run build
-
-# Sync to Android
 npx cap sync android
 
-# Open Android Studio
-npx cap open android
-```
-
-In Android Studio:
-1. Go to **Build → Generate Signed Bundle / APK**
-2. Select **Android App Bundle**
-3. Select your keystore and enter credentials
-4. Choose **release** build variant
-5. Click **Create**
-
-The AAB will be at: `android/app/build/outputs/bundle/release/app-release.aab`
-
-### 4. Alternative: Command Line Build
-
-```bash
+# Build signed AAB
 cd android
 ./gradlew bundleRelease
 ```
 
-## Camera Permissions
+### 4. Output Location
 
-The app requests camera permission at runtime. The `@capacitor/camera` plugin handles:
-- Runtime permission requests on Android 6+
-- Proper permission dialogs
-- Fallback handling if denied
+The signed AAB file will be at:
+
+```
+android/app/build/outputs/bundle/release/app-release.aab
+```
+
+### 5. Verify the AAB is Signed
+
+```bash
+jarsigner -verify -verbose -certs android/app/build/outputs/bundle/release/app-release.aab
+```
+
+## Runtime Permissions (Android 12-14)
+
+The app handles these runtime permissions via `@capacitor/camera`:
+
+| Permission | Android Version | Purpose |
+|------------|-----------------|---------|
+| `CAMERA` | All | Live scanning & photo capture |
+| `READ_EXTERNAL_STORAGE` | ≤ API 32 | Gallery access |
+| `READ_MEDIA_IMAGES` | API 33+ | Gallery access (granular) |
+
+The Capacitor Camera plugin automatically:
+- Shows native permission dialogs
+- Handles permission rationale
+- Provides callbacks for denied permissions
+
+## Switching to Production Server
+
+Before final release, update `capacitor.config.ts` to remove the dev server:
+
+```typescript
+// Comment out or remove for production:
+// server: {
+//   url: '...',
+//   cleartext: true
+// },
+```
+
+## Full Build Commands Summary
+
+```bash
+# 1. Build web app
+npm run build
+
+# 2. Sync to Android
+npx cap sync android
+
+# 3. Build signed AAB
+cd android && ./gradlew bundleRelease
+
+# 4. Find AAB at:
+# android/app/build/outputs/bundle/release/app-release.aab
+```
 
 ## Troubleshooting
 
-### Camera Not Working
-- Ensure the device has a camera
-- Check app permissions in device settings
-- Clear app data and try again
+### "Keystore was tampered with, or password incorrect"
+- Double-check passwords in `keystore.properties`
+- Ensure keystore file path is correct (relative to `android/` folder)
 
-### Build Failures
+### Build fails with signing errors
 ```bash
 cd android
 ./gradlew clean
-cd ..
-npx cap sync android
+./gradlew bundleRelease --info
 ```
 
-### Hot Reload During Development
-The `capacitor.config.ts` is configured to connect to the Lovable preview server for live development. For production, comment out the `server` block.
+### Camera not working on device
+1. Check app permissions in device Settings
+2. Ensure physical camera exists
+3. Clear app data and reinstall
 
-## App Store Checklist
+## Version Updates
 
-Before uploading to Google Play:
-- [ ] Update `versionCode` and `versionName` in `android/app/build.gradle`
-- [ ] Test on multiple device sizes
-- [ ] Test camera functionality
-- [ ] Verify all features work offline (if applicable)
-- [ ] Prepare store listing assets (screenshots, descriptions)
-- [ ] Generate signed AAB file
+Before each release, update in `android/app/build.gradle`:
+
+```gradle
+defaultConfig {
+    versionCode 2        // Increment for each release
+    versionName "1.1.0"  // User-visible version
+}
+```

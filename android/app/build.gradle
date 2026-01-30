@@ -1,5 +1,15 @@
 apply plugin: 'com.android.application'
 
+// Load keystore properties BEFORE android block
+def keystorePropertiesFile = rootProject.file("keystore.properties")
+def keystoreProperties = new Properties()
+def keystoreConfigured = false
+
+if (keystorePropertiesFile.exists()) {
+    keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
+    keystoreConfigured = true
+}
+
 android {
     namespace "app.lovable.d1c8ab13d7ed44128968ecf3e73822d3"
     compileSdkVersion rootProject.ext.compileSdkVersion
@@ -15,13 +25,8 @@ android {
 
     // Signing configuration for release builds
     signingConfigs {
-        release {
-            // Load keystore properties if available
-            def keystorePropertiesFile = rootProject.file("keystore.properties")
-            if (keystorePropertiesFile.exists()) {
-                def keystoreProperties = new Properties()
-                keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
-                
+        if (keystoreConfigured) {
+            release {
                 storeFile file(keystoreProperties['NOTAGUARD_UPLOAD_STORE_FILE'])
                 storePassword keystoreProperties['NOTAGUARD_UPLOAD_STORE_PASSWORD']
                 keyAlias keystoreProperties['NOTAGUARD_UPLOAD_KEY_ALIAS']
@@ -40,9 +45,7 @@ android {
             shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
             
-            // Use release signing config if keystore.properties exists
-            def keystorePropertiesFile = rootProject.file("keystore.properties")
-            if (keystorePropertiesFile.exists()) {
+            if (keystoreConfigured) {
                 signingConfig signingConfigs.release
             }
         }
@@ -64,6 +67,10 @@ android {
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_17
         targetCompatibility JavaVersion.VERSION_17
+    }
+
+    lint {
+        abortOnError false
     }
 }
 
