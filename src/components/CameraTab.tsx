@@ -26,6 +26,8 @@ import { PrivacyConsentScreen } from "./PrivacyConsentScreen";
 import { useLocalStorage } from "@/hooks/useLocalStorage";
 import { ScannerFrame } from "./ScannerFrame";
 import { useTheme } from "@/hooks/useTheme";
+import { consumeScan } from "@/lib/scanLimit";
+import { toast } from "sonner";
 
 interface CameraTabProps {
   onScanComplete: (scan: ScanHistory) => void;
@@ -73,6 +75,19 @@ export const CameraTab = ({ onScanComplete }: CameraTabProps) => {
 
   const handleAnalyze = useCallback(async () => {
     if (!imageBase64) return;
+
+    // Check daily scan limit before running AI
+    try {
+      const scanCheck = await consumeScan();
+      if (!scanCheck.allowed) {
+        toast.error("Дневният лимит за сканиране е достигнат. Опитайте утре.");
+        return;
+      }
+    } catch {
+      toast.error("Услугата е временно недостъпна. Моля, опитайте отново.");
+      return;
+    }
+
     const result = await analyzeImage(imageBase64);
     if (result) {
       const scan: ScanHistory = {
