@@ -11,7 +11,6 @@ function generateUUID(): string {
   if (typeof crypto !== 'undefined' && typeof crypto.randomUUID === 'function') {
     return crypto.randomUUID();
   }
-  // Fallback UUID v4 generation
   return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, (c) => {
     const r = (Math.random() * 16) | 0;
     const v = c === 'x' ? r : (r & 0x3) | 0x8;
@@ -35,6 +34,33 @@ export interface ScanLimitResult {
   used: number;
 }
 
+const SCAN_STATUS_KEY = 'scan_status';
+
+interface StoredScanStatus {
+  date: string;
+  remaining: number;
+}
+
+function todayKey(): string {
+  return new Date().toISOString().slice(0, 10);
+}
+
+export async function getScanRemaining(): Promise<number> {
+  const { value } = await Preferences.get({ key: SCAN_STATUS_KEY });
+  if (value) {
+    try {
+      const stored: StoredScanStatus = JSON.parse(value);
+      if (stored.date === todayKey()) return stored.remaining;
+    } catch { /* ignore */ }
+  }
+  return DAILY_LIMIT;
+}
+
+async function saveScanStatus(remaining: number): Promise<void> {
+  const status: StoredScanStatus = { date: todayKey(), remaining };
+  await Preferences.set({ key: SCAN_STATUS_KEY, value: JSON.stringify(status) });
+}
+
 export async function consumeScan(): Promise<ScanLimitResult> {
   const deviceToken = await getDeviceToken();
 
@@ -56,13 +82,15 @@ export async function consumeScan(): Promise<ScanLimitResult> {
   }
 
   const data = await response.json();
-  // Supabase RPC returns an array with one object
   const result = Array.isArray(data) ? data[0] : data;
 
-  return {
+  const scanResult: ScanLimitResult = {
     allowed: result.allowed,
     remaining: result.remaining,
     limit: result.limit,
     used: result.used,
   };
+
+  await saveScanStatus(scanResult.remaining);
+  return scanResult;
 }

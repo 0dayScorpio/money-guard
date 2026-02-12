@@ -26,8 +26,9 @@ import { PrivacyConsentScreen } from "./PrivacyConsentScreen";
 import { useLocalStorage } from "@/hooks/useLocalStorage";
 import { ScannerFrame } from "./ScannerFrame";
 import { useTheme } from "@/hooks/useTheme";
-import { consumeScan } from "@/lib/scanLimit";
+import { consumeScan, getScanRemaining } from "@/lib/scanLimit";
 import { toast } from "sonner";
+import { Badge } from "@/components/ui/badge";
 
 interface CameraTabProps {
   onScanComplete: (scan: ScanHistory) => void;
@@ -48,6 +49,7 @@ export const CameraTab = ({ onScanComplete }: CameraTabProps) => {
   const [hasAcceptedPrivacy, setHasAcceptedPrivacy] = useLocalStorage("camera-privacy-accepted", false);
   const [showPrivacyScreen, setShowPrivacyScreen] = useState(false);
   const [isCameraActive, setIsCameraActive] = useState(false);
+  const [scansRemaining, setScansRemaining] = useState<number | null>(null);
 
   // Ref to capture function from CameraBackground
   const captureFrameRef = useRef<(() => string | null) | null>(null);
@@ -60,6 +62,7 @@ export const CameraTab = ({ onScanComplete }: CameraTabProps) => {
     } else {
       setIsCameraActive(true);
     }
+    getScanRemaining().then(setScansRemaining).catch(() => {});
   }, [hasAcceptedPrivacy]);
 
   const handlePrivacyAccept = useCallback(() => {
@@ -79,6 +82,7 @@ export const CameraTab = ({ onScanComplete }: CameraTabProps) => {
     // Check daily scan limit before running AI
     try {
       const scanCheck = await consumeScan();
+      setScansRemaining(scanCheck.remaining);
       if (!scanCheck.allowed) {
         toast.error("Дневният лимит за сканиране е достигнат. Опитайте утре.");
         return;
@@ -365,7 +369,7 @@ export const CameraTab = ({ onScanComplete }: CameraTabProps) => {
                   </Button>
                 </motion.div>
 
-                <motion.div whileTap={{ scale: 0.95 }}>
+                <motion.div whileTap={{ scale: 0.95 }} className="relative">
                   <Button
                     onClick={handleAnalyze}
                     disabled={isAnalyzing}
@@ -375,6 +379,14 @@ export const CameraTab = ({ onScanComplete }: CameraTabProps) => {
                     <Sparkles className="w-6 h-6 text-white mr-2" />
                     <span className="text-white font-semibold">Анализирай</span>
                   </Button>
+                  {scansRemaining !== null && (
+                    <Badge
+                      variant={scansRemaining === 0 ? "destructive" : "secondary"}
+                      className="absolute -top-2 -right-2 text-[10px] px-1.5 py-0.5 shadow-md"
+                    >
+                      {scansRemaining}/5
+                    </Badge>
+                  )}
                 </motion.div>
               </>
             ) : null}
