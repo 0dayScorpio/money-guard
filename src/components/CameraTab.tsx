@@ -350,14 +350,6 @@ export const CameraTab = ({ onScanComplete }: CameraTabProps) => {
                   <span className="absolute -bottom-6 left-1/2 -translate-x-1/2 text-xs font-medium whitespace-nowrap text-white/80">
                     Сканирай
                   </span>
-                  {scansRemaining !== null && (
-                    <Badge
-                      variant={scansRemaining === 0 ? "destructive" : "secondary"}
-                      className="absolute -top-2 -right-2 text-[10px] px-1.5 py-0.5 shadow-md z-10"
-                    >
-                      {scansRemaining}/5
-                    </Badge>
-                  )}
                 </motion.div>
 
                 {/* Spacer for visual balance */}
