@@ -40,8 +40,11 @@ export const useScanHistory = () => {
   }, []);
 
   const addScan = useCallback(async (scan: ScanHistory) => {
+    // Update state immediately so UI reflects the new scan
+    setHistory(prev => [scan, ...prev.slice(0, MAX_HISTORY_ITEMS - 1)]);
+
     try {
-      // Add to IndexedDB
+      // Persist to IndexedDB in background
       await db.scanHistory.add({
         id: scan.id,
         timestamp: scan.timestamp,
@@ -50,9 +53,6 @@ export const useScanHistory = () => {
         denomination: scan.denomination,
         confidence: scan.confidence
       });
-
-      // Update state (prepend new scan, limit to MAX_HISTORY_ITEMS)
-      setHistory(prev => [scan, ...prev.slice(0, MAX_HISTORY_ITEMS - 1)]);
 
       // Cleanup old records if needed
       const count = await db.scanHistory.count();
@@ -64,7 +64,7 @@ export const useScanHistory = () => {
         await db.scanHistory.bulkDelete(oldestRecords);
       }
     } catch (error) {
-      console.error('Failed to save scan:', error);
+      console.error('Failed to save scan to IndexedDB:', error);
     }
   }, []);
 
