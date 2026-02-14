@@ -1,5 +1,6 @@
 import { useState, useCallback } from 'react';
 import { supabase } from '@/integrations/supabase/client';
+import { getDeviceToken } from '@/lib/scanLimit';
 
 export interface DetectedFeature {
   name: string;
@@ -36,8 +37,10 @@ export const useBanknoteAnalysis = (): UseBanknoteAnalysisResult => {
     setAnalysisResult(null);
 
     try {
+      const deviceId = await getDeviceToken();
+
       const { data, error: functionError } = await supabase.functions.invoke('analyze-banknote', {
-        body: { imageBase64, currency }
+        body: { imageBase64, currency, deviceId }
       });
 
       if (functionError) {
