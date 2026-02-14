@@ -1,9 +1,18 @@
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
+import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
-  "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
+  "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type, x-supabase-client-platform, x-supabase-client-platform-version, x-supabase-client-runtime, x-supabase-client-runtime-version",
 };
+
+// External Supabase project for scan limiting (publishable anon key)
+const SCAN_SUPABASE_URL = "https://mgcslsffeonhgdmlrjoz.supabase.co";
+const SCAN_SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1nY3Nsc2ZmZW9uaGdkbWxyam96Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzA5MDk0NjAsImV4cCI6MjA4NjQ4NTQ2MH0.Tg8R8AdEMmxgdcPM-zpCmLH_vh30_DK8HTrmoEhl2SI";
+const DAILY_LIMIT = 5;
+
+const MAX_IMAGE_SIZE = 10 * 1024 * 1024; // 10MB
+const VALID_CURRENCIES = ["EUR", "USD", "GBP", "BGN"];
 
 serve(async (req) => {
   if (req.method === "OPTIONS") {
@@ -11,15 +20,64 @@ serve(async (req) => {
   }
 
   try {
-    const { imageBase64, currency } = await req.json();
-    
-    if (!imageBase64) {
+    const body = await req.json();
+    const { imageBase64, currency, deviceId } = body;
+
+    // --- Input Validation ---
+
+    // 1. Require deviceId for rate limiting
+    if (!deviceId || typeof deviceId !== "string" || deviceId.length < 10 || deviceId.length > 128) {
+      return new Response(
+        JSON.stringify({ error: "Valid device ID required" }),
+        { status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" } }
+      );
+    }
+
+    // 2. Validate imageBase64 presence and type
+    if (!imageBase64 || typeof imageBase64 !== "string") {
       return new Response(
         JSON.stringify({ error: "No image provided" }),
         { status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" } }
       );
     }
 
+    // 3. Validate image size
+    if (imageBase64.length > MAX_IMAGE_SIZE) {
+      return new Response(
+        JSON.stringify({ error: "Image too large (max 10MB)" }),
+        { status: 413, headers: { ...corsHeaders, "Content-Type": "application/json" } }
+      );
+    }
+
+    // 4. Validate currency if provided
+    if (currency && (typeof currency !== "string" || !VALID_CURRENCIES.includes(currency.toUpperCase()))) {
+      return new Response(
+        JSON.stringify({ error: "Invalid currency" }),
+        { status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" } }
+      );
+    }
+
+    // --- Server-Side Rate Limiting ---
+    const scanClient = createClient(SCAN_SUPABASE_URL, SCAN_SUPABASE_ANON_KEY);
+    const { data: limitCheck, error: limitError } = await scanClient.rpc("consume_scan", {
+      p_device_id: deviceId,
+      p_daily_limit: DAILY_LIMIT,
+    });
+
+    const limitResult = Array.isArray(limitCheck) ? limitCheck[0] : limitCheck;
+
+    if (limitError || !limitResult?.allowed) {
+      return new Response(
+        JSON.stringify({
+          error: "Дневният лимит за сканиране е достигнат. Опитайте утре.",
+          remaining: limitResult?.remaining ?? 0,
+          limit: DAILY_LIMIT,
+        }),
+        { status: 429, headers: { ...corsHeaders, "Content-Type": "application/json" } }
+      );
+    }
+
+    // --- AI Analysis ---
     const LOVABLE_API_KEY = Deno.env.get("LOVABLE_API_KEY");
     if (!LOVABLE_API_KEY) {
       throw new Error("LOVABLE_API_KEY is not configured");
@@ -133,7 +191,6 @@ serve(async (req) => {
     // Parse the JSON response from AI
     let analysisResult;
     try {
-      // Clean the response - remove markdown code blocks if present
       let cleanContent = content.trim();
       if (cleanContent.startsWith('```json')) {
         cleanContent = cleanContent.slice(7);
@@ -147,7 +204,6 @@ serve(async (req) => {
       analysisResult = JSON.parse(cleanContent.trim());
     } catch (parseError) {
       console.error("Failed to parse AI response:", content);
-      // Return a default suspicious result if parsing fails
       analysisResult = {
         result: "suspicious",
         confidence: 50,
@@ -159,6 +215,9 @@ serve(async (req) => {
       };
     }
 
+    // Include remaining scans in response
+    analysisResult.remaining = limitResult?.remaining ?? 0;
+
     return new Response(
       JSON.stringify(analysisResult),
       { headers: { ...corsHeaders, "Content-Type": "application/json" } }
@@ -168,7 +227,7 @@ serve(async (req) => {
     console.error("Error analyzing banknote:", error);
     return new Response(
       JSON.stringify({ 
-        error: error instanceof Error ? error.message : "Грешка при анализа",
+        error: "Грешка при анализа",
         result: "suspicious",
         confidence: 0,
         analysis: "Възникна грешка при анализа на банкнотата."
