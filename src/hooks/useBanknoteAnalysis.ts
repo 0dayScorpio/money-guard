@@ -45,7 +45,22 @@ export const useBanknoteAnalysis = (): UseBanknoteAnalysisResult => {
       });
 
       if (functionError) {
-        throw new Error(functionError.message || 'Грешка при анализа');
+        // Supabase client puts the raw Response in functionError.context for non-2xx
+        let serverMessage: string | undefined;
+        try {
+          const ctx = (functionError as any).context;
+          if (ctx instanceof Response) {
+            const body = await ctx.json();
+            serverMessage = body?.error;
+            if (typeof body?.remaining === 'number') {
+              setAnalysisResult(null);
+              setIsAnalyzing(false);
+              setError(serverMessage || 'Дневният лимит за сканиране е достигнат.');
+              return null;
+            }
+          }
+        } catch {}
+        throw new Error(serverMessage || functionError.message || 'Грешка при анализа');
       }
 
       if (data.error) {
