@@ -168,14 +168,17 @@ export const useCameraStream = (): UseCameraStreamResult => {
 
     const video = videoRef.current;
     const canvas = document.createElement('canvas');
-    canvas.width = video.videoWidth;
-    canvas.height = video.videoHeight;
+    // Downscale to max 1024px wide to reduce AI token costs
+    const maxWidth = 1024;
+    const scale = video.videoWidth > maxWidth ? maxWidth / video.videoWidth : 1;
+    canvas.width = Math.round(video.videoWidth * scale);
+    canvas.height = Math.round(video.videoHeight * scale);
     
     const ctx = canvas.getContext('2d');
     if (!ctx) return null;
     
-    ctx.drawImage(video, 0, 0);
-    return canvas.toDataURL('image/jpeg', 0.9);
+    ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+    return canvas.toDataURL('image/jpeg', 0.6);
   }, [stream]);
 
   // Attach stream to video element when stream changes
