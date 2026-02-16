@@ -26,7 +26,8 @@ import { PrivacyConsentScreen } from "./PrivacyConsentScreen";
 import { useLocalStorage } from "@/hooks/useLocalStorage";
 import { ScannerFrame } from "./ScannerFrame";
 import { useTheme } from "@/hooks/useTheme";
-import { getScanRemaining } from "@/lib/scanLimit";
+import { getDeviceToken } from "@/lib/scanLimit";
+import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 import { Badge } from "@/components/ui/badge";
 
@@ -69,9 +70,7 @@ export const CameraTab = ({ onScanComplete }: CameraTabProps) => {
     let cancelled = false;
     const fetchRemaining = async () => {
       try {
-        const { getDeviceToken } = await import('@/lib/scanLimit');
         const deviceId = await getDeviceToken();
-        const { supabase } = await import('@/integrations/supabase/client');
         const today = new Date().toISOString().slice(0, 10);
         const { data } = await supabase
           .from('scan_usage')
@@ -84,9 +83,7 @@ export const CameraTab = ({ onScanComplete }: CameraTabProps) => {
           setScansRemaining(Math.max(0, 5 - used));
         }
       } catch {
-        if (!cancelled) {
-          getScanRemaining().then(setScansRemaining).catch(() => {});
-        }
+        // Don't fallback to local cache — keep null until DB confirms
       }
     };
     fetchRemaining();
