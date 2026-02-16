@@ -62,8 +62,36 @@ export const CameraTab = ({ onScanComplete }: CameraTabProps) => {
     } else {
       setIsCameraActive(true);
     }
-    getScanRemaining().then(setScansRemaining).catch(() => {});
   }, [hasAcceptedPrivacy]);
+
+  // Fetch accurate remaining scans from DB on every mount (tab switch)
+  useEffect(() => {
+    let cancelled = false;
+    const fetchRemaining = async () => {
+      try {
+        const { getDeviceToken } = await import('@/lib/scanLimit');
+        const deviceId = await getDeviceToken();
+        const { supabase } = await import('@/integrations/supabase/client');
+        const today = new Date().toISOString().slice(0, 10);
+        const { data } = await supabase
+          .from('scan_usage')
+          .select('scan_count')
+          .eq('device_id', deviceId)
+          .eq('scan_date', today)
+          .maybeSingle();
+        if (!cancelled) {
+          const used = data?.scan_count ?? 0;
+          setScansRemaining(Math.max(0, 5 - used));
+        }
+      } catch {
+        if (!cancelled) {
+          getScanRemaining().then(setScansRemaining).catch(() => {});
+        }
+      }
+    };
+    fetchRemaining();
+    return () => { cancelled = true; };
+  }, []);
 
   const handlePrivacyAccept = useCallback(() => {
     setHasAcceptedPrivacy(true);
