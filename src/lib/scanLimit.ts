@@ -1,11 +1,9 @@
 import { Preferences } from '@capacitor/preferences';
+import { supabase } from '@/integrations/supabase/client';
 
 const DEVICE_TOKEN_KEY = 'device_token';
 const DAILY_LIMIT = 5;
 
-// External Supabase project for scan limiting (public/publishable values)
-const SCAN_SUPABASE_URL = 'https://mgcslsffeonhgdmlrjoz.supabase.co';
-const SCAN_SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1nY3Nsc2ZmZW9uaGdkbWxyam96Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzA5MDk0NjAsImV4cCI6MjA4NjQ4NTQ2MH0.Tg8R8AdEMmxgdcPM-zpCmLH_vh30_DK8HTrmoEhl2SI';
 
 function generateUUID(): string {
   if (typeof crypto !== 'undefined' && typeof crypto.randomUUID === 'function') {
@@ -64,24 +62,15 @@ async function saveScanStatus(remaining: number): Promise<void> {
 export async function consumeScan(): Promise<ScanLimitResult> {
   const deviceToken = await getDeviceToken();
 
-  const response = await fetch(`${SCAN_SUPABASE_URL}/rest/v1/rpc/consume_scan`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      'apikey': SCAN_SUPABASE_ANON_KEY,
-      'Authorization': `Bearer ${SCAN_SUPABASE_ANON_KEY}`,
-    },
-    body: JSON.stringify({
-      p_device_id: deviceToken,
-      p_daily_limit: DAILY_LIMIT,
-    }),
+  const { data, error } = await supabase.rpc('consume_scan' as any, {
+    p_device_id: deviceToken,
+    p_daily_limit: DAILY_LIMIT,
   });
 
-  if (!response.ok) {
-    throw new Error(`RPC error: ${response.status}`);
+  if (error) {
+    throw new Error(`RPC error: ${error.message}`);
   }
 
-  const data = await response.json();
   const result = Array.isArray(data) ? data[0] : data;
 
   const scanResult: ScanLimitResult = {
