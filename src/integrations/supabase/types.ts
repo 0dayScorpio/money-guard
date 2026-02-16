@@ -14,13 +14,36 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      scan_usage: {
+        Row: {
+          device_id: string
+          scan_count: number
+          scan_date: string
+          updated_at: string
+        }
+        Insert: {
+          device_id: string
+          scan_count?: number
+          scan_date?: string
+          updated_at?: string
+        }
+        Update: {
+          device_id?: string
+          scan_count?: number
+          scan_date?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      consume_scan: {
+        Args: { p_daily_limit?: number; p_device_id: string }
+        Returns: Json
+      }
     }
     Enums: {
       [_ in never]: never
