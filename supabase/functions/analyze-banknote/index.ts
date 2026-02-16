@@ -6,9 +6,6 @@ const corsHeaders = {
   "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type, x-supabase-client-platform, x-supabase-client-platform-version, x-supabase-client-runtime, x-supabase-client-runtime-version",
 };
 
-// External Supabase project for scan limiting (publishable anon key)
-const SCAN_SUPABASE_URL = "https://mgcslsffeonhgdmlrjoz.supabase.co";
-const SCAN_SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1nY3Nsc2ZmZW9uaGdkbWxyam96Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzA5MDk0NjAsImV4cCI6MjA4NjQ4NTQ2MH0.Tg8R8AdEMmxgdcPM-zpCmLH_vh30_DK8HTrmoEhl2SI";
 const DAILY_LIMIT = 5;
 
 const MAX_IMAGE_SIZE = 10 * 1024 * 1024; // 10MB
@@ -57,8 +54,10 @@ serve(async (req) => {
       );
     }
 
-    // --- Server-Side Rate Limiting ---
-    const scanClient = createClient(SCAN_SUPABASE_URL, SCAN_SUPABASE_ANON_KEY);
+    // --- Server-Side Rate Limiting (using this project's own database) ---
+    const supabaseUrl = Deno.env.get("SUPABASE_URL")!;
+    const supabaseKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
+    const scanClient = createClient(supabaseUrl, supabaseKey);
     const { data: limitCheck, error: limitError } = await scanClient.rpc("consume_scan", {
       p_device_id: deviceId,
       p_daily_limit: DAILY_LIMIT,
