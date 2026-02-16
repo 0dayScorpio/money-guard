@@ -16,6 +16,7 @@ export interface AnalysisResult {
   detectedFeatures: DetectedFeature[];
   analysis: string;
   recommendations: string[];
+  remaining?: number;
 }
 
 interface UseBanknoteAnalysisResult {
@@ -58,7 +59,8 @@ export const useBanknoteAnalysis = (): UseBanknoteAnalysisResult => {
         denomination: data.denomination || null,
         detectedFeatures: data.detectedFeatures || [],
         analysis: data.analysis || 'Няма налична информация за анализа.',
-        recommendations: data.recommendations || []
+        recommendations: data.recommendations || [],
+        remaining: typeof data.remaining === 'number' ? data.remaining : undefined,
       };
 
       setAnalysisResult(result);

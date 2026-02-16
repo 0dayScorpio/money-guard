@@ -81,9 +81,8 @@ export const CameraTab = ({ onScanComplete }: CameraTabProps) => {
 
     const result = await analyzeImage(imageBase64);
     if (result) {
-      // Update remaining scans from server response
-      if (typeof (result as any).remaining === 'number') {
-        setScansRemaining((result as any).remaining);
+      if (typeof result.remaining === 'number') {
+        setScansRemaining(result.remaining);
       }
       const scan: ScanHistory = {
         id: Date.now().toString(),
