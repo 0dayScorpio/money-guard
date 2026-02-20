@@ -256,11 +256,13 @@ serve(async (req) => {
     }
 
     // Store in cache so same image always returns same result
-    await scanClient
-      .from("banknote_analysis_cache")
-      .insert({ image_hash: imageHash, result: analysisResult })
-      .throwOnError()
-      .catch((e: Error) => console.warn("Cache insert failed (non-fatal):", e.message));
+    try {
+      await scanClient
+        .from("banknote_analysis_cache")
+        .insert({ image_hash: imageHash, result: analysisResult });
+    } catch (e) {
+      console.warn("Cache insert failed (non-fatal):", (e as Error).message);
+    }
 
     // Attach remaining scan count
     analysisResult.remaining = limitResult?.remaining ?? 0;
