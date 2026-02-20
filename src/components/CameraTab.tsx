@@ -222,6 +222,139 @@ export const CameraTab = ({ onScanComplete }: CameraTabProps) => {
     return <PrivacyConsentScreen onAccept={handlePrivacyAccept} onDecline={handlePrivacyDecline} />;
   }
 
+  // When analysis result is shown, render scrollable layout
+  if (analysisResult) {
+    const config = getResultConfig(analysisResult.result);
+    const Icon = config.icon;
+    return (
+      <div className="h-full overflow-y-auto bg-background">
+        {/* Captured image - compact at top */}
+        <div className="relative w-full bg-black" style={{ height: '40vh' }}>
+          <img
+            src={imageBase64!}
+            alt="Заснета банкнота"
+            className="w-full h-full object-contain"
+          />
+          {/* Reset button overlay */}
+          <button
+            onClick={resetScan}
+            className="absolute top-4 right-4 bg-black/50 backdrop-blur-sm rounded-full p-2 border border-white/20"
+          >
+            <RefreshCw className="w-5 h-5 text-white" />
+          </button>
+        </div>
+
+        {/* Analysis results - scrollable content */}
+        <motion.div
+          initial={{ y: 40, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          transition={{ type: "spring", damping: 25, stiffness: 300 }}
+          className="bg-card"
+        >
+          <div className="p-6 space-y-4">
+            {/* Result header */}
+            <div className={`flex items-center gap-4 p-4 rounded-2xl ${config.bgClass} border ${config.borderClass}`}>
+              <div className={`p-3 rounded-xl ${config.gradientClass}`}>
+                <Icon className="w-8 h-8 text-white" />
+              </div>
+              <div className="flex-1">
+                <h3 className={`font-bold text-xl ${config.textClass}`}>{config.title}</h3>
+                <div className="flex items-center gap-2 mt-1">
+                  <span className="text-sm text-muted-foreground">
+                    Увереност: {analysisResult.confidence.toFixed(0)}%
+                  </span>
+                  {analysisResult.currency !== "UNKNOWN" && (
+                    <>
+                      <span className="text-muted-foreground">•</span>
+                      <span className="text-sm font-medium">
+                        {analysisResult.currency} {analysisResult.denomination}
+                      </span>
+                    </>
+                  )}
+                </div>
+              </div>
+            </div>
+
+            {/* Analysis text */}
+            <p className="text-foreground leading-relaxed">{analysisResult.analysis}</p>
+
+            {/* Detected features */}
+            {analysisResult.detectedFeatures.length > 0 && (
+              <div>
+                <button
+                  onClick={() => setShowDetails(!showDetails)}
+                  className="flex items-center gap-2 text-sm font-medium text-primary hover:underline"
+                >
+                  <Shield className="w-4 h-4" />
+                  Открити защитни елементи ({analysisResult.detectedFeatures.length})
+                  {showDetails ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
+                </button>
+
+                <AnimatePresence>
+                  {showDetails && (
+                    <motion.div
+                      initial={{ height: 0, opacity: 0 }}
+                      animate={{ height: "auto", opacity: 1 }}
+                      exit={{ height: 0, opacity: 0 }}
+                      className="mt-3 space-y-2 overflow-hidden"
+                    >
+                      {analysisResult.detectedFeatures.map((feature, idx) => (
+                        <div
+                          key={idx}
+                          className={`flex items-start gap-3 p-3 rounded-xl ${feature.detected ? "bg-success/10 border border-success/20" : "bg-destructive/10 border border-destructive/20"}`}
+                        >
+                          {feature.detected ? (
+                            <CheckCircle className="w-5 h-5 text-success flex-shrink-0 mt-0.5" />
+                          ) : (
+                            <XOctagon className="w-5 h-5 text-destructive flex-shrink-0 mt-0.5" />
+                          )}
+                          <div>
+                            <p className="font-medium text-sm">{feature.name}</p>
+                            <p className="text-xs text-muted-foreground mt-0.5">{feature.description}</p>
+                          </div>
+                        </div>
+                      ))}
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </div>
+            )}
+
+            {/* Recommendations */}
+            {analysisResult.recommendations.length > 0 && (
+              <div className="space-y-2">
+                <p className="text-sm font-medium text-muted-foreground">Препоръки:</p>
+                <ul className="space-y-1">
+                  {analysisResult.recommendations.map((rec, idx) => (
+                    <li key={idx} className="text-sm text-muted-foreground flex items-start gap-2">
+                      <span className="text-primary">•</span>
+                      {rec}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
+
+            {/* Disclaimer */}
+            <div className="flex items-start gap-3 p-3 bg-muted rounded-xl">
+              <AlertCircle className="w-5 h-5 text-muted-foreground flex-shrink-0 mt-0.5" />
+              <p className="text-xs text-muted-foreground">
+                Резултатът е ориентировъчен и не представлява официална експертиза. При съмнения се обърнете към
+                банка или експерт.
+              </p>
+            </div>
+
+            {/* Actions */}
+            <Button onClick={resetScan} variant="outline" className="w-full h-12 rounded-xl">
+              <RefreshCw className="w-4 h-4 mr-2" />
+              Сканирай отново
+            </Button>
+          </div>
+        </motion.div>
+      </div>
+    );
+  }
+
   return (
     <div className="flex flex-col h-full">
       {/* Camera viewport with live background */}
@@ -408,127 +541,6 @@ export const CameraTab = ({ onScanComplete }: CameraTabProps) => {
           </div>
         </div>
       </CameraBackground>
-
-      {/* Results panel */}
-      <AnimatePresence>
-        {analysisResult && (
-          <motion.div
-            initial={{ y: 300, opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
-            exit={{ y: 300, opacity: 0 }}
-            transition={{ type: "spring", damping: 25, stiffness: 300 }}
-            className="bg-card border-t border-border max-h-[60vh] overflow-y-auto"
-          >
-            {(() => {
-              const config = getResultConfig(analysisResult.result);
-              const Icon = config.icon;
-              return (
-                <div className="p-6 space-y-4">
-                  {/* Result header */}
-                  <div
-                    className={`flex items-center gap-4 p-4 rounded-2xl ${config.bgClass} border ${config.borderClass}`}
-                  >
-                    <div className={`p-3 rounded-xl ${config.gradientClass}`}>
-                      <Icon className="w-8 h-8 text-white" />
-                    </div>
-                    <div className="flex-1">
-                      <h3 className={`font-bold text-xl ${config.textClass}`}>{config.title}</h3>
-                      <div className="flex items-center gap-2 mt-1">
-                        <span className="text-sm text-muted-foreground">
-                          Увереност: {analysisResult.confidence.toFixed(0)}%
-                        </span>
-                        {analysisResult.currency !== "UNKNOWN" && (
-                          <>
-                            <span className="text-muted-foreground">•</span>
-                            <span className="text-sm font-medium">
-                              {analysisResult.currency} {analysisResult.denomination}
-                            </span>
-                          </>
-                        )}
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Analysis text */}
-                  <p className="text-foreground leading-relaxed">{analysisResult.analysis}</p>
-
-                  {/* Detected features */}
-                  {analysisResult.detectedFeatures.length > 0 && (
-                    <div>
-                      <button
-                        onClick={() => setShowDetails(!showDetails)}
-                        className="flex items-center gap-2 text-sm font-medium text-primary hover:underline"
-                      >
-                        <Shield className="w-4 h-4" />
-                        Открити защитни елементи ({analysisResult.detectedFeatures.length})
-                        {showDetails ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
-                      </button>
-
-                      <AnimatePresence>
-                        {showDetails && (
-                          <motion.div
-                            initial={{ height: 0, opacity: 0 }}
-                            animate={{ height: "auto", opacity: 1 }}
-                            exit={{ height: 0, opacity: 0 }}
-                            className="mt-3 space-y-2 overflow-hidden"
-                          >
-                            {analysisResult.detectedFeatures.map((feature, idx) => (
-                              <div
-                                key={idx}
-                                className={`flex items-start gap-3 p-3 rounded-xl ${feature.detected ? "bg-success/10 border border-success/20" : "bg-destructive/10 border border-destructive/20"}`}
-                              >
-                                {feature.detected ? (
-                                  <CheckCircle className="w-5 h-5 text-success flex-shrink-0 mt-0.5" />
-                                ) : (
-                                  <XOctagon className="w-5 h-5 text-destructive flex-shrink-0 mt-0.5" />
-                                )}
-                                <div>
-                                  <p className="font-medium text-sm">{feature.name}</p>
-                                  <p className="text-xs text-muted-foreground mt-0.5">{feature.description}</p>
-                                </div>
-                              </div>
-                            ))}
-                          </motion.div>
-                        )}
-                      </AnimatePresence>
-                    </div>
-                  )}
-
-                  {/* Recommendations */}
-                  {analysisResult.recommendations.length > 0 && (
-                    <div className="space-y-2">
-                      <p className="text-sm font-medium text-muted-foreground">Препоръки:</p>
-                      <ul className="space-y-1">
-                        {analysisResult.recommendations.map((rec, idx) => (
-                          <li key={idx} className="text-sm text-muted-foreground flex items-start gap-2">
-                            <span className="text-primary">•</span>
-                            {rec}
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-                  )}
-
-                  {/* Disclaimer */}
-                  <div className="flex items-start gap-3 p-3 bg-muted rounded-xl">
-                    <AlertCircle className="w-5 h-5 text-muted-foreground flex-shrink-0 mt-0.5" />
-                    <p className="text-xs text-muted-foreground">
-                      Резултатът е ориентировъчен и не представлява официална експертиза. При съмнения се обърнете към
-                      банка или експерт.
-                    </p>
-                  </div>
-
-                  {/* Actions */}
-                  <Button onClick={resetScan} variant="outline" className="w-full h-12 rounded-xl">
-                    <RefreshCw className="w-4 h-4 mr-2" />
-                    Сканирай отново
-                  </Button>
-                </div>
-              );
-            })()}
-          </motion.div>
-        )}
-      </AnimatePresence>
     </div>
   );
 };
