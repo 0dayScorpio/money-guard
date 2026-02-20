@@ -14,6 +14,24 @@ export type Database = {
   }
   public: {
     Tables: {
+      banknote_analysis_cache: {
+        Row: {
+          created_at: string
+          image_hash: string
+          result: Json
+        }
+        Insert: {
+          created_at?: string
+          image_hash: string
+          result: Json
+        }
+        Update: {
+          created_at?: string
+          image_hash?: string
+          result?: Json
+        }
+        Relationships: []
+      }
       scan_usage: {
         Row: {
           device_id: string
