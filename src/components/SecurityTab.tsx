@@ -225,7 +225,7 @@ export const SecurityTab = () => {
             onClick={() => navigate('/terms')}
             className="text-xs text-muted-foreground/50 hover:text-muted-foreground transition-colors"
           >
-            Terms of Use
+            Условия за ползване
           </button>
         </div>
       </div>

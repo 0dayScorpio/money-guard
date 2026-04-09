@@ -1,4 +1,5 @@
 import { motion } from 'framer-motion';
+import { useNavigate } from 'react-router-dom';
 import { History, CheckCircle2, AlertTriangle, XCircle, Trash2 } from 'lucide-react';
 import { ScanHistory, ScanResult } from '@/types';
 import { Button } from '@/components/ui/button';
@@ -12,6 +13,7 @@ export const HistoryTab = ({
   history,
   onClearHistory
 }: HistoryTabProps) => {
+  const navigate = useNavigate();
   const getResultConfig = (result: ScanResult) => {
     switch (result) {
       case 'authentic':
@@ -106,6 +108,16 @@ export const HistoryTab = ({
               </div>
             </motion.div>;
       })}
+      </div>
+
+      {/* Terms of Use link */}
+      <div className="px-4 py-6 flex justify-center">
+        <button
+          onClick={() => navigate('/terms')}
+          className="text-xs text-muted-foreground/50 hover:text-muted-foreground transition-colors"
+        >
+          Условия за ползване
+        </button>
       </div>
     </div>;
 };
