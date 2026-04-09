@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ChevronRight, Eye, Hand, Sun, ChevronDown } from 'lucide-react';
 import { currencies } from '@/data/currencies';
@@ -19,6 +20,7 @@ import {
 } from '@/components/ui/accordion';
 
 export const SecurityTab = () => {
+  const navigate = useNavigate();
   const [selectedCurrency, setSelectedCurrency] = useState('EUR_NEW');
   const [selectedDenomination, setSelectedDenomination] = useState<number | null>(null);
 
@@ -216,6 +218,16 @@ export const SecurityTab = () => {
             </motion.div>
           )}
         </AnimatePresence>
+
+        {/* Terms of Use link */}
+        <div className="px-4 py-6 flex justify-center">
+          <button
+            onClick={() => navigate('/terms')}
+            className="text-xs text-muted-foreground/50 hover:text-muted-foreground transition-colors"
+          >
+            Terms of Use
+          </button>
+        </div>
       </div>
     </div>
   );
