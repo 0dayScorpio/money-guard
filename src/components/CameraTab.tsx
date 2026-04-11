@@ -229,7 +229,7 @@ export const CameraTab = ({ onScanComplete }: CameraTabProps) => {
     return (
       <div className="h-full overflow-y-auto bg-background">
         {/* Captured image - compact at top */}
-        <div className="relative w-full bg-black" style={{ height: '40vh' }}>
+        <div className="relative w-full bg-black" style={{ height: '35dvh', minHeight: '180px' }}>
           <img
             src={imageBase64!}
             alt="Заснета банкнота"
@@ -251,7 +251,7 @@ export const CameraTab = ({ onScanComplete }: CameraTabProps) => {
           transition={{ type: "spring", damping: 25, stiffness: 300 }}
           className="bg-card"
         >
-          <div className="p-6 space-y-4">
+          <div className="p-4 sm:p-6 space-y-3 sm:space-y-4">
             {/* Result header */}
             <div className={`flex items-center gap-4 p-4 rounded-2xl ${config.bgClass} border ${config.borderClass}`}>
               <div className={`p-3 rounded-xl ${config.gradientClass}`}>
@@ -425,7 +425,7 @@ export const CameraTab = ({ onScanComplete }: CameraTabProps) => {
           )}
 
           {/* Action buttons */}
-          <div className="absolute bottom-8 left-0 right-0 flex items-end justify-center gap-6 z-20 px-4">
+          <div className="absolute bottom-6 sm:bottom-8 left-0 right-0 flex items-end justify-center gap-4 sm:gap-6 z-20 px-4">
             {!imageBase64 ? (
               <>
                 {/* Gallery button - secondary, smaller */}

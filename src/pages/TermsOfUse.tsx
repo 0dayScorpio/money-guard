@@ -37,7 +37,7 @@ const TermsOfUse = () => {
         </div>
       </header>
 
-      <main className="max-w-lg mx-auto px-5 py-8">
+      <main className="max-w-lg mx-auto px-4 sm:px-5 py-6 sm:py-8">
         {/* Hero */}
         <motion.div
           initial={{ opacity: 0, y: 12 }}
