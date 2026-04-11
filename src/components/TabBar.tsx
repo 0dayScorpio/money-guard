@@ -26,7 +26,7 @@ export const TabBar = ({ activeTab, onTabChange, isDark, onThemeToggle }: TabBar
   const translateX = activeIndex * (100 / tabCount) + marginPercent;
   
   return (
-    <div className="backdrop-blur-xl bg-card/70 border-t border-white/10 pb-[max(env(safe-area-inset-bottom,20px),12px)]">
+    <div className="backdrop-blur-xl bg-card/70 border-t border-white/10 pb-[max(env(safe-area-inset-bottom,4px),4px)]">
       <div className="flex items-center justify-between px-3 pt-2 pb-2">
         {/* Tabs container - relative anchor for the pill */}
         <nav className="relative flex flex-1 py-1">
