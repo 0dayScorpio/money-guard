@@ -85,7 +85,7 @@ export const SecurityTab = () => {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              className="p-4 grid grid-cols-2 gap-3"
+              className="p-3 sm:p-4 grid grid-cols-2 gap-2 sm:gap-3"
             >
               {currency?.denominations.map((d, index) => (
                 <motion.button
@@ -94,10 +94,10 @@ export const SecurityTab = () => {
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: index * 0.05 }}
                   onClick={() => setSelectedDenomination(d.value)}
-                  className="p-4 bg-card rounded-2xl border border-border hover:border-primary/50 hover:shadow-md transition-all text-left group"
+                  className="p-3 sm:p-4 bg-card rounded-2xl border border-border hover:border-primary/50 hover:shadow-md transition-all text-left group"
                 >
                   <div className="flex items-center justify-between mb-2">
-                    <span className="text-2xl font-bold">
+                    <span className="text-xl sm:text-2xl font-bold truncate">
                       {d.value}{currency.symbol}
                     </span>
                     <ChevronRight className="w-5 h-5 text-muted-foreground group-hover:text-primary transition-colors" />

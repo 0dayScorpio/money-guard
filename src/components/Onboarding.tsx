@@ -44,7 +44,7 @@ export const Onboarding = ({ onComplete }: OnboardingProps) => {
   };
 
   return (
-    <div className="fixed inset-0 bg-background z-50 flex flex-col safe-area-top safe-area-bottom">
+    <div className="fixed inset-0 bg-background z-50 flex flex-col safe-area-top safe-area-bottom overflow-hidden">
       {/* Skip button */}
       <div className="flex justify-end p-4">
         <Button 
@@ -57,7 +57,7 @@ export const Onboarding = ({ onComplete }: OnboardingProps) => {
       </div>
 
       {/* Slides */}
-      <div className="flex-1 flex flex-col items-center justify-center px-8">
+      <div className="flex-1 flex flex-col items-center justify-center px-6 sm:px-8 min-h-0">
         <AnimatePresence mode="wait">
           <motion.div
             key={currentSlide}
@@ -72,11 +72,11 @@ export const Onboarding = ({ onComplete }: OnboardingProps) => {
               initial={{ scale: 0.5 }}
               animate={{ scale: 1 }}
               transition={{ delay: 0.1, type: 'spring', stiffness: 200 }}
-              className={`w-32 h-32 rounded-3xl bg-gradient-to-br ${slides[currentSlide].color} flex items-center justify-center mb-8 shadow-xl`}
+              className={`w-24 h-24 sm:w-32 sm:h-32 rounded-2xl sm:rounded-3xl bg-gradient-to-br ${slides[currentSlide].color} flex items-center justify-center mb-6 sm:mb-8 shadow-xl`}
             >
               {(() => {
                 const Icon = slides[currentSlide].icon;
-                return <Icon className="w-16 h-16 text-white" />;
+                return <Icon className="w-12 h-12 sm:w-16 sm:h-16 text-white" />;
               })()}
             </motion.div>
 
@@ -85,7 +85,7 @@ export const Onboarding = ({ onComplete }: OnboardingProps) => {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.2 }}
-              className="text-3xl font-bold mb-4"
+              className="text-2xl sm:text-3xl font-bold mb-3 sm:mb-4"
             >
               {slides[currentSlide].title}
             </motion.h2>
@@ -95,7 +95,7 @@ export const Onboarding = ({ onComplete }: OnboardingProps) => {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.3 }}
-              className="text-lg text-muted-foreground max-w-sm"
+              className="text-base sm:text-lg text-muted-foreground max-w-sm"
             >
               {slides[currentSlide].description}
             </motion.p>
@@ -104,7 +104,7 @@ export const Onboarding = ({ onComplete }: OnboardingProps) => {
       </div>
 
       {/* Dots and Button */}
-      <div className="p-8 space-y-6">
+      <div className="p-6 sm:p-8 space-y-4 sm:space-y-6 flex-shrink-0">
         {/* Dots */}
         <div className="flex justify-center gap-2">
           {slides.map((_, index) => (

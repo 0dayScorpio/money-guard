@@ -32,7 +32,7 @@ const Index = () => {
   if (!hasSeenOnboarding) {
     return <Onboarding onComplete={handleOnboardingComplete} />;
   }
-  return <div className="flex flex-col h-screen bg-background">
+  return <div className="flex flex-col h-[100dvh] bg-background overflow-hidden">
       {/* Header */}
       <header className="bg-card border-b border-border safe-area-top">
         

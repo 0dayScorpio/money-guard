@@ -20,17 +20,17 @@ export const PrivacyConsentScreen = ({ onAccept, onDecline }: PrivacyConsentScre
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      className="fixed inset-0 z-50 bg-background flex flex-col"
+      className="fixed inset-0 z-50 bg-background flex flex-col overflow-hidden"
     >
       {/* Header */}
-      <div className="safe-area-top px-6 pt-8 pb-4">
+      <div className="safe-area-top px-4 sm:px-6 pt-6 sm:pt-8 pb-3 sm:pb-4 flex-shrink-0">
         <motion.div
           initial={{ scale: 0.8, opacity: 0 }}
           animate={{ scale: 1, opacity: 1 }}
           transition={{ delay: 0.2 }}
-          className="w-20 h-20 mx-auto mb-6 rounded-3xl gradient-primary flex items-center justify-center shadow-xl"
+          className="w-16 h-16 sm:w-20 sm:h-20 mx-auto mb-4 sm:mb-6 rounded-2xl sm:rounded-3xl gradient-primary flex items-center justify-center shadow-xl"
         >
-          <Shield className="w-10 h-10 text-white" />
+          <Shield className="w-8 h-8 sm:w-10 sm:h-10 text-white" />
         </motion.div>
         <motion.h1
           initial={{ y: 20, opacity: 0 }}
@@ -51,8 +51,8 @@ export const PrivacyConsentScreen = ({ onAccept, onDecline }: PrivacyConsentScre
       </div>
 
       {/* Content */}
-      <div className="flex-1 overflow-y-auto px-6 py-4">
-        <div className="space-y-4 max-w-md mx-auto">
+      <div className="flex-1 overflow-y-auto px-4 sm:px-6 py-3 sm:py-4 min-h-0">
+        <div className="space-y-3 sm:space-y-4 max-w-md mx-auto">
           {/* Privacy features */}
           <motion.div
             initial={{ x: -20, opacity: 0 }}
@@ -148,12 +148,12 @@ export const PrivacyConsentScreen = ({ onAccept, onDecline }: PrivacyConsentScre
         initial={{ y: 20, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ delay: 0.9 }}
-        className="safe-area-bottom px-6 pb-6 pt-4 space-y-3"
+        className="safe-area-bottom px-4 sm:px-6 pb-4 sm:pb-6 pt-3 sm:pt-4 space-y-2 sm:space-y-3 flex-shrink-0"
       >
         <Button
           onClick={onAccept}
           disabled={!canProceed}
-          className="w-full h-14 rounded-2xl gradient-primary text-white font-semibold text-lg shadow-lg disabled:opacity-50"
+          className="w-full h-12 sm:h-14 rounded-2xl gradient-primary text-white font-semibold text-base sm:text-lg shadow-lg disabled:opacity-50"
         >
           {canProceed ? (
             <>
