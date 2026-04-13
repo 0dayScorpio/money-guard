@@ -425,7 +425,7 @@ export const CameraTab = ({ onScanComplete }: CameraTabProps) => {
           )}
 
           {/* Action buttons */}
-          <div className="absolute bottom-6 sm:bottom-8 left-0 right-0 flex items-end justify-center gap-4 sm:gap-6 z-20 px-4">
+          <div className="absolute bottom-6 sm:bottom-8 left-0 right-0 flex items-end justify-center gap-4 sm:gap-6 z-20 px-4 my-[3px]">
             {!imageBase64 ? (
               <>
                 {/* Gallery button - secondary, smaller */}
