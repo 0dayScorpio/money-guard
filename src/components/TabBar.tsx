@@ -26,8 +26,8 @@ export const TabBar = ({ activeTab, onTabChange, isDark, onThemeToggle }: TabBar
   const translateX = activeIndex * (100 / tabCount) + marginPercent;
   
   return (
-    <div className="backdrop-blur-xl bg-card/70 border-t border-white/10 pb-[max(env(safe-area-inset-bottom,8px),8px)]">
-      <div className="flex items-center justify-between px-3 pt-4 pb-3">
+    <div className="backdrop-blur-xl bg-card/70 border-t border-white/10 pb-[max(env(safe-area-inset-bottom,2px),2px)]">
+      <div className="flex items-center justify-between px-3 pt-1 pb-1">
         {/* Tabs container - relative anchor for the pill */}
         <nav className="relative flex flex-1 py-1">
           {/* Frosted-glass pill indicator - absolute within nav */}
@@ -58,7 +58,7 @@ export const TabBar = ({ activeTab, onTabChange, isDark, onThemeToggle }: TabBar
               <button
                 key={tab.id}
                 onClick={() => onTabChange(tab.id)}
-                className="relative z-10 flex flex-1 flex-col items-center justify-center py-2 min-h-[52px]"
+                className="relative z-10 flex flex-1 flex-col items-center justify-center py-1 min-h-[40px]"
               >
                 <Icon 
                   className={`w-5 h-5 transition-colors duration-200 ${
