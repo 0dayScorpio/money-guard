@@ -32,7 +32,7 @@ export const TabBar = ({ activeTab, onTabChange, isDark, onThemeToggle }: TabBar
         <nav className="relative flex flex-1 py-1">
           {/* Frosted-glass pill indicator - absolute within nav */}
           <motion.div
-            className="absolute top-1/2 h-[42px] rounded-2xl backdrop-blur-md bg-primary/12 border border-white/15 shadow-md pointer-events-none"
+            className="absolute top-1/2 h-[34px] rounded-2xl backdrop-blur-md bg-primary/12 border border-white/15 shadow-md pointer-events-none"
             style={{
               width: `${pillWidthPercent}%`,
               transform: 'translateY(-50%)',
