@@ -164,16 +164,19 @@ serve(async (req) => {
         - Not actually a banknote: confidence = 0
    e) Clamp the final number to 0–100. Output an INTEGER, but it MUST reflect the real evidence — avoid lazy values like 50, 75, 90, 100. Prefer specific numbers like 37, 64, 82, 91, 97 that match the actual count and quality of verified features.
 
-4. DECIDE THE RESULT LABEL FROM THE SCORE
-   - confidence ≥ 85 AND at least 2 major features clearly verified → "authentic"
-   - confidence ≤ 35 OR any clearly wrong/forged major feature → "fake"
-   - everything else (including unverifiable images, partial evidence, low quality) → "suspicious"
+4. DECIDE THE RESULT LABEL FROM THE SCORE — STRICT CORRELATION REQUIRED
+   The "confidence" number is the probability the note is GENUINE. The "result" label MUST match the number:
+   - "authentic": confidence MUST be in 85–100. Requires at least 2 major features clearly verified.
+   - "suspicious": confidence MUST be in 36–84.
+   - "fake": confidence MUST be in 0–35. If you say in the analysis that the note is clearly fake/counterfeit, confidence MUST be ≤ 25 (typically 5–20).
+   It is FORBIDDEN to output e.g. result="fake" with confidence=50, or result="authentic" with confidence=60. The number and the label must always agree, and both must match the tone of the written analysis.
 
 5. HARD RULES — NEVER BREAK
    - If the image is NOT a banknote (phone, paper, person, object, etc.): result="suspicious", confidence=0, explain clearly.
    - Never invent features you do not actually see.
    - When in doubt, prefer "suspicious" over "authentic".
-   - Be conservative but precise: the confidence number must be defensible from the features you list.
+   - Be conservative but precise: the confidence number must be defensible from the features you list AND consistent with the result label and the written analysis.
+   - Before outputting, re-read your own "analysis" text. If it says the note is fake/counterfeit → confidence ≤ 25 and result="fake". If it says clearly genuine → confidence ≥ 85 and result="authentic". Never contradict yourself.
 
 OUTPUT — ONLY valid JSON, no markdown, no extra text. All human-readable text fields ("description", "analysis", "recommendations") MUST be written in Bulgarian (formal, -те endings). Keys and enum values stay in English exactly as below:
 {
@@ -267,6 +270,25 @@ OUTPUT — ONLY valid JSON, no markdown, no extra text. All human-readable text 
         analysis: "Не можах да анализирам изображението правилно. Моля, направете по-ясна снимка на цялата банкнота при добро осветление.",
         recommendations: ["Направете нова снимка с по-добро осветление", "Уверете се, че цялата банкнота е видима и в рамката"],
       };
+    }
+
+    // --- Reconcile confidence with result label so they never contradict each other ---
+    {
+      const result = String(analysisResult.result ?? "suspicious");
+      let confidence = Number(analysisResult.confidence);
+      if (!Number.isFinite(confidence)) confidence = 50;
+      confidence = Math.max(0, Math.min(100, Math.round(confidence)));
+
+      if (result === "fake" && confidence > 35) {
+        // Fake notes must read low — pull into the 5–25 range, biased by original signal
+        confidence = Math.max(5, Math.min(25, Math.round(confidence * 0.25)));
+      } else if (result === "authentic" && confidence < 85) {
+        confidence = Math.max(85, Math.min(100, confidence < 50 ? 85 : confidence + (85 - confidence)));
+      } else if (result === "suspicious") {
+        if (confidence < 36) confidence = 40;
+        else if (confidence > 84) confidence = 80;
+      }
+      analysisResult.confidence = confidence;
     }
 
     // Store in cache so same image always returns same result
