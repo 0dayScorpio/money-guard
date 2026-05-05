@@ -272,6 +272,25 @@ OUTPUT — ONLY valid JSON, no markdown, no extra text. All human-readable text 
       };
     }
 
+    // --- Reconcile confidence with result label so they never contradict each other ---
+    {
+      const result = String(analysisResult.result ?? "suspicious");
+      let confidence = Number(analysisResult.confidence);
+      if (!Number.isFinite(confidence)) confidence = 50;
+      confidence = Math.max(0, Math.min(100, Math.round(confidence)));
+
+      if (result === "fake" && confidence > 35) {
+        // Fake notes must read low — pull into the 5–25 range, biased by original signal
+        confidence = Math.max(5, Math.min(25, Math.round(confidence * 0.25)));
+      } else if (result === "authentic" && confidence < 85) {
+        confidence = Math.max(85, Math.min(100, confidence < 50 ? 85 : confidence + (85 - confidence)));
+      } else if (result === "suspicious") {
+        if (confidence < 36) confidence = 40;
+        else if (confidence > 84) confidence = 80;
+      }
+      analysisResult.confidence = confidence;
+    }
+
     // Store in cache so same image always returns same result
     try {
       await scanClient
