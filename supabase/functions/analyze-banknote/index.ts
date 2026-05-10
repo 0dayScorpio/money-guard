@@ -208,6 +208,7 @@ OUTPUT — ONLY valid JSON, no markdown, no extra text. All human-readable text 
       body: JSON.stringify({
         model: "google/gemini-3-flash-preview",
         temperature: 0,  // Deterministic output — same image = same result
+        max_tokens: 700, // Cap output size — accuracy unchanged, latency cut significantly
         messages: [
           { role: "system", content: systemPrompt },
           {
