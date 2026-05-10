@@ -250,17 +250,3 @@
     padding-top: env(safe-area-inset-top, 20px);
   }
 }
-/* Hide native browser play/pause/PiP overlays on the camera <video> element */
-video::-webkit-media-controls,
-video::-webkit-media-controls-panel,
-video::-webkit-media-controls-play-button,
-video::-webkit-media-controls-start-playback-button,
-video::-webkit-media-controls-overlay-play-button,
-video::-webkit-media-controls-overlay-enclosure,
-video::-internal-media-controls-overlay-cast-button {
-  display: none !important;
-  -webkit-appearance: none !important;
-  appearance: none !important;
-  opacity: 0 !important;
-  pointer-events: none !important;
-}
