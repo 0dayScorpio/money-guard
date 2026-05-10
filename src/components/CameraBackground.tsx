@@ -131,7 +131,9 @@ export const CameraBackground = ({
         autoPlay
         playsInline
         muted
-        className="absolute inset-0 w-full h-full object-cover"
+        disablePictureInPicture
+        controlsList="nodownload nofullscreen noremoteplayback noplaybackrate"
+        className="absolute inset-0 w-full h-full object-cover pointer-events-none"
       />
 
       {/* Dark overlay for readability */}
