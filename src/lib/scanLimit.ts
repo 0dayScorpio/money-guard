@@ -2,7 +2,7 @@ import { Preferences } from '@capacitor/preferences';
 import { supabase } from '@/integrations/supabase/client';
 
 const DEVICE_TOKEN_KEY = 'device_token';
-const DAILY_LIMIT = 5;
+const DAILY_LIMIT = 1000000;
 
 
 function generateUUID(): string {
