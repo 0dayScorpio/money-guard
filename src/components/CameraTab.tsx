@@ -50,6 +50,8 @@ export const CameraTab = ({ onScanComplete }: CameraTabProps) => {
   const [hasAcceptedPrivacy, setHasAcceptedPrivacy] = useLocalStorage("camera-privacy-accepted", false);
   const [showPrivacyScreen, setShowPrivacyScreen] = useState(false);
   const [isCameraActive, setIsCameraActive] = useState(false);
+  const captureFrameRef = useRef<(() => string | null) | null>(null);
+  const hasStreamRef = useRef(false);
   // Check if we need to show privacy screen on mount
   useEffect(() => {
     if (!hasAcceptedPrivacy) {
@@ -75,9 +77,6 @@ export const CameraTab = ({ onScanComplete }: CameraTabProps) => {
 
     const result = await analyzeImage(imageBase64);
     if (result) {
-      if (typeof result.remaining === 'number') {
-        setScansRemaining(result.remaining);
-      }
       const scan: ScanHistory = {
         id: Date.now().toString(),
         timestamp: new Date(),
@@ -496,14 +495,6 @@ export const CameraTab = ({ onScanComplete }: CameraTabProps) => {
                     <Sparkles className="w-6 h-6 text-white mr-2" />
                     <span className="text-white font-semibold">Анализирай</span>
                   </Button>
-                  {scansRemaining !== null && (
-                    <Badge
-                      variant={scansRemaining === 0 ? "destructive" : "secondary"}
-                      className="absolute -top-2 -right-2 text-[10px] px-1.5 py-0.5 shadow-md"
-                    >
-                      {scansRemaining}/5
-                    </Badge>
-                  )}
                 </motion.div>
               </>
             ) : null}
