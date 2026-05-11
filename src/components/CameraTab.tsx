@@ -26,10 +26,6 @@ import { PrivacyConsentScreen } from "./PrivacyConsentScreen";
 import { useLocalStorage } from "@/hooks/useLocalStorage";
 import { ScannerFrame } from "./ScannerFrame";
 import { useTheme } from "@/hooks/useTheme";
-import { getDeviceToken } from "@/lib/scanLimit";
-import { supabase } from "@/integrations/supabase/client";
-import { toast } from "sonner";
-import { Badge } from "@/components/ui/badge";
 
 interface CameraTabProps {
   onScanComplete: (scan: ScanHistory) => void;
@@ -50,12 +46,8 @@ export const CameraTab = ({ onScanComplete }: CameraTabProps) => {
   const [hasAcceptedPrivacy, setHasAcceptedPrivacy] = useLocalStorage("camera-privacy-accepted", false);
   const [showPrivacyScreen, setShowPrivacyScreen] = useState(false);
   const [isCameraActive, setIsCameraActive] = useState(false);
-  const [scansRemaining, setScansRemaining] = useState<number | null>(null);
-
-  // Ref to capture function from CameraBackground
   const captureFrameRef = useRef<(() => string | null) | null>(null);
   const hasStreamRef = useRef(false);
-
   // Check if we need to show privacy screen on mount
   useEffect(() => {
     if (!hasAcceptedPrivacy) {
@@ -64,31 +56,6 @@ export const CameraTab = ({ onScanComplete }: CameraTabProps) => {
       setIsCameraActive(true);
     }
   }, [hasAcceptedPrivacy]);
-
-  // Fetch accurate remaining scans from DB on every mount (tab switch)
-  useEffect(() => {
-    let cancelled = false;
-    const fetchRemaining = async () => {
-      try {
-        const deviceId = await getDeviceToken();
-        const today = new Date().toISOString().slice(0, 10);
-        const { data } = await supabase
-          .from('scan_usage')
-          .select('scan_count')
-          .eq('device_id', deviceId)
-          .eq('scan_date', today)
-          .maybeSingle();
-        if (!cancelled) {
-          const used = data?.scan_count ?? 0;
-          setScansRemaining(Math.max(0, 5 - used));
-        }
-      } catch {
-        // Don't fallback to local cache — keep null until DB confirms
-      }
-    };
-    fetchRemaining();
-    return () => { cancelled = true; };
-  }, []);
 
   const handlePrivacyAccept = useCallback(() => {
     setHasAcceptedPrivacy(true);
@@ -106,9 +73,6 @@ export const CameraTab = ({ onScanComplete }: CameraTabProps) => {
 
     const result = await analyzeImage(imageBase64);
     if (result) {
-      if (typeof result.remaining === 'number') {
-        setScansRemaining(result.remaining);
-      }
       const scan: ScanHistory = {
         id: Date.now().toString(),
         timestamp: new Date(),
@@ -527,14 +491,6 @@ export const CameraTab = ({ onScanComplete }: CameraTabProps) => {
                     <Sparkles className="w-6 h-6 text-white mr-2" />
                     <span className="text-white font-semibold">Анализирай</span>
                   </Button>
-                  {scansRemaining !== null && (
-                    <Badge
-                      variant={scansRemaining === 0 ? "destructive" : "secondary"}
-                      className="absolute -top-2 -right-2 text-[10px] px-1.5 py-0.5 shadow-md"
-                    >
-                      {scansRemaining}/5
-                    </Badge>
-                  )}
                 </motion.div>
               </>
             ) : null}
