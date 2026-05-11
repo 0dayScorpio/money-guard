@@ -147,7 +147,7 @@ serve(async (req) => {
    - Be conservative but precise: the confidence number must be defensible from the features you list AND consistent with the result label and the written analysis.
    - Before outputting, re-read your own "analysis" text. If it says the note is fake/counterfeit → confidence ≤ 25 and result="fake". If it says clearly genuine → confidence ≥ 85 and result="authentic". Never contradict yourself.
 
-OUTPUT — ONLY valid JSON, no markdown, no extra text. All human-readable text fields ("description", "analysis", "recommendations") MUST be written in Bulgarian (formal, -те endings). Keys and enum values stay in English exactly as below:
+OUTPUT — ONLY valid JSON, no markdown, no extra text. All human-readable text fields ("name", "description", "analysis", "recommendations") MUST be written in Bulgarian (formal, -те endings). This includes the "name" of EVERY entry in detectedFeatures — both detected and undetected features must use Bulgarian names (e.g. "Холограма", "Воден знак", "Защитна нишка", "Микропечат", "Релефен печат", "Сменящо цвета число", "Портретно прозорче", "Кинеграм", "Скрит образ", "Сериен номер", "Прозрачно прозорче (полимер)" и т.н.). Never use English feature names. Keys and enum values stay in English exactly as below:
 {
   "result": "authentic" | "suspicious" | "fake",
   "confidence": integer 0-100 (precise, evidence-based, not a round guess),
