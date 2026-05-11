@@ -67,43 +67,13 @@ serve(async (req) => {
       .maybeSingle();
 
     if (cached?.result) {
-      // Return cached result — does NOT consume a scan
+      // Return cached result — no scan limit
       const cachedResult = cached.result as Record<string, unknown>;
-
-      // Still fetch remaining for display purposes (read-only)
-      const today = new Date().toISOString().slice(0, 10);
-      const { data: usageData } = await scanClient
-        .from("scan_usage")
-        .select("scan_count")
-        .eq("device_id", deviceId)
-        .eq("scan_date", today)
-        .maybeSingle();
-      const used = usageData?.scan_count ?? 0;
-      cachedResult.remaining = Math.max(0, DAILY_LIMIT - used);
       cachedResult.fromCache = true;
 
       return new Response(
         JSON.stringify(cachedResult),
         { headers: { ...corsHeaders, "Content-Type": "application/json" } }
-      );
-    }
-
-    // --- Server-Side Rate Limiting ---
-    const { data: limitCheck, error: limitError } = await scanClient.rpc("consume_scan", {
-      p_device_id: deviceId,
-      p_daily_limit: DAILY_LIMIT,
-    });
-
-    const limitResult = Array.isArray(limitCheck) ? limitCheck[0] : limitCheck;
-
-    if (limitError || !limitResult?.allowed) {
-      return new Response(
-        JSON.stringify({
-          error: "Дневният лимит за сканиране е достигнат. Опитайте утре.",
-          remaining: limitResult?.remaining ?? 0,
-          limit: DAILY_LIMIT,
-        }),
-        { status: 429, headers: { ...corsHeaders, "Content-Type": "application/json" } }
       );
     }
 
@@ -299,9 +269,6 @@ OUTPUT — ONLY valid JSON, no markdown, no extra text. All human-readable text 
     } catch (e) {
       console.warn("Cache insert failed (non-fatal):", (e as Error).message);
     }
-
-    // Attach remaining scan count
-    analysisResult.remaining = limitResult?.remaining ?? 0;
 
     return new Response(
       JSON.stringify(analysisResult),
