@@ -115,35 +115,39 @@ serve(async (req) => {
    - Microprint, intaglio relief cues, serial number style and font
    - For polymer notes (e.g. 20 BGN polymer): transparent window, holographic window elements
 
-3. SCORE AUTHENTICITY 0–100 % WITH HIGH PRECISION
-   The confidence number is a calibrated probability that the banknote is GENUINE.
-   CORE PRINCIPLE: the MORE security features are clearly visible and correct, the HIGHER the confidence.
-   The FEWER features visible (or the more that are missing/wrong), the LOWER the confidence.
+3. SCORE YOUR CONFIDENCE 0–100 % WITH HIGH PRECISION
+   IMPORTANT: "confidence" is NOT the probability that the banknote is genuine.
+   "confidence" is HOW SURE YOU ARE in your verdict (the "result" label), regardless of whether that verdict is "authentic", "suspicious" or "fake".
+   - If you are very sure the note is FAKE → confidence is HIGH (e.g. 92).
+   - If you are very sure the note is AUTHENTIC → confidence is HIGH (e.g. 95).
+   - If you cannot tell and the note is genuinely ambiguous → confidence is LOW (e.g. 30) and result is "suspicious".
 
-   Guidance:
-   - No verifiable features at all → very low confidence (typically under 25).
-   - Only 1 minor feature visible → low confidence (around 30–45).
-   - A few features visible and correct, but key ones missing/unclear → mid confidence (around 50–70).
-   - Most expected features clearly present and correct → high confidence (around 80–92).
-   - Nearly all expected security features clearly present and correct → very high confidence (93–100).
-   - Any feature that is CLEARLY WRONG or CLEARLY MISSING when it should be there must lower the confidence.
-   - Image quality caps: blurry/glare → cap at 70; only one side visible → cap at 85; cropped/partial → cap at 60; not a banknote → 0.
+   What raises confidence:
+   - Many security features clearly visible and unambiguously consistent with your verdict.
+   - Sharp, well-lit image where features can be inspected without doubt.
+   - Both sides / full banknote visible.
 
-   Output an INTEGER 0–100. Avoid lazy round numbers (50, 75, 90, 100); use specific values (e.g. 37, 64, 82, 91, 97) that reflect the actual count and quality of verified features.
+   What lowers confidence:
+   - Few features visible or several "not verifiable" due to angle/lighting/resolution.
+   - Blurry, glare, partial, or cropped image.
+   - Mixed signals (some features look correct, others look wrong).
+   - Image quality caps on confidence: blurry/glare → cap at 70; only one side visible → cap at 85; cropped/partial → cap at 60.
+   - If the image is NOT a banknote → result="suspicious", confidence=0.
 
-4. DECIDE THE RESULT LABEL FROM THE SCORE — STRICT CORRELATION REQUIRED
-   The "confidence" number is the probability the note is GENUINE. The "result" label MUST match the number:
-   - "authentic": confidence MUST be in 85–100. Requires at least 2 major features clearly verified.
-   - "suspicious": confidence MUST be in 36–84.
-   - "fake": confidence MUST be in 0–35. If you say in the analysis that the note is clearly fake/counterfeit, confidence MUST be ≤ 25 (typically 5–20).
-   It is FORBIDDEN to output e.g. result="fake" with confidence=50, or result="authentic" with confidence=60. The number and the label must always agree, and both must match the tone of the written analysis.
+   Output an INTEGER 0–100. Avoid lazy round numbers (50, 75, 90, 100); use specific values (e.g. 37, 64, 82, 91, 97) that reflect the real strength of the evidence behind your verdict.
+
+4. DECIDE THE RESULT LABEL FROM THE EVIDENCE
+   - "authentic": the visible security features clearly indicate a genuine banknote.
+   - "fake": there is clear evidence of forgery (missing/wrong features, bad print, wrong colors, wrong layout, etc.).
+   - "suspicious": the evidence is mixed or insufficient to commit to either.
+   The "result" label is independent of the "confidence" number — confidence only reflects how sure you are in that label.
 
 5. HARD RULES — NEVER BREAK
    - If the image is NOT a banknote (phone, paper, person, object, etc.): result="suspicious", confidence=0, explain clearly.
    - Never invent features you do not actually see.
-   - When in doubt, prefer "suspicious" over "authentic".
-   - Be conservative but precise: the confidence number must be defensible from the features you list AND consistent with the result label and the written analysis.
-   - Before outputting, re-read your own "analysis" text. If it says the note is fake/counterfeit → confidence ≤ 25 and result="fake". If it says clearly genuine → confidence ≥ 85 and result="authentic". Never contradict yourself.
+   - When the evidence is genuinely mixed, prefer "suspicious" with a modest confidence over a forced "authentic"/"fake".
+   - Confidence MUST be defensible from the features and image quality you describe in the analysis.
+   - Before outputting, re-read your own "analysis" text and make sure the "result" label and "confidence" value truly match how certain that text sounds.
 
 OUTPUT — ONLY valid JSON, no markdown, no extra text. All human-readable text fields ("name", "description", "analysis", "recommendations") MUST be written in Bulgarian (formal, -те endings). This includes the "name" of EVERY entry in detectedFeatures — both detected and undetected features must use Bulgarian names (e.g. "Холограма", "Воден знак", "Защитна нишка", "Микропечат", "Релефен печат", "Сменящо цвета число", "Портретно прозорче", "Кинеграм", "Скрит образ", "Сериен номер", "Прозрачно прозорче (полимер)" и т.н.). Never use English feature names. Keys and enum values stay in English exactly as below:
 {
@@ -239,22 +243,11 @@ OUTPUT — ONLY valid JSON, no markdown, no extra text. All human-readable text 
       };
     }
 
-    // --- Reconcile confidence with result label so they never contradict each other ---
+    // --- Sanitize confidence value (0-100 integer); do NOT couple it to result label ---
     {
-      const result = String(analysisResult.result ?? "suspicious");
       let confidence = Number(analysisResult.confidence);
-      if (!Number.isFinite(confidence)) confidence = 50;
+      if (!Number.isFinite(confidence)) confidence = 0;
       confidence = Math.max(0, Math.min(100, Math.round(confidence)));
-
-      if (result === "fake" && confidence > 35) {
-        // Fake notes must read low — pull into the 5–25 range, biased by original signal
-        confidence = Math.max(5, Math.min(25, Math.round(confidence * 0.25)));
-      } else if (result === "authentic" && confidence < 85) {
-        confidence = Math.max(85, Math.min(100, confidence < 50 ? 85 : confidence + (85 - confidence)));
-      } else if (result === "suspicious") {
-        if (confidence < 36) confidence = 40;
-        else if (confidence > 84) confidence = 80;
-      }
       analysisResult.confidence = confidence;
     }
 
