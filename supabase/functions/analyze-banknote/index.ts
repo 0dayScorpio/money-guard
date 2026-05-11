@@ -6,7 +6,7 @@ const corsHeaders = {
   "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type, x-supabase-client-platform, x-supabase-client-platform-version, x-supabase-client-runtime, x-supabase-client-runtime-version",
 };
 
-const DAILY_LIMIT = 1000000;
+const DAILY_LIMIT = 5;
 const MAX_IMAGE_SIZE = 10 * 1024 * 1024; // 10MB
 const VALID_CURRENCIES = ["EUR", "USD", "GBP", "BGN"];
 
@@ -206,7 +206,7 @@ OUTPUT — ONLY valid JSON, no markdown, no extra text. All human-readable text 
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        model: "google/gemini-3-flash-preview",
+        model: "google/gemini-2.5-flash",
         temperature: 0,  // Deterministic output — same image = same result
         messages: [
           { role: "system", content: systemPrompt },
