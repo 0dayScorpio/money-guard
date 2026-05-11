@@ -117,21 +117,19 @@ serve(async (req) => {
 
 3. SCORE AUTHENTICITY 0–100 % WITH HIGH PRECISION
    The confidence number is a calibrated probability that the banknote is GENUINE.
-   Compute it as follows — be exact, not lazy with round numbers:
+   CORE PRINCIPLE: the MORE security features are clearly visible and correct, the HIGHER the confidence.
+   The FEWER features visible (or the more that are missing/wrong), the LOWER the confidence.
 
-   a) Start from a neutral baseline of 50.
-   b) For every CLEARLY PRESENT and correct security feature, add weight:
-        - Major feature (hologram/portrait window, watermark, security thread, color-shift number): +8 to +12 each
-        - Secondary feature (microprint, registration mark, intaglio cue, serial style): +2 to +5 each
-   c) For every CLEARLY MISSING or WRONG feature that should be on this denomination/series:
-        - Major feature missing/wrong: −15 to −25 each
-        - Secondary feature missing/wrong: −3 to −7 each
-   d) Penalize image quality issues that prevent verification (do not reward or punish the note itself, but cap the maximum confidence):
-        - Blurry / low-resolution / glare: cap confidence at 70
-        - Only one side visible: cap at 85
-        - Cropped / partial banknote: cap at 60
-        - Not actually a banknote: confidence = 0
-   e) Clamp the final number to 0–100. Output an INTEGER, but it MUST reflect the real evidence — avoid lazy values like 50, 75, 90, 100. Prefer specific numbers like 37, 64, 82, 91, 97 that match the actual count and quality of verified features.
+   Guidance:
+   - No verifiable features at all → very low confidence (typically under 25).
+   - Only 1 minor feature visible → low confidence (around 30–45).
+   - A few features visible and correct, but key ones missing/unclear → mid confidence (around 50–70).
+   - Most expected features clearly present and correct → high confidence (around 80–92).
+   - Nearly all expected security features clearly present and correct → very high confidence (93–100).
+   - Any feature that is CLEARLY WRONG or CLEARLY MISSING when it should be there must lower the confidence.
+   - Image quality caps: blurry/glare → cap at 70; only one side visible → cap at 85; cropped/partial → cap at 60; not a banknote → 0.
+
+   Output an INTEGER 0–100. Avoid lazy round numbers (50, 75, 90, 100); use specific values (e.g. 37, 64, 82, 91, 97) that reflect the actual count and quality of verified features.
 
 4. DECIDE THE RESULT LABEL FROM THE SCORE — STRICT CORRELATION REQUIRED
    The "confidence" number is the probability the note is GENUINE. The "result" label MUST match the number:
