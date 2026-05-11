@@ -7,7 +7,6 @@ const corsHeaders = {
 };
 
 const MAX_IMAGE_SIZE = 10 * 1024 * 1024; // 10MB
-const MAX_IMAGE_SIZE = 10 * 1024 * 1024; // 10MB
 const VALID_CURRENCIES = ["EUR", "USD", "GBP", "BGN"];
 
 /** SHA-256 hash of the raw base64 string for cache keying */
