@@ -1,9 +1,6 @@
 import { Preferences } from '@capacitor/preferences';
-import { supabase } from '@/integrations/supabase/client';
 
 const DEVICE_TOKEN_KEY = 'device_token';
-const DAILY_LIMIT = 5;
-
 
 function generateUUID(): string {
   if (typeof crypto !== 'undefined' && typeof crypto.randomUUID === 'function') {
@@ -32,54 +29,15 @@ export interface ScanLimitResult {
   used: number;
 }
 
-const SCAN_STATUS_KEY = 'scan_status';
-
-interface StoredScanStatus {
-  date: string;
-  remaining: number;
-}
-
-function todayKey(): string {
-  return new Date().toISOString().slice(0, 10);
+export async function consumeScan(): Promise<ScanLimitResult> {
+  return {
+    allowed: true,
+    remaining: Infinity,
+    limit: Infinity,
+    used: 0,
+  };
 }
 
 export async function getScanRemaining(): Promise<number> {
-  const { value } = await Preferences.get({ key: SCAN_STATUS_KEY });
-  if (value) {
-    try {
-      const stored: StoredScanStatus = JSON.parse(value);
-      if (stored.date === todayKey()) return stored.remaining;
-    } catch { /* ignore */ }
-  }
-  return DAILY_LIMIT;
-}
-
-async function saveScanStatus(remaining: number): Promise<void> {
-  const status: StoredScanStatus = { date: todayKey(), remaining };
-  await Preferences.set({ key: SCAN_STATUS_KEY, value: JSON.stringify(status) });
-}
-
-export async function consumeScan(): Promise<ScanLimitResult> {
-  const deviceToken = await getDeviceToken();
-
-  const { data, error } = await supabase.rpc('consume_scan' as any, {
-    p_device_id: deviceToken,
-    p_daily_limit: DAILY_LIMIT,
-  });
-
-  if (error) {
-    throw new Error(`RPC error: ${error.message}`);
-  }
-
-  const result = Array.isArray(data) ? data[0] : data;
-
-  const scanResult: ScanLimitResult = {
-    allowed: result.allowed,
-    remaining: result.remaining,
-    limit: result.limit,
-    used: result.used,
-  };
-
-  await saveScanStatus(scanResult.remaining);
-  return scanResult;
+  return Infinity;
 }

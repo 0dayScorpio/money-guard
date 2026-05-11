@@ -50,12 +50,6 @@ export const CameraTab = ({ onScanComplete }: CameraTabProps) => {
   const [hasAcceptedPrivacy, setHasAcceptedPrivacy] = useLocalStorage("camera-privacy-accepted", false);
   const [showPrivacyScreen, setShowPrivacyScreen] = useState(false);
   const [isCameraActive, setIsCameraActive] = useState(false);
-  const [scansRemaining, setScansRemaining] = useState<number | null>(null);
-
-  // Ref to capture function from CameraBackground
-  const captureFrameRef = useRef<(() => string | null) | null>(null);
-  const hasStreamRef = useRef(false);
-
   // Check if we need to show privacy screen on mount
   useEffect(() => {
     if (!hasAcceptedPrivacy) {
@@ -64,31 +58,6 @@ export const CameraTab = ({ onScanComplete }: CameraTabProps) => {
       setIsCameraActive(true);
     }
   }, [hasAcceptedPrivacy]);
-
-  // Fetch accurate remaining scans from DB on every mount (tab switch)
-  useEffect(() => {
-    let cancelled = false;
-    const fetchRemaining = async () => {
-      try {
-        const deviceId = await getDeviceToken();
-        const today = new Date().toISOString().slice(0, 10);
-        const { data } = await supabase
-          .from('scan_usage')
-          .select('scan_count')
-          .eq('device_id', deviceId)
-          .eq('scan_date', today)
-          .maybeSingle();
-        if (!cancelled) {
-          const used = data?.scan_count ?? 0;
-          setScansRemaining(Math.max(0, 5 - used));
-        }
-      } catch {
-        // Don't fallback to local cache — keep null until DB confirms
-      }
-    };
-    fetchRemaining();
-    return () => { cancelled = true; };
-  }, []);
 
   const handlePrivacyAccept = useCallback(() => {
     setHasAcceptedPrivacy(true);
