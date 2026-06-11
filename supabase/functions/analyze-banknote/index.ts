@@ -210,8 +210,7 @@ OUTPUT — ONLY valid JSON, no markdown, no extra text. All human-readable text 
           { status: 402, headers: { ...corsHeaders, "Content-Type": "application/json" } }
         );
       }
-      const errorText = await response.text();
-      console.error("AI gateway error:", response.status, errorText);
+      console.error("AI gateway error, status:", response.status);
       throw new Error(`AI gateway error: ${response.status}`);
     }
 
@@ -231,7 +230,7 @@ OUTPUT — ONLY valid JSON, no markdown, no extra text. All human-readable text 
       if (cleanContent.endsWith("```")) cleanContent = cleanContent.slice(0, -3);
       analysisResult = JSON.parse(cleanContent.trim());
     } catch (parseError) {
-      console.error("Failed to parse AI response:", content);
+      console.error("Failed to parse AI response (length:", content?.length ?? 0, ")");
       analysisResult = {
         result: "suspicious",
         confidence: 0,
@@ -265,7 +264,7 @@ OUTPUT — ONLY valid JSON, no markdown, no extra text. All human-readable text 
       { headers: { ...corsHeaders, "Content-Type": "application/json" } }
     );
   } catch (error) {
-    console.error("Error analyzing banknote:", error);
+    console.error("Error analyzing banknote:", error instanceof Error ? error.message : "Unknown error");
     return new Response(
       JSON.stringify({
         error: "Грешка при анализа",
