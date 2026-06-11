@@ -264,7 +264,7 @@ OUTPUT — ONLY valid JSON, no markdown, no extra text. All human-readable text 
       { headers: { ...corsHeaders, "Content-Type": "application/json" } }
     );
   } catch (error) {
-    console.error("Error analyzing banknote:", error);
+    console.error("Error analyzing banknote:", error instanceof Error ? error.message : "Unknown error");
     return new Response(
       JSON.stringify({
         error: "Грешка при анализа",
