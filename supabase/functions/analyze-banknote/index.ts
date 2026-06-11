@@ -230,7 +230,7 @@ OUTPUT — ONLY valid JSON, no markdown, no extra text. All human-readable text 
       if (cleanContent.endsWith("```")) cleanContent = cleanContent.slice(0, -3);
       analysisResult = JSON.parse(cleanContent.trim());
     } catch (parseError) {
-      console.error("Failed to parse AI response:", content);
+      console.error("Failed to parse AI response (length:", content?.length ?? 0, ")");
       analysisResult = {
         result: "suspicious",
         confidence: 0,
