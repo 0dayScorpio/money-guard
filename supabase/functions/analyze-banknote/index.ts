@@ -210,8 +210,7 @@ OUTPUT — ONLY valid JSON, no markdown, no extra text. All human-readable text 
           { status: 402, headers: { ...corsHeaders, "Content-Type": "application/json" } }
         );
       }
-      const errorText = await response.text();
-      console.error("AI gateway error:", response.status, errorText);
+      console.error("AI gateway error, status:", response.status);
       throw new Error(`AI gateway error: ${response.status}`);
     }
 
