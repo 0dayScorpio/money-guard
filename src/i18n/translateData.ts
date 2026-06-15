@@ -327,11 +327,11 @@ const PHRASES: Record<Exclude<Language, 'bg'>, Dict> = {
     'Динамична ефектна лента, променяща цвета си при накланяне.':
       'Dynamischer Effektstreifen, der beim Kippen die Farbe wechselt.',
     "3D воден знак с портрет и инициали 'БНБ'.":
-      "3D-Wasserzeichen mit Porträt und Initialen „BNB".",
+      '3D-Wasserzeichen mit Porträt und Initialen „BNB".',
     "Вградена нишка с повторяем текст 'БНБ 10'.":
-      "Eingebetteter Faden mit wiederholtem Text „BNB 10".",
+      'Eingebetteter Faden mit wiederholtem Text „BNB 10".',
     "Вградена нишка с текст 'БНБ 20' и динамичен ефект.":
-      "Eingebetteter Faden mit Text „BNB 20" und dynamischem Effekt.",
+      'Eingebetteter Faden mit Text „BNB 20" und dynamischem Effekt.',
     'Дръжте банкнотата срещу светлина и вижте водния знак.':
       'Halte die Banknote ins Gegenlicht und betrachte das Wasserzeichen.',
     'Пипнете и усетете дали ресните са изпъкнали.':
