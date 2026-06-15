@@ -1,5 +1,6 @@
 import { motion } from 'framer-motion';
 import { Camera, Shield, History, Moon, Sun } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 
 interface TabBarProps {
   activeTab: 'camera' | 'security' | 'history';
@@ -8,13 +9,15 @@ interface TabBarProps {
   onThemeToggle: () => void;
 }
 
-const tabs = [
-  { id: 'camera' as const, icon: Camera, label: 'Сканирай' },
-  { id: 'security' as const, icon: Shield, label: 'Защити' },
-  { id: 'history' as const, icon: History, label: 'История' },
-];
-
 export const TabBar = ({ activeTab, onTabChange, isDark, onThemeToggle }: TabBarProps) => {
+  const { t } = useTranslation();
+  const tabs = [
+    { id: 'camera' as const, icon: Camera, label: t('tabs.camera') },
+    { id: 'security' as const, icon: Shield, label: t('tabs.security') },
+    { id: 'history' as const, icon: History, label: t('tabs.history') },
+  ];
+
+
   const activeIndex = tabs.findIndex(tab => tab.id === activeTab);
   const tabCount = tabs.length;
   
