@@ -5,8 +5,11 @@ import { CameraTab } from '@/components/CameraTab';
 import { SecurityTab } from '@/components/SecurityTab';
 import { HistoryTab } from '@/components/HistoryTab';
 import { TabBar } from '@/components/TabBar';
+import { LanguageSwitcher } from '@/i18n/LanguageSwitcher';
 import { useLocalStorage } from '@/hooks/useLocalStorage';
 import { useTheme } from '@/hooks/useTheme';
+import { useScanHistory } from '@/hooks/useScanHistory';
+import { ScanHistory } from '@/types';
 import { useScanHistory } from '@/hooks/useScanHistory';
 import { ScanHistory } from '@/types';
 

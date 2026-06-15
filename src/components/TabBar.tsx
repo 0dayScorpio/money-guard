@@ -17,7 +17,7 @@ export const TabBar = ({ activeTab, onTabChange, isDark, onThemeToggle }: TabBar
     { id: 'history' as const, icon: History, label: t('tabs.history') },
   ];
 
-export const TabBar = ({ activeTab, onTabChange, isDark, onThemeToggle }: TabBarProps) => {
+
   const activeIndex = tabs.findIndex(tab => tab.id === activeTab);
   const tabCount = tabs.length;
   
