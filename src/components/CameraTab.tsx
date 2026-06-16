@@ -16,6 +16,7 @@ import {
   ChevronUp,
   Camera,
 } from "lucide-react";
+import { useTranslation } from "react-i18next";
 import { Button } from "@/components/ui/button";
 import { BanknotePreviewImage } from "@/components/ui/responsive-image";
 import { ScanHistory } from "@/types";
@@ -32,6 +33,7 @@ interface CameraTabProps {
 }
 
 export const CameraTab = ({ onScanComplete }: CameraTabProps) => {
+  const { t } = useTranslation();
   const {
     imageBase64,
     isCapturing,
@@ -78,7 +80,7 @@ export const CameraTab = ({ onScanComplete }: CameraTabProps) => {
         timestamp: new Date(),
         result: result.result,
         currency: result.currency,
-        denomination: result.denomination?.toString() || "Неизвестен",
+        denomination: result.denomination?.toString() || t('result.unknownDenomination'),
         confidence: result.confidence,
       };
       onScanComplete(scan);
@@ -118,8 +120,8 @@ export const CameraTab = ({ onScanComplete }: CameraTabProps) => {
       case "authentic":
         return {
           icon: CheckCircle2,
-          title: "Вероятно истинска",
-          description: "Банкнотата показва очаквани защитни характеристики.",
+          title: t('result.authenticTitle'),
+          description: t('result.authenticDesc'),
           bgClass: "bg-success/10 dark:bg-success/20",
           textClass: "text-success",
           borderClass: "border-success/30",
@@ -128,8 +130,8 @@ export const CameraTab = ({ onScanComplete }: CameraTabProps) => {
       case "suspicious":
         return {
           icon: AlertTriangle,
-          title: "Съмнителна",
-          description: "Открити са някои несъответствия. Проверете отново ръчно.",
+          title: t('result.suspiciousTitle'),
+          description: t('result.suspiciousDesc'),
           bgClass: "bg-warning/10 dark:bg-warning/20",
           textClass: "text-warning",
           borderClass: "border-warning/30",
@@ -138,8 +140,8 @@ export const CameraTab = ({ onScanComplete }: CameraTabProps) => {
       case "fake":
         return {
           icon: XCircle,
-          title: "Възможно фалшива",
-          description: "Открити са сериозни несъответствия с оригинала.",
+          title: t('result.fakeTitle'),
+          description: t('result.fakeDesc'),
           bgClass: "bg-destructive/10 dark:bg-destructive/20",
           textClass: "text-destructive",
           borderClass: "border-destructive/30",
@@ -148,8 +150,8 @@ export const CameraTab = ({ onScanComplete }: CameraTabProps) => {
       default:
         return {
           icon: AlertCircle,
-          title: "Неизвестен резултат",
-          description: "Не може да се определи резултата от анализа.",
+          title: t('result.unknownTitle'),
+          description: t('result.unknownDesc'),
           bgClass: "bg-muted/10 dark:bg-muted/20",
           textClass: "text-muted-foreground",
           borderClass: "border-muted/30",
@@ -196,7 +198,7 @@ export const CameraTab = ({ onScanComplete }: CameraTabProps) => {
         <div className="relative w-full bg-black" style={{ height: '35dvh', minHeight: '180px' }}>
           <img
             src={imageBase64!}
-            alt="Заснета банкнота"
+            alt={t('camera.capturedAlt')}
             className="w-full h-full object-contain"
           />
           {/* Reset button overlay */}
@@ -225,7 +227,7 @@ export const CameraTab = ({ onScanComplete }: CameraTabProps) => {
                 <h3 className={`font-bold text-xl ${config.textClass}`}>{config.title}</h3>
                 <div className="flex items-center gap-2 mt-1">
                   <span className="text-sm text-muted-foreground">
-                    Увереност: {analysisResult.confidence.toFixed(0)}%
+                    {t('result.confidence')}: {analysisResult.confidence.toFixed(0)}%
                   </span>
                   {analysisResult.currency !== "UNKNOWN" && (
                     <>
@@ -250,7 +252,7 @@ export const CameraTab = ({ onScanComplete }: CameraTabProps) => {
                   className="flex items-center gap-2 text-sm font-medium text-primary hover:underline"
                 >
                   <Shield className="w-4 h-4" />
-                  Открити защитни елементи ({analysisResult.detectedFeatures.length})
+                  {t('result.detectedFeatures')} ({analysisResult.detectedFeatures.length})
                   {showDetails ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
                 </button>
 
@@ -287,7 +289,7 @@ export const CameraTab = ({ onScanComplete }: CameraTabProps) => {
             {/* Recommendations */}
             {analysisResult.recommendations.length > 0 && (
               <div className="space-y-2">
-                <p className="text-sm font-medium text-muted-foreground">Препоръки:</p>
+                <p className="text-sm font-medium text-muted-foreground">{t('result.recommendations')}</p>
                 <ul className="space-y-1">
                   {analysisResult.recommendations.map((rec, idx) => (
                     <li key={idx} className="text-sm text-muted-foreground flex items-start gap-2">
@@ -303,15 +305,14 @@ export const CameraTab = ({ onScanComplete }: CameraTabProps) => {
             <div className="flex items-start gap-3 p-3 bg-muted rounded-xl">
               <AlertCircle className="w-5 h-5 text-muted-foreground flex-shrink-0 mt-0.5" />
               <p className="text-xs text-muted-foreground">
-                Резултатът е ориентировъчен и не представлява официална експертиза. При съмнения се обърнете към
-                банка или експерт.
+                {t('result.disclaimer')}
               </p>
             </div>
 
             {/* Actions */}
             <Button onClick={resetScan} variant="outline" className="w-full h-12 rounded-xl">
               <RefreshCw className="w-4 h-4 mr-2" />
-              Сканирай отново
+              {t('result.scanAgain')}
             </Button>
           </div>
         </motion.div>
@@ -335,7 +336,7 @@ export const CameraTab = ({ onScanComplete }: CameraTabProps) => {
             <div className="absolute inset-0 bg-black/80">
               <BanknotePreviewImage
                 src={imageBase64}
-                alt="Заснета банкнота"
+                alt={t('camera.capturedAlt')}
               />
 
               {/* Analysis overlay */}
@@ -349,8 +350,8 @@ export const CameraTab = ({ onScanComplete }: CameraTabProps) => {
                     >
                       <Sparkles className="w-full h-full text-primary" />
                     </motion.div>
-                    <p className="text-white text-lg font-medium">AI Анализ...</p>
-                    <p className="text-white/60 text-sm mt-1">Проверка на защитни елементи</p>
+                    <p className="text-white text-lg font-medium">{t('camera.aiAnalysis')}</p>
+                    <p className="text-white/60 text-sm mt-1">{t('camera.checkingFeatures')}</p>
                   </div>
                 </div>
               )}
@@ -372,7 +373,7 @@ export const CameraTab = ({ onScanComplete }: CameraTabProps) => {
                 className="mt-6"
               >
                 <p className="text-white/90 text-sm text-center px-6 py-2.5 rounded-full bg-black/50 backdrop-blur-sm border border-white/10">
-                  Позиционирайте банкнотата в рамката
+                  {t('camera.positionBanknote')}
                 </p>
               </motion.div>
             </div>
@@ -407,7 +408,7 @@ export const CameraTab = ({ onScanComplete }: CameraTabProps) => {
                     <ImageIcon className="w-6 h-6" />
                   </Button>
                   <span className="absolute -bottom-6 left-1/2 -translate-x-1/2 text-xs whitespace-nowrap text-white/70">
-                    Галерия
+                    {t('camera.gallery')}
                   </span>
                 </motion.div>
 
@@ -460,7 +461,7 @@ export const CameraTab = ({ onScanComplete }: CameraTabProps) => {
                     </Button>
                   )}
                   <span className="absolute -bottom-6 left-1/2 -translate-x-1/2 text-xs font-medium whitespace-nowrap text-white/80">
-                    Сканирай
+                    {t('camera.scan')}
                   </span>
                 </motion.div>
 
@@ -489,7 +490,7 @@ export const CameraTab = ({ onScanComplete }: CameraTabProps) => {
                     className="h-20 px-8 rounded-full gradient-primary shadow-xl disabled:opacity-50"
                   >
                     <Sparkles className="w-6 h-6 text-white mr-2" />
-                    <span className="text-white font-semibold">Анализирай</span>
+                    <span className="text-white font-semibold">{t('camera.analyze')}</span>
                   </Button>
                 </motion.div>
               </>

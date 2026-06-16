@@ -1,35 +1,37 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Camera, Shield, History, ChevronRight, Sparkles } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 import { Button } from '@/components/ui/button';
 
 interface OnboardingProps {
   onComplete: () => void;
 }
 
-const slides = [
-  {
-    icon: Camera,
-    title: 'Сканирай банкноти',
-    description: 'Насочи камерата към банкнотата и получи незабавна оценка за автентичност.',
-    color: 'from-primary to-blue-600',
-  },
-  {
-    icon: Shield,
-    title: 'Научи защитите',
-    description: 'Разгледай подробна информация за защитните елементи на различни валути.',
-    color: 'from-success to-emerald-600',
-  },
-  {
-    icon: History,
-    title: 'Запази историята',
-    description: 'Преглеждай предишни сканирания и следи за съмнителни банкноти.',
-    color: 'from-warning to-amber-600',
-  },
-];
-
 export const Onboarding = ({ onComplete }: OnboardingProps) => {
+  const { t } = useTranslation();
   const [currentSlide, setCurrentSlide] = useState(0);
+
+  const slides = [
+    {
+      icon: Camera,
+      title: t('onboarding.slide1Title'),
+      description: t('onboarding.slide1Desc'),
+      color: 'from-primary to-blue-600',
+    },
+    {
+      icon: Shield,
+      title: t('onboarding.slide2Title'),
+      description: t('onboarding.slide2Desc'),
+      color: 'from-success to-emerald-600',
+    },
+    {
+      icon: History,
+      title: t('onboarding.slide3Title'),
+      description: t('onboarding.slide3Desc'),
+      color: 'from-warning to-amber-600',
+    },
+  ];
 
   const handleNext = () => {
     if (currentSlide < slides.length - 1) {
@@ -52,7 +54,7 @@ export const Onboarding = ({ onComplete }: OnboardingProps) => {
           onClick={handleSkip}
           className="text-muted-foreground"
         >
-          Пропусни
+          {t('common.skip')}
         </Button>
       </div>
 
@@ -67,7 +69,6 @@ export const Onboarding = ({ onComplete }: OnboardingProps) => {
             transition={{ duration: 0.3 }}
             className="flex flex-col items-center text-center"
           >
-            {/* Icon */}
             <motion.div
               initial={{ scale: 0.5 }}
               animate={{ scale: 1 }}
@@ -80,7 +81,6 @@ export const Onboarding = ({ onComplete }: OnboardingProps) => {
               })()}
             </motion.div>
 
-            {/* Title */}
             <motion.h2
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
@@ -90,7 +90,6 @@ export const Onboarding = ({ onComplete }: OnboardingProps) => {
               {slides[currentSlide].title}
             </motion.h2>
 
-            {/* Description */}
             <motion.p
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
@@ -103,9 +102,7 @@ export const Onboarding = ({ onComplete }: OnboardingProps) => {
         </AnimatePresence>
       </div>
 
-      {/* Dots and Button */}
       <div className="p-6 sm:p-8 space-y-4 sm:space-y-6 flex-shrink-0">
-        {/* Dots */}
         <div className="flex justify-center gap-2">
           {slides.map((_, index) => (
             <motion.div
@@ -119,7 +116,6 @@ export const Onboarding = ({ onComplete }: OnboardingProps) => {
           ))}
         </div>
 
-        {/* Button */}
         <Button
           onClick={handleNext}
           size="lg"
@@ -127,13 +123,13 @@ export const Onboarding = ({ onComplete }: OnboardingProps) => {
         >
           {currentSlide < slides.length - 1 ? (
             <>
-              Напред
+              {t('common.next')}
               <ChevronRight className="ml-2 w-5 h-5" />
             </>
           ) : (
             <>
               <Sparkles className="mr-2 w-5 h-5" />
-              Започни
+              {t('common.start')}
             </>
           )}
         </Button>

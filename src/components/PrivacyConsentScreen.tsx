@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Shield, Camera, Eye, Lock, Check, ChevronRight } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
 
@@ -10,6 +11,7 @@ interface PrivacyConsentScreenProps {
 }
 
 export const PrivacyConsentScreen = ({ onAccept, onDecline }: PrivacyConsentScreenProps) => {
+  const { t } = useTranslation();
   const [agreedToPrivacy, setAgreedToPrivacy] = useState(false);
   const [agreedToCamera, setAgreedToCamera] = useState(false);
 
@@ -22,7 +24,6 @@ export const PrivacyConsentScreen = ({ onAccept, onDecline }: PrivacyConsentScre
       exit={{ opacity: 0 }}
       className="fixed inset-0 z-50 bg-background flex flex-col overflow-hidden"
     >
-      {/* Header */}
       <div className="safe-area-top px-4 sm:px-6 pt-6 sm:pt-8 pb-3 sm:pb-4 flex-shrink-0">
         <motion.div
           initial={{ scale: 0.8, opacity: 0 }}
@@ -38,7 +39,7 @@ export const PrivacyConsentScreen = ({ onAccept, onDecline }: PrivacyConsentScre
           transition={{ delay: 0.3 }}
           className="text-2xl font-bold text-center text-foreground"
         >
-          Поверителност и достъп
+          {t('privacy.title')}
         </motion.h1>
         <motion.p
           initial={{ y: 20, opacity: 0 }}
@@ -46,14 +47,12 @@ export const PrivacyConsentScreen = ({ onAccept, onDecline }: PrivacyConsentScre
           transition={{ delay: 0.4 }}
           className="text-center text-muted-foreground mt-2"
         >
-          За да използвате сканирането, трябва да ни дадете достъп до камерата
+          {t('privacy.subtitle')}
         </motion.p>
       </div>
 
-      {/* Content */}
       <div className="flex-1 overflow-y-auto px-4 sm:px-6 py-3 sm:py-4 min-h-0">
         <div className="space-y-3 sm:space-y-4 max-w-md mx-auto">
-          {/* Privacy features */}
           <motion.div
             initial={{ x: -20, opacity: 0 }}
             animate={{ x: 0, opacity: 1 }}
@@ -65,9 +64,9 @@ export const PrivacyConsentScreen = ({ onAccept, onDecline }: PrivacyConsentScre
                 <Eye className="w-6 h-6 text-primary" />
               </div>
               <div className="flex-1">
-                <h3 className="font-semibold text-foreground">Локална обработка</h3>
+                <h3 className="font-semibold text-foreground">{t('privacy.localTitle')}</h3>
                 <p className="text-sm text-muted-foreground mt-1">
-                  Изображенията се обработват временно и не се съхраняват на сървъри
+                  {t('privacy.localDesc')}
                 </p>
               </div>
             </div>
@@ -84,9 +83,9 @@ export const PrivacyConsentScreen = ({ onAccept, onDecline }: PrivacyConsentScre
                 <Lock className="w-6 h-6 text-primary" />
               </div>
               <div className="flex-1">
-                <h3 className="font-semibold text-foreground">Криптирана връзка</h3>
+                <h3 className="font-semibold text-foreground">{t('privacy.encryptedTitle')}</h3>
                 <p className="text-sm text-muted-foreground mt-1">
-                  Всички данни се предават през защитена криптирана връзка
+                  {t('privacy.encryptedDesc')}
                 </p>
               </div>
             </div>
@@ -103,15 +102,14 @@ export const PrivacyConsentScreen = ({ onAccept, onDecline }: PrivacyConsentScre
                 <Camera className="w-6 h-6 text-primary" />
               </div>
               <div className="flex-1">
-                <h3 className="font-semibold text-foreground">Достъп до камерата</h3>
+                <h3 className="font-semibold text-foreground">{t('privacy.cameraTitle')}</h3>
                 <p className="text-sm text-muted-foreground mt-1">
-                  Камерата се използва само за сканиране на банкноти в реално време
+                  {t('privacy.cameraDesc')}
                 </p>
               </div>
             </div>
           </motion.div>
 
-          {/* Consent checkboxes */}
           <motion.div
             initial={{ y: 20, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
@@ -125,7 +123,7 @@ export const PrivacyConsentScreen = ({ onAccept, onDecline }: PrivacyConsentScre
                 className="mt-0.5"
               />
               <span className="text-sm text-foreground group-hover:text-primary transition-colors">
-                Съгласен/а съм с политиката за поверителност и условията за ползване на приложението
+                {t('privacy.agreePrivacy')}
               </span>
             </label>
 
@@ -136,14 +134,13 @@ export const PrivacyConsentScreen = ({ onAccept, onDecline }: PrivacyConsentScre
                 className="mt-0.5"
               />
               <span className="text-sm text-foreground group-hover:text-primary transition-colors">
-                Разрешавам достъп до камерата за сканиране на банкноти
+                {t('privacy.agreeCamera')}
               </span>
             </label>
           </motion.div>
         </div>
       </div>
 
-      {/* Footer */}
       <motion.div
         initial={{ y: 20, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
@@ -158,10 +155,10 @@ export const PrivacyConsentScreen = ({ onAccept, onDecline }: PrivacyConsentScre
           {canProceed ? (
             <>
               <Check className="w-5 h-5 mr-2" />
-              Продължи
+              {t('privacy.continue')}
             </>
           ) : (
-            'Маркирайте и двете опции'
+            t('privacy.markBoth')
           )}
           {canProceed && <ChevronRight className="w-5 h-5 ml-2" />}
         </Button>
@@ -171,7 +168,7 @@ export const PrivacyConsentScreen = ({ onAccept, onDecline }: PrivacyConsentScre
           variant="ghost"
           className="w-full h-12 rounded-xl text-muted-foreground"
         >
-          Откажи
+          {t('common.cancel')}
         </Button>
       </motion.div>
     </motion.div>
