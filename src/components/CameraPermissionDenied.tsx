@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
 import { CameraOff, Settings, RefreshCw, AlertTriangle } from "lucide-react";
+import { useTranslation } from "react-i18next";
 import { Button } from "@/components/ui/button";
 
 interface CameraPermissionDeniedProps {
@@ -9,6 +10,9 @@ interface CameraPermissionDeniedProps {
 }
 
 export const CameraPermissionDenied = ({ onRetry, onOpenSettings, errorMessage }: CameraPermissionDeniedProps) => {
+  const { t } = useTranslation();
+  const isNative = !!(window as any).Capacitor?.isNativePlatform?.();
+
   return (
     <motion.div
       initial={{ opacity: 0 }}
@@ -30,7 +34,7 @@ export const CameraPermissionDenied = ({ onRetry, onOpenSettings, errorMessage }
         transition={{ delay: 0.3 }}
         className="text-2xl font-bold text-white text-center mb-2"
       >
-        Няма достъп до камерата
+        {t('camera.deniedTitle')}
       </motion.h2>
 
       <motion.p
@@ -39,7 +43,7 @@ export const CameraPermissionDenied = ({ onRetry, onOpenSettings, errorMessage }
         transition={{ delay: 0.4 }}
         className="text-white/70 text-center max-w-xs mb-8"
       >
-        За да сканирате банкноти, моля разрешете достъп до камерата в настройките на устройството
+        {t('camera.deniedDesc')}
       </motion.p>
 
       {errorMessage && (
@@ -65,7 +69,7 @@ export const CameraPermissionDenied = ({ onRetry, onOpenSettings, errorMessage }
           className="w-full h-14 rounded-2xl gradient-primary text-white font-semibold shadow-lg flex items-center justify-center"
         >
           <Settings className="w-5 h-5 mr-2" />
-          Отвори настройки
+          {t('common.openSettings')}
         </Button>
 
         <Button
@@ -74,7 +78,7 @@ export const CameraPermissionDenied = ({ onRetry, onOpenSettings, errorMessage }
         >
           <span className="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent flex items-center">
             <RefreshCw className="w-5 h-5 mr-2 stroke-[url(#icon-gradient)]" style={{ stroke: 'url(#icon-gradient)' }} />
-            Опитай отново
+            {t('common.retry')}
           </span>
           <svg width="0" height="0" className="absolute">
             <defs>
@@ -93,9 +97,7 @@ export const CameraPermissionDenied = ({ onRetry, onOpenSettings, errorMessage }
         transition={{ delay: 0.8 }}
         className="text-white/50 text-xs text-center max-w-xs mt-8"
       >
-        {!!(window as any).Capacitor?.isNativePlatform?.()
-          ? 'Стъпки: Настройки → NotaGuard → Камера → Разреши'
-          : 'Стъпки: Настройки → Приложения → NotaGuard → Разрешения → Камера → Разреши'}
+        {isNative ? t('camera.stepsNative') : t('camera.stepsWeb')}
       </motion.p>
     </motion.div>
   );
