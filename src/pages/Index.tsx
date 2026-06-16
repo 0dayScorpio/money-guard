@@ -10,8 +10,6 @@ import { useLocalStorage } from '@/hooks/useLocalStorage';
 import { useTheme } from '@/hooks/useTheme';
 import { useScanHistory } from '@/hooks/useScanHistory';
 import { ScanHistory } from '@/types';
-import { useScanHistory } from '@/hooks/useScanHistory';
-import { ScanHistory } from '@/types';
 
 type TabType = 'camera' | 'security' | 'history';
 
