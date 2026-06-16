@@ -1,5 +1,6 @@
 import { useEffect, useCallback, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { useTranslation } from 'react-i18next';
 import { useCameraStream } from '@/hooks/useCameraStream';
 import { CameraPermissionDenied } from './CameraPermissionDenied';
 import { Loader2 } from 'lucide-react';
@@ -23,6 +24,7 @@ export const CameraBackground = ({
   children,
   overlayOpacity = 0.5,
 }: CameraBackgroundProps) => {
+  const { t } = useTranslation();
   const {
     videoRef,
     stream,
@@ -91,24 +93,21 @@ export const CameraBackground = ({
     const isNativeApp = !!(window as any).Capacitor?.isNativePlatform?.();
     
     if (isNativeApp) {
-      // Native app - open device settings directly if possible
       if (navigator.userAgent.includes('Android')) {
-        alert('Отворете Настройки → Приложения → NotaGuard → Разрешения → Камера → Разреши');
+        alert(t('camera.settingsAndroidNative'));
       } else {
-        // iOS native app
-        alert('Отворете Настройки → NotaGuard → Камера → Разреши');
+        alert(t('camera.settingsIosNative'));
       }
     } else {
-      // Web browser
       if (navigator.userAgent.includes('Android')) {
-        alert('Отворете Настройки → Приложения → Браузър → Разрешения → Камера');
+        alert(t('camera.settingsAndroidWeb'));
       } else if (navigator.userAgent.includes('iPhone') || navigator.userAgent.includes('iPad')) {
-        alert('Отворете Настройки → Safari → Камера → Разреши');
+        alert(t('camera.settingsIosWeb'));
       } else {
-        alert('Отворете настройките на браузъра и разрешете достъп до камерата за този сайт');
+        alert(t('camera.settingsFallback'));
       }
     }
-  }, []);
+  }, [t]);
 
   // Show permission denied screen
   if (permissionStatus === 'denied' || permissionStatus === 'unavailable') {
@@ -157,7 +156,7 @@ export const CameraBackground = ({
           >
             <div className="text-center">
               <Loader2 className="w-12 h-12 text-primary animate-spin mx-auto mb-4" />
-              <p className="text-white/80 text-sm">Зареждане на камерата...</p>
+              <p className="text-white/80 text-sm">{t('camera.loadingCamera')}</p>
             </div>
           </motion.div>
         )}
