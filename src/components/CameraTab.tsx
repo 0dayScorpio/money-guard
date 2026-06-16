@@ -33,6 +33,7 @@ interface CameraTabProps {
 }
 
 export const CameraTab = ({ onScanComplete }: CameraTabProps) => {
+  const { t } = useTranslation();
   const {
     imageBase64,
     isCapturing,
