@@ -34,6 +34,7 @@ const Index = () => {
     return <Onboarding onComplete={handleOnboardingComplete} />;
   }
   return <div className="flex flex-col h-[100dvh] bg-background overflow-hidden">
+      <LanguageSwitcher />
       {/* Header */}
       <header className="bg-card border-b border-border safe-area-top">
         
