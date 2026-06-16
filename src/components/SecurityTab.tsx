@@ -1,10 +1,19 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ChevronRight, Eye, Hand, Sun, ChevronDown } from 'lucide-react';
+import { ChevronRight, Eye, Hand, Sun } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 import { currencies } from '@/data/currencies';
 import { Button } from '@/components/ui/button';
 import { ResponsiveImage } from '@/components/ui/responsive-image';
+import {
+  translateName,
+  translateColor,
+  translateCurrencyName,
+  translateDescription,
+  translateHowToCheck,
+} from '@/i18n/translateData';
+import type { Language } from '@/i18n';
 import {
   Select,
   SelectContent,
@@ -21,6 +30,8 @@ import {
 
 export const SecurityTab = () => {
   const navigate = useNavigate();
+  const { t, i18n } = useTranslation();
+  const lang = ((i18n.language?.split('-')[0]) ?? 'bg') as Language;
   const [selectedCurrency, setSelectedCurrency] = useState('EUR_NEW');
   const [selectedDenomination, setSelectedDenomination] = useState<number | null>(null);
 
@@ -29,39 +40,36 @@ export const SecurityTab = () => {
 
   return (
     <div className="flex flex-col h-full overflow-hidden">
-      {/* Header with selectors */}
       <div className="p-4 bg-card border-b border-border space-y-4">
-        <h2 className="text-xl font-bold">Защитни елементи</h2>
+        <h2 className="text-xl font-bold">{t('security.title')}</h2>
         
         <div className="flex flex-col sm:flex-row gap-3">
-          {/* Currency selector */}
           <Select value={selectedCurrency} onValueChange={(value) => {
             setSelectedCurrency(value);
             setSelectedDenomination(null);
           }}>
             <SelectTrigger className="w-full sm:flex-1 h-12 rounded-xl">
-              <SelectValue placeholder="Избери валута" className="truncate" />
+              <SelectValue placeholder={t('security.selectCurrency')} className="truncate" />
             </SelectTrigger>
             <SelectContent>
               {currencies.map(c => (
                 <SelectItem key={c.code} value={c.code}>
                   <span className="flex items-center gap-2">
                     <span className="text-lg">{c.flag}</span>
-                    <span className="whitespace-nowrap">{c.name}</span>
+                    <span className="whitespace-nowrap">{translateCurrencyName(c.name, lang)}</span>
                   </span>
                 </SelectItem>
               ))}
             </SelectContent>
           </Select>
 
-          {/* Denomination selector */}
           {currency && (
             <Select 
               value={selectedDenomination?.toString() || ''} 
               onValueChange={(value) => setSelectedDenomination(Number(value))}
             >
               <SelectTrigger className="w-full sm:flex-1 h-12 rounded-xl">
-                <SelectValue placeholder="Номинал" />
+                <SelectValue placeholder={t('security.denomination')} />
               </SelectTrigger>
               <SelectContent>
                 {currency.denominations.map(d => (
@@ -75,11 +83,9 @@ export const SecurityTab = () => {
         </div>
       </div>
 
-      {/* Content */}
       <div className="flex-1 overflow-y-auto">
         <AnimatePresence mode="wait">
           {!selectedDenomination ? (
-            // Denomination grid
             <motion.div
               key="grid"
               initial={{ opacity: 0 }}
@@ -103,16 +109,15 @@ export const SecurityTab = () => {
                     <ChevronRight className="w-5 h-5 text-muted-foreground group-hover:text-primary transition-colors" />
                   </div>
                   <span className="text-sm text-muted-foreground">
-                    {d.color}
+                    {translateColor(d.color, lang)}
                   </span>
                   <div className="mt-2 text-xs text-muted-foreground">
-                    {d.features.length} защитни елемента
+                    {t('security.featuresCount', { count: d.features.length })}
                   </div>
                 </motion.button>
               ))}
             </motion.div>
           ) : (
-            // Feature details
             <motion.div
               key="details"
               initial={{ opacity: 0, x: 20 }}
@@ -120,7 +125,6 @@ export const SecurityTab = () => {
               exit={{ opacity: 0, x: -20 }}
               className="p-4 space-y-4"
             >
-              {/* Back button and header */}
               <div className="flex items-center gap-3 mb-4">
                 <Button
                   variant="ghost"
@@ -128,19 +132,18 @@ export const SecurityTab = () => {
                   onClick={() => setSelectedDenomination(null)}
                   className="rounded-xl"
                 >
-                  ← Назад
+                  {t('common.back')}
                 </Button>
                 <div>
                   <h3 className="font-bold text-lg">
-                    {selectedDenomination}{currency?.symbol} банкнота
+                    {t('security.backNote', { value: selectedDenomination, symbol: currency?.symbol ?? '' })}
                   </h3>
                   <p className="text-sm text-muted-foreground">
-                    {denomination?.color}
+                    {denomination ? translateColor(denomination.color, lang) : ''}
                   </p>
                 </div>
               </div>
 
-              {/* Features accordion */}
               <Accordion type="single" collapsible className="space-y-3">
                 {denomination?.features.map((feature, index) => (
                   <motion.div
@@ -158,15 +161,14 @@ export const SecurityTab = () => {
                           <div className="w-10 h-10 rounded-xl gradient-primary flex items-center justify-center flex-shrink-0">
                             <Eye className="w-5 h-5 text-white" />
                           </div>
-                          <span className="font-semibold">{feature.name}</span>
+                          <span className="font-semibold">{translateName(feature.name, lang)}</span>
                         </div>
                       </AccordionTrigger>
                       <AccordionContent className="px-4 pb-4">
                         <div className="space-y-4">
-                          {/* Image */}
                           <ResponsiveImage
                             src={feature.imageUrl}
-                            alt={feature.name}
+                            alt={translateName(feature.name, lang)}
                             variant="cover"
                             scale={
                               feature.id.includes('watermark') ? 0.2 : 
@@ -186,27 +188,24 @@ export const SecurityTab = () => {
                             }
                           />
 
-                          {/* Description */}
                           <p className="text-muted-foreground">
-                            {feature.description}
+                            {translateDescription(feature.description, lang)}
                           </p>
 
-                          {/* How to check */}
                           <div className="p-4 bg-accent rounded-xl space-y-2">
                             <div className="flex items-center gap-2 font-semibold text-accent-foreground">
                               <Hand className="w-4 h-4" />
-                              <span>Как да проверите</span>
+                              <span>{t('security.howToCheck')}</span>
                             </div>
                             <p className="text-sm text-muted-foreground">
-                              {feature.howToCheck}
+                              {translateHowToCheck(feature.howToCheck, lang)}
                             </p>
                           </div>
 
-                          {/* Tips */}
                           <div className="flex gap-3 text-xs text-muted-foreground">
                             <div className="flex items-center gap-1">
                               <Sun className="w-4 h-4" />
-                              <span>Използвайте добра светлина</span>
+                              <span>{t('security.useGoodLight')}</span>
                             </div>
                           </div>
                         </div>
@@ -219,13 +218,12 @@ export const SecurityTab = () => {
           )}
         </AnimatePresence>
 
-        {/* Terms of Use link */}
         <div className="px-4 py-6 flex justify-center">
           <button
             onClick={() => navigate('/terms')}
             className="text-xs text-muted-foreground/50 hover:text-muted-foreground transition-colors"
           >
-            Условия за ползване
+            {t('common.terms')}
           </button>
         </div>
       </div>
