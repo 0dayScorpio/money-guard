@@ -89,12 +89,23 @@ serve(async (req) => {
    - Determine the currency (EUR or BGN; if clearly another currency, still identify it)
    - Identify the series/year if visible (e.g. EUR "Europa" series 2013+ vs first series 1st 2002; BGN 1999 series, 2020 polymer series, etc.)
 
-2. INSPECT EVERY VISIBLE SECURITY ELEMENT
+2. INSPECT EVERY VISIBLE SECURITY ELEMENT — ZONE BY ZONE
+   Work systematically instead of glancing at the note as a whole. Scan these zones one by one and report what you find in each:
+     a) Left margin / watermark area
+     b) Central print area (portrait, main motif, denomination numerals)
+     c) Right margin (hologram stripe, patch, portrait window, emerald/color-shift number)
+     d) Vertical security thread line
+     e) Serial numbers, edges and corners
+     f) Paper/polymer surface texture and print sharpness at high zoom
+   Zoom mentally into fine detail: microprint legibility, line engraving crispness, dot patterns (offset rosettes vs. inkjet/laser dithering), halo or pixelation around text, flat photocopied "holograms", blurry or doubled serial numbers, wrong color register, cut or printed-on "threads".
+
    For each feature, decide one of:
      - CLEARLY PRESENT and correct (strong positive evidence)
      - CLEARLY MISSING or wrong (strong negative evidence)
      - NOT VERIFIABLE from this image (lighting/angle/resolution insufficient — neutral, do NOT count as positive or negative)
    Never assume a feature exists just because the series should have it. Judge ONLY what you actually see.
+   Counterfeit tell-tales that are strong negative evidence when visible: visible printer dot screen under the portrait, matte flat "hologram" with no diffraction pattern, thread printed on the surface instead of embedded, unreadable or smudged microprint, uneven or hand-cut edges, wrong paper whiteness, misaligned see-through register.
+   List EVERY feature you examined in detectedFeatures — including the ones you could not verify (mark them detected=false and say in the description that the image does not allow verification).
 
    EUR security features to check when visible:
    - Portrait window / hologram stripe (Europa portrait, denomination, € symbol)
