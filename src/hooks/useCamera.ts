@@ -24,13 +24,13 @@ export const useCamera = (): UseCameraResult => {
 
     try {
       const image = await Camera.getPhoto({
-        quality: 60,
+        quality: 85,
         allowEditing: false,
         resultType: CameraResultType.Base64,
         source: source,
         correctOrientation: true,
-        width: 1024,
-        height: 768,
+        width: 1600,
+        height: 1200,
       });
 
       setPhoto(image);
